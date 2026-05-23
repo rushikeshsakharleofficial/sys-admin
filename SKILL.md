@@ -66,6 +66,17 @@ At the start of the report, state:
 - whether destructive actions were skipped
 - whether Playwright MCP, Playwright Test, or both were used
 
+## Discovery and live planning
+
+Discovery and planning happen together. As you discover each route and component, write its page test plan immediately — do not batch planning for after discovery is complete.
+
+Order:
+1. Navigate to the route.
+2. Identify visible regions and interactive elements.
+3. Write the page test plan for that route right now.
+4. Execute the plan.
+5. If discovery reveals a route or component type not already in `tests/deep-ui/helpers/routes.ts → seedRoutes` or not covered by existing helpers, record it in the "Not tested / Coverage gaps" section of the report and note which helper would need to be added or extended.
+
 ## Discovery phase
 
 Before testing interactions, discover the app surface.
@@ -760,15 +771,22 @@ Create or update:
 
 ```text
 qa-artifacts/
-  screenshots/
-  network/
-  storage/
-  console/
-  accessibility/
-  performance/
+  screenshots/          per-route, per-viewport PNG files
+  network/              network records + leak findings JSON
+  storage/              before/after storage state JSON
+  console/              console errors + page errors JSON
+  accessibility/        a11y issues + keyboard focus order JSON
+  performance/          Web Vitals + DOM node count JSON
+  layout/               layout issues per scroll position JSON
+  forms/                form audit findings JSON
+  overlays/             overlay audit findings JSON
+  seo/                  SEO issues JSON
+  security/             DOM + header + mixed content + URL token findings JSON
   reports/
     route-reports/
-    final-report.md
+    final-report.md     per-route Markdown summary
+  playwright-report/    HTML report (npm run report)
+  results.json          machine-readable test results
 ```
 
 ## Defect format
@@ -1024,27 +1042,90 @@ Run `auditMixedContent(page)` on HTTPS pages to catch HTTP resource loads.
 
 Use `poorWebVitals(snapshot)` to extract poor-rated entries. Report poor Web Vitals as Medium defects.
 
-## Bundled automation
+## Install into a target project
 
-This skill may include Playwright helpers under `tests/deep-ui/`. Use them for repeatable checks and expand them when the app has custom requirements.
-
-Run:
+To run the bundled Playwright tests from inside the project you are QA-testing (instead of from the skill directory), copy the test files into that project:
 
 ```bash
+bash /path/to/website-ui-deep-qa-skill/scripts/install-into-project.sh /path/to/your-project
+```
+
+The script copies `tests/deep-ui/`, `playwright.config.ts`, and `tsconfig.json` into the target project, and patches `package.json` with the required devDependencies and scripts. It skips any config file that already exists.
+
+After install:
+
+```bash
+cd /path/to/your-project
 npm install
 npx playwright install
+# Edit tests/deep-ui/helpers/routes.ts → add your routes to seedRoutes[]
+BASE_URL=http://localhost:<port> npm test
+```
+
+## Bundled automation
+
+This skill includes Playwright helpers under `tests/deep-ui/`. Use them for repeatable checks and expand them when the app has custom requirements.
+
+`BASE_URL` defaults to `http://localhost:3000` when not set.
+
+```bash
+# Install dependencies and browsers (first time only)
+npm install
+npx playwright install
+
+# Full suite — all viewports and browsers
 BASE_URL=http://localhost:3000 npm test
-```
 
-Or target a specific viewport only:
-
-```bash
+# Chromium desktop 1440×900 only
 BASE_URL=http://localhost:3000 npm run test:chromium
+
+# Mobile 390×844 only
 BASE_URL=http://localhost:3000 npm run test:mobile
-```
 
-Type-check helpers without running tests:
+# Headed mode (visible browser window)
+BASE_URL=http://localhost:3000 npm run test:headed
 
-```bash
+# CI mode with GitHub reporter
+BASE_URL=http://localhost:3000 npm run test:ci
+
+# Open HTML report from last run
+npm run report
+
+# Type-check helpers without running tests
 npm run typecheck
+
+# Update visual regression baselines (only when intentional)
+BASE_URL=http://localhost:3000 npx playwright test --update-snapshots
 ```
+
+## Update tests when new things are found
+
+If during testing you discover something not currently covered:
+
+### New routes
+If a route is visited that is not in `tests/deep-ui/helpers/routes.ts → seedRoutes[]`, add it to that array. State the addition in the final report under "Coverage updates".
+
+### New component types
+If a component type is encountered that no existing helper covers (e.g. a new overlay pattern, a custom widget, a third-party embed), do all of the following:
+1. Test it manually using Playwright MCP or the spec's generic interaction helpers.
+2. Document the component type, behavior, and any defects in the report.
+3. Note which helper file should be extended or created (e.g. `helpers/embeds.ts` for third-party embeds) and describe what that helper should check.
+4. If the discovery happens during automated spec execution, log it as a coverage gap in `qa-artifacts/reports/final-report.md`.
+
+### New failure patterns
+If a new class of defect is found that the helpers do not detect (e.g. a new type of token leak prefix, a new AI-generator placeholder pattern), add the pattern to the relevant checklist in `resources/` and note the addition in the final report.
+
+Do not silently skip uncovered areas. Always report them.
+
+## Skill quality bar
+
+This skill must remain:
+
+- **Explicit** — every check is spelled out; do not rely on the model inferring intent.
+- **Safe** — safety boundaries must never be removed or weakened.
+- **Repeatable** — given the same site, two runs should follow the same methodology and produce comparable evidence.
+- **Evidence-driven** — every defect requires screenshot, network, storage, or console evidence.
+- **Suitable for weaker models** — instructions must be specific enough for a less capable model to follow without ambiguity.
+- **Honest about untested areas** — every report must state what was not tested and why.
+
+Never remove the non-negotiable inspect-first rule or any safety boundary from this file.

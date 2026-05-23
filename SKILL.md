@@ -5,7 +5,7 @@ description: Use when a website or web app needs QA — AI-generated or hand-bui
 
 # Website UI Deep QA
 
-## Quick Reference — 40 helper categories
+## Quick Reference — 44 helper categories
 
 | Category | Helper | Artifact folder | Asserts HIGH? |
 |----------|--------|----------------|---------------|
@@ -49,6 +49,10 @@ description: Use when a website or web app needs QA — AI-generated or hand-bui
 | CSRF | csrf.ts | csrf/ | — |
 | Sitemap/robots | sitemap.ts | sitemap/ | — |
 | Print media | print-media.ts | print-media/ | — |
+| Sidebar | sidebar.ts | sidebar/ | ✅ |
+| Dialog scroll | dialog-scroll.ts | dialog-scroll/ | ✅ |
+| Form alignment | form-alignment.ts | form-alignment/ | ✅ |
+| Typography | typography.ts | typography/ | ✅ |
 
 All artifacts → `qa-artifacts/`. Fix plan → `qa-artifacts/reports/fix-plan.md`.
 
@@ -1194,7 +1198,7 @@ const hasMedia = await page.evaluate(() =>
 if (!hasMedia) return emptyReport;
 ```
 
-Apply this pattern to: carousels, media players, tables, forms, toasts, overlays, search, auth surface.
+Apply this pattern to: carousels, media players, tables, forms, toasts, overlays, search, auth surface, sidebar, dialog scroll, form alignment.
 
 ### Batch DOM queries
 
@@ -1216,6 +1220,9 @@ Run these helpers only when their trigger condition is confirmed:
 | `auditPWA` | `<link rel="manifest">` or service worker detected |
 | `auditCookieConsent` | cookie-setting script or existing cookies detected |
 | `auditToasts` | toast/alert role element detected |
+| `auditSidebar` | `aside`, `[role="navigation"]`, or `[class*="sidebar"]` element detected |
+| `auditDialogScroll` | `[role="dialog"]`, `dialog`, or `[class*="modal"]` element detected |
+| `auditFormAlignment` | `form` or `[role="form"]` element detected |
 
 ### Artifact-first reporting
 

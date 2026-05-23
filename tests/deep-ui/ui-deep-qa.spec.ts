@@ -194,7 +194,7 @@ test.describe('Deep UI QA', () => {
       const consoleFindings = severeConsoleFindings(consoleMonitor.records, consoleMonitor.pageErrors);
       writeJsonArtifact('console', `${routeName}-console.json`, {
         records: consoleMonitor.records,
-        pageErrors: consoleMonitor.pageErrors,
+        allPageErrors: consoleMonitor.pageErrors,
         ...consoleFindings,
       });
 

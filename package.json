@@ -1,0 +1,19 @@
+{
+  "name": "website-ui-deep-qa-skill",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Claude Code and Codex skill for deep website UI QA with Playwright.",
+  "scripts": {
+    "test": "playwright test tests/deep-ui/ui-deep-qa.spec.ts",
+    "test:headed": "playwright test tests/deep-ui/ui-deep-qa.spec.ts --headed",
+    "test:ci": "playwright test tests/deep-ui/ui-deep-qa.spec.ts --reporter=github",
+    "test:chromium": "playwright test tests/deep-ui/ui-deep-qa.spec.ts --project=chromium-desktop-1440",
+    "test:mobile": "playwright test tests/deep-ui/ui-deep-qa.spec.ts --project=chromium-mobile-390",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report qa-artifacts/playwright-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "latest",
+    "typescript": "latest"
+  }
+}

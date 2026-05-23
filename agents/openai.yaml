@@ -1,0 +1,4 @@
+interface:
+  display_name: "Website UI Deep QA"
+  short_description: "Deeply test website UI, browser behavior, network, storage, accessibility, and responsiveness"
+  default_prompt: "Use $website-ui-deep-qa to test this website deeply and produce an evidence-based defect report."

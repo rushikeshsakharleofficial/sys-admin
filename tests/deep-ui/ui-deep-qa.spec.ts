@@ -44,6 +44,9 @@ import { auditButtonAnimations } from './helpers/button-animations';
 import { auditPopupQuality } from './helpers/popup-quality';
 import { auditContentClipping } from './helpers/content-clipping';
 import { auditUserLifecycle } from './helpers/user-lifecycle';
+import { auditSidebar } from './helpers/sidebar';
+import { auditDialogScroll } from './helpers/dialog-scroll';
+import { auditFormAlignment } from './helpers/form-alignment';
 
 /**
  * Deep UI QA — enhanced entry point.
@@ -389,6 +392,34 @@ test.describe('Deep UI QA', () => {
       const popupQualityReport = await auditPopupQuality(page, route);
       const popupQualityHigh = popupQualityReport.findings.filter((f) => f.severity === 'high');
 
+      // ── Sidebar audit ────────────────────────────────────────────────────
+      // Detects sidebar, checks: z-index, nav link labels (icon-only a11y),
+      // collapse toggle keyboard access, mobile drawer open/close/escape,
+      // internal scroll for long nav lists.
+      // HIGH = icon-only link no aria-label, toggle tabindex="-1", sidebar
+      //        visible on mobile causing h-scroll, no mobile drawer trigger.
+      const sidebarReport = await auditSidebar(page, route);
+      const sidebarCritical = sidebarReport.findings.filter((f) => f.severity === 'critical');
+      const sidebarHigh = sidebarReport.findings.filter((f) => f.severity === 'high');
+
+      // ── Dialog scroll audit ──────────────────────────────────────────────
+      // Inspects open dialogs/modals for scroll setup: overflow-y, viewport
+      // containment, programmatic scroll test, keyboard (Arrow/PageDown) scroll,
+      // content boundary clipping, scroll indicator shadow, aria-modal + focus.
+      // HIGH = overflow:hidden on tall dialog, dialog past viewport bottom with
+      //        no internal scroll, scrollTop stuck after assignment.
+      const dialogScrollReport = await auditDialogScroll(page, route);
+      const dialogScrollHigh = dialogScrollReport.findings.filter((f) => f.severity === 'high');
+
+      // ── Form alignment audit ─────────────────────────────────────────────
+      // 10 checks per form: label-input alignment (overlap detection), field
+      // spacing, input width consistency, border-radius uniformity, padding/
+      // height, error message placement, button alignment, hint text position,
+      // required field indicators. Single page.evaluate() round-trip.
+      // HIGH = label overlaps input, spacing < 4px, input height < 28px.
+      const formAlignReport = await auditFormAlignment(page, route);
+      const formAlignHigh = formAlignReport.findings.filter((f) => f.severity === 'high');
+
       // ── Console findings ─────────────────────────────────────────────────
       const consoleFindings = severeConsoleFindings(consoleMonitor.records, consoleMonitor.pageErrors);
       writeJsonArtifact('console', `${routeName}-console.json`, {
@@ -438,6 +469,9 @@ test.describe('Deep UI QA', () => {
         `- Scroll axes: v=${scrollAxesReport.verticalScrollWorks}, h=${scrollAxesReport.horizontalScrollWorks} | Containers: ${scrollAxesReport.scrollableContainersFound} | High: ${scrollAxesHigh.length}\n` +
         `- Button animations: checked=${buttonAnimReport.buttonsChecked} | Findings: ${buttonAnimReport.findings.length}\n` +
         `- Popup quality: ${popupQualityReport.popupsFound} popups | High: ${popupQualityHigh.length} | Findings: ${popupQualityReport.findings.length}\n` +
+        `- Sidebar: detected=${sidebarReport.sidebarDetected}, pos=${sidebarReport.sidebarPosition}, collapsible=${sidebarReport.isCollapsible}, mobileDrawer=${sidebarReport.hasMobileDrawer} | Critical: ${sidebarCritical.length} | High: ${sidebarHigh.length} | Findings: ${sidebarReport.findings.length}\n` +
+        `- Dialog scroll: dialogs=${dialogScrollReport.dialogsFound} | High: ${dialogScrollHigh.length} | Findings: ${dialogScrollReport.findings.length}\n` +
+        `- Form alignment: forms=${formAlignReport.formsChecked}, inputs=${formAlignReport.inputsChecked} | High: ${formAlignHigh.length} | Findings: ${formAlignReport.findings.length}\n` +
         `- Console errors/page errors: ${consoleFindings.severeMessages.length + consoleFindings.pageErrors.length}\n` +
         `- React key warnings: ${consoleFindings.reactKeyWarnings.length} | React warnings: ${consoleFindings.reactWarnings.length}\n` +
         `- Hydration errors: ${consoleFindings.hydrationErrors.length}\n` +
@@ -538,6 +572,26 @@ test.describe('Deep UI QA', () => {
       expect(
         popupQualityHigh,
         `Popup quality issues on ${route}:\n${JSON.stringify(popupQualityHigh, null, 2)}`
+      ).toEqual([]);
+
+      expect(
+        sidebarCritical,
+        `Critical sidebar issues on ${route}:\n${JSON.stringify(sidebarCritical, null, 2)}`
+      ).toEqual([]);
+
+      expect(
+        sidebarHigh,
+        `High sidebar issues on ${route}:\n${JSON.stringify(sidebarHigh, null, 2)}`
+      ).toEqual([]);
+
+      expect(
+        dialogScrollHigh,
+        `Dialog scroll issues on ${route}:\n${JSON.stringify(dialogScrollHigh, null, 2)}`
+      ).toEqual([]);
+
+      expect(
+        formAlignHigh,
+        `Form alignment issues on ${route}:\n${JSON.stringify(formAlignHigh, null, 2)}`
       ).toEqual([]);
 
       await visualRegression(page, route);

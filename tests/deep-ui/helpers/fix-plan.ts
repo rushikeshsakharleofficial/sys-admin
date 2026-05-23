@@ -444,6 +444,65 @@ const FIX_RECOMMENDATIONS: Record<string, FixMeta> = {
   'popup-clipped-bottom': { fix: 'Add max-height: calc(100vh - 2rem) and overflow-y: auto to popup for tall content', effort: 'S' },
   'popup-clipped-left': { fix: 'Ensure popup left position is ≥ 0; check negative margin or transform causing off-screen placement', effort: 'S' },
   'popup-no-internal-scroll': { fix: 'Add overflow-y: auto and max-height: 80vh to modal body content area for tall popups', effort: 'XS' },
+  // Sidebar
+  'sidebar-link-no-label': { fix: 'Add visible text or aria-label to sidebar link/button', effort: 'XS', wcag: 'WCAG 4.1.2' },
+  'sidebar-icon-no-label': { fix: 'Add aria-label to icon-only sidebar link/button', effort: 'XS', wcag: 'WCAG 4.1.2' },
+  'sidebar-noop-link': { fix: 'Replace href="#" with real route or convert to <button> if it triggers JS', effort: 'S' },
+  'sidebar-missing-nav-role': { fix: 'Wrap sidebar navigation in <nav> element or add role="navigation"', effort: 'XS', wcag: 'WCAG 1.3.6' },
+  'sidebar-nav-no-label': { fix: 'Add aria-label="Main navigation" to <nav> so it is distinguishable from other nav landmarks', effort: 'XS', wcag: 'WCAG 2.4.1' },
+  'sidebar-toggle-no-label': { fix: 'Add aria-label="Collapse sidebar" to sidebar toggle button', effort: 'XS', wcag: 'WCAG 4.1.2' },
+  'sidebar-toggle-no-aria-expanded': { fix: 'Add aria-expanded="true/false" to sidebar toggle to announce state to screen readers', effort: 'XS', wcag: 'WCAG 4.1.2' },
+  'sidebar-toggle-not-keyboard-accessible': { fix: 'Remove tabindex="-1" from sidebar toggle so it is keyboard reachable', effort: 'XS', wcag: 'WCAG 2.1.1' },
+  'sidebar-toggle-no-visual-change': { fix: 'Fix sidebar collapse toggle — clicking it should change sidebar width/visibility', effort: 'M' },
+  'sidebar-not-hidden-mobile': { fix: 'Hide sidebar via display:none or translateX(-100%) below your mobile breakpoint', effort: 'S' },
+  'mobile-drawer-no-trigger': { fix: 'Add a hamburger/menu button visible at mobile viewport to open the hidden sidebar', effort: 'S' },
+  'mobile-drawer-trigger-broken': { fix: 'Fix hamburger button click handler — drawer should become visible after click', effort: 'M' },
+  'mobile-drawer-no-backdrop': { fix: 'Add semi-transparent backdrop behind mobile drawer (rgba(0,0,0,0.4)) to separate it from page', effort: 'S' },
+  'mobile-drawer-no-close-btn': { fix: 'Add close button inside mobile drawer (×) with aria-label="Close menu"', effort: 'S' },
+  'mobile-drawer-escape-broken': { fix: 'Add keydown listener to close mobile drawer on Escape key press', effort: 'XS', wcag: 'WCAG 2.1.2' },
+  'sidebar-no-internal-scroll': { fix: 'Add overflow-y: auto to sidebar — content overflows but scroll is blocked', effort: 'XS' },
+  'sidebar-scroll-broken': { fix: 'Debug sidebar scroll — overflow-y: auto set but scrollTop mutation has no effect; check nested overflow containers', effort: 'S' },
+  'sidebar-h-overflow': { fix: 'Add overflow-x: hidden to sidebar; check if any child element has a wider fixed width', effort: 'XS' },
+  'sidebar-zindex-unset': { fix: 'Set explicit z-index on sidebar (e.g. z-index: 100) to prevent page content from overlapping it', effort: 'XS' },
+  'sidebar-no-active-state': { fix: 'Mark active nav item with aria-current="page" for current route', effort: 'XS', wcag: 'WCAG 4.1.2' },
+  'sidebar-no-active-indicator': { fix: 'Add active/current CSS class or aria-current to active sidebar item', effort: 'XS' },
+  'sidebar-not-sticky': { fix: 'Add position: sticky or position: fixed to sidebar so it stays visible on scroll', effort: 'S' },
+  'sidebar-item-text-clipped': { fix: 'Increase sidebar width or add title attribute to clipped nav item text', effort: 'XS' },
+  // Dialog scroll
+  'dialog-overflow-hidden-tall': { fix: 'Change overflow-y: hidden to overflow-y: auto on dialog content area so tall content is scrollable', effort: 'XS' },
+  'dialog-exceeds-viewport': { fix: 'Add max-height: calc(100vh - 2rem) and overflow-y: auto to dialog so it fits in viewport', effort: 'XS' },
+  'dialog-no-max-height': { fix: 'Add max-height: 90vh to dialog to prevent it exceeding viewport on small screens', effort: 'XS' },
+  'dialog-scroll-broken': { fix: 'Debug dialog scroll — scrollTop assignment has no effect; check nested overflow containers blocking scroll', effort: 'S' },
+  'dialog-keyboard-scroll-broken': { fix: 'Move focus inside dialog content area on open; ensure scrollable element is focusable (tabindex="0") for keyboard scroll', effort: 'S', wcag: 'WCAG 2.1.1' },
+  'dialog-content-clipped-top': { fix: 'Ensure dialog content area has padding-top and scroll starts at top on open', effort: 'XS' },
+  'dialog-content-clipped-bottom': { fix: 'Add padding-bottom to dialog content; ensure overflow-y: auto so last item is reachable', effort: 'XS' },
+  'dialog-unwanted-h-scroll': { fix: 'Add overflow-x: hidden to dialog content area; check for wide fixed-width elements inside dialog', effort: 'XS' },
+  'dialog-no-scroll-indicator': { fix: 'Add scroll shadow/gradient on dialog content edge to hint at scrollable content (e.g. ::after with box-shadow: inset)', effort: 'XS' },
+  'dialog-missing-aria-modal': { fix: 'Add aria-modal="true" to dialog element so screen readers treat it as a modal context', effort: 'XS', wcag: 'WCAG 4.1.2' },
+  'dialog-no-focusable-elements': { fix: 'Ensure dialog has at least one focusable element (close button, action button, or input)', effort: 'S', wcag: 'WCAG 2.1.1' },
+  'dialog-no-initial-focus': { fix: 'Add autofocus to primary action button in dialog so focus moves inside on open', effort: 'XS', wcag: 'WCAG 2.4.3' },
+  // Form alignment
+  'label-overlaps-input': { fix: 'Separate label and input — label should be above (margin-bottom) or inline-left; remove absolute positioning causing overlap', effort: 'S', wcag: 'WCAG 1.3.1' },
+  'label-alignment-inconsistent': { fix: 'Choose one label pattern (above or inline) and apply consistently across all form fields', effort: 'S' },
+  'field-spacing-too-tight': { fix: 'Add margin-bottom of at least 12px between form fields', effort: 'XS' },
+  'field-spacing-too-large': { fix: 'Reduce gap between form fields to improve visual grouping (aim for 12–24px)', effort: 'XS' },
+  'field-spacing-inconsistent': { fix: 'Standardise vertical spacing between form fields using a design token or CSS variable', effort: 'S' },
+  'input-width-inconsistent': { fix: 'Set consistent width (e.g. width: 100% or max-width) on all text inputs in the same form', effort: 'XS' },
+  'input-narrower-than-label': { fix: 'Increase input width to at least match its label width', effort: 'XS' },
+  'corner-radius-inconsistent': { fix: 'Standardise border-radius across all inputs and buttons using a shared design token', effort: 'XS' },
+  'corner-radius-style-mismatch': { fix: 'Apply matching border-radius to inputs and buttons within the same form for visual consistency', effort: 'XS' },
+  'input-vertical-padding-too-small': { fix: 'Add padding-top + padding-bottom of at least 6px to inputs for sufficient touch target height', effort: 'XS' },
+  'input-left-padding-missing': { fix: 'Add padding-left of at least 8px to inputs so text does not touch the border', effort: 'XS' },
+  'input-too-short': { fix: 'Set min-height: 36px on input fields to meet touch target guidelines (WCAG recommends 44px)', effort: 'XS', wcag: 'WCAG 2.5.5' },
+  'error-message-outside-input': { fix: 'Position error messages directly below their associated input field (not to the right)', effort: 'S', wcag: 'WCAG 1.3.1' },
+  'error-message-above-input': { fix: 'Move error messages below their input field — above-input placement is unconventional', effort: 'XS' },
+  'aria-invalid-no-visible-error': { fix: 'Add visible error message element and connect it via aria-describedby to the invalid input', effort: 'S', wcag: 'WCAG 1.3.1' },
+  'form-buttons-misaligned': { fix: 'Align form buttons to the same vertical baseline using flexbox align-items: center', effort: 'XS' },
+  'form-button-group-too-tight': { fix: 'Add gap of at least 8px between form action buttons', effort: 'XS' },
+  'input-placeholder-centered': { fix: 'Change text-align: center to text-align: left on input for conventional left-aligned text entry', effort: 'XS' },
+  'hint-text-above-input': { fix: 'Move hint/help text below its associated input field — above placement may be confused with the label', effort: 'XS' },
+  'hint-text-misaligned': { fix: 'Align hint text left edge with its associated input field', effort: 'XS' },
+  'required-field-no-indicator': { fix: 'Add * or "required" text to label of required fields and include a legend explaining the indicator', effort: 'XS', wcag: 'WCAG 3.3.2' },
   // Performance
   'poor-lcp': {
     fix: 'Preload largest contentful image; defer non-critical scripts; check server response time',
@@ -1043,6 +1102,48 @@ function ingestSearch(route: string, routeName: string): NormalizedFinding[] {
   }));
 }
 
+function ingestSidebar(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'sidebar', `${routeName}-sidebar.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'sidebar',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'sidebar-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
+function ingestDialogScroll(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'dialog-scroll', `${routeName}-dialog-scroll.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'dialog-scroll',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'dialog-scroll-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
+function ingestFormAlignment(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'form-alignment', `${routeName}-form-alignment.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'form-alignment',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'form-alignment-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
 // ─── Deduplication ────────────────────────────────────────────────────────────
 
 function dedupeFindings(findings: NormalizedFinding[]): NormalizedFinding[] {
@@ -1193,6 +1294,9 @@ export function writeFixPlan(routes: string[]): void {
       ...ingestScrollAxes(route, routeName),
       ...ingestButtonAnimations(route, routeName),
       ...ingestPopupQuality(route, routeName),
+      ...ingestSidebar(route, routeName),
+      ...ingestDialogScroll(route, routeName),
+      ...ingestFormAlignment(route, routeName),
     );
   }
 

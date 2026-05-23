@@ -26,6 +26,7 @@ Install once. Invoke from any project. Add your own skills freely.
 | Router | `/sys-admin:sys-admin` | Reads the request, extracts domain keywords, dispatches to the right subskills in priority order |
 | UI / Web QA | `/sys-admin:website-ui-deep-qa` | Deep QA of any website: layout, forms, a11y, network, security, responsive, SEO — 46 check categories with Playwright |
 | SQL / DB audit | `/sys-admin:sql-deep-qa` | Audits the SQL layer: injection (all types + sqlmap), schema, indexes, performance (pg_stat_statements, bloat), migrations (lock analysis), connections, ORM patterns, multi-tenancy, NoSQL injection, privilege audit, DB config hardening, compliance — 17 check categories |
+| PostgreSQL deep audit | `/sys-admin:postgres-deep-qa` | PostgreSQL-specific checks beyond generic SQL: XID wraparound, autovacuum tuning, WAL/replication, PgBouncer gotchas, partitioning, JSONB indexes, advanced index types (BRIN/GiST/GIN/Bloom), RLS bypass vectors (11), PG16/PG17 features, CVE table, backup strategy (pgBackRest/Barman/WAL-G), postgresql.conf tuning — 17 check categories |
 | API testing | `/sys-admin:api-deep-qa` | Tests REST, GraphQL, and gRPC APIs: OWASP Top 10, JWT/OAuth2 attacks, rate limit bypass, webhooks, contract testing, fuzzing, load testing with k6, HTTP/2 & HTTP/3 — 18 check categories |
 | Smart Todo | `/sys-admin:smart-todo` | **Mandatory for any 3+ step task.** Decomposes work into a tracked list, updates status in real time, surfaces blockers |
 | Marketplace | `/sys-admin:marketplace` | Full Claude Code plugin lifecycle: discover, install, manage scopes, create `plugin.json` + `SKILL.md`, publish to GitHub, submit to community, validate, debug |
@@ -42,7 +43,7 @@ cd sys-admin
 bash install.sh
 ```
 
-Restart Claude Code. All six skills appear in the `/` picker under the `sys-admin:` namespace.
+Restart Claude Code. All seven skills appear in the `/` picker under the `sys-admin:` namespace.
 
 > The script copies skill files to `~/.claude/plugins/cache/sys-admin/`, writes manifests, registers the plugin, and enables it automatically.
 
@@ -126,6 +127,34 @@ Works from source code alone or against a live DB (read-only). Covers all 17 cat
 - Data integrity: orphaned FK records, constraint violations, duplicate detection
 - NoSQL injection: MongoDB `$where`/`$ne` bypass, Redis KEYS injection, Elasticsearch script injection
 - Privilege testing: least-privilege audit, SECURITY DEFINER escalation, ideal privilege model
+
+---
+
+### PostgreSQL deep audit
+
+```text
+/sys-admin:postgres-deep-qa Audit our PostgreSQL database
+```
+
+PostgreSQL-specific checks that go deeper than `sql-deep-qa`. Requires a PostgreSQL database (live or connection string). Covers all 17 categories:
+
+- Version and CVE exposure: patch level check against 2024–2025 CVE table (CVSSv3 scores), PG17 feature adoption gaps
+- XID wraparound risk: `age(relfrozenxid)` thresholds, autovacuum health, bloat via pgstattuple
+- WAL and replication: `archive_command` health, replication lag, inactive slot disk bomb prevention, `max_slot_wal_keep_size`
+- PgBouncer gotchas: session vs transaction vs statement mode, `SET LOCAL` for RLS, `pg_advisory_xact_lock` vs session locks
+- Table partitioning: partition pruning validation, partition-wise join/aggregate, pg_partman automation
+- JSONB and advanced indexes: `jsonb_ops` vs `jsonb_path_ops`, BRIN correlation check, GiST/GIN/Bloom selection guide, expression indexes
+- Full-text search: tsvector column audit, GIN vs GiST for FTS, query-time tsvector anti-pattern
+- Lock monitoring: blocked query detection, idle-in-transaction alerts, `lock_timeout` enforcement
+- RLS bypass vectors: all 11 documented vectors (superuser, FORCE missing, SECURITY DEFINER views, COPY, PgBouncer context loss, missing WITH CHECK, non-LEAKPROOF functions, OR policy semantics, materialized views, FK/unique leakage)
+- Sequences and IDENTITY: INT4 SERIAL overflow detection, `BIGINT GENERATED ALWAYS AS IDENTITY`, UUIDv7 via `gen_uuid_v7()`
+- Foreign Data Wrappers: credential exposure audit, `pg_read_server_files` grant check
+- Extensions: high-risk extension audit (`plpythonu`, `dblink`, `file_fdw`), recommended extension setup
+- Monitoring queries: cache hit rate, connection saturation, slowest queries, table size with dead tuple overhead
+- Backup strategy: pgBackRest vs Barman vs WAL-G comparison, `pg_stat_archiver` health check, PG17 incremental backup
+- postgresql.conf tuning: `shared_buffers=25% RAM`, `work_mem` formula, SSD tuning, logging for compliance
+- PostgreSQL-specific anti-patterns: `NOT IN` with NULLs, `timestamp without time zone`, `BETWEEN` with timestamps, `trust` auth, `search_path` in SECURITY DEFINER
+- Compliance and audit logging: pgaudit setup, PCI DSS/HIPAA/SOC2/GDPR requirement map
 
 ---
 
@@ -289,6 +318,7 @@ skills/
   api-deep-qa/SKILL.md        API testing skill — 18 check categories
   smart-todo/SKILL.md         task tracking skill
   marketplace/SKILL.md        Claude Code plugin lifecycle guide
+  postgres-deep-qa/SKILL.md   PostgreSQL deep audit — 17 check categories
 tests/deep-ui/
   ui-deep-qa.spec.ts          main Playwright spec (website-ui-deep-qa)
   helpers/                    46 helper modules (routes, forms, a11y, network, …)

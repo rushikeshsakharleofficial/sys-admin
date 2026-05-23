@@ -55,6 +55,11 @@ mkdir -p "$PLUGIN_CACHE/skills/marketplace"
 cp "$REPO_DIR/skills/marketplace/SKILL.md" \
    "$PLUGIN_CACHE/skills/marketplace/SKILL.md"
 
+# postgres-deep-qa subskill
+mkdir -p "$PLUGIN_CACHE/skills/postgres-deep-qa"
+cp "$REPO_DIR/skills/postgres-deep-qa/SKILL.md" \
+   "$PLUGIN_CACHE/skills/postgres-deep-qa/SKILL.md"
+
 # Plugin CLAUDE.md
 cat > "$PLUGIN_CACHE/CLAUDE.md" << 'CLAUDE_EOF'
 # Sys Admin
@@ -176,7 +181,12 @@ echo ""
 echo "✓ Done. Plugin installed and enabled as: sys-admin@sys-admin"
 echo ""
 echo "   Invoke via:"
-echo "   /sys-admin:sys-admin      — routing skill"
-echo "   /sys-admin:website-ui-deep-qa     — UI QA subskill (46 helpers)"
+echo "   /sys-admin:sys-admin           — routing skill (multi-domain dispatch)"
+echo "   /sys-admin:website-ui-deep-qa  — UI QA subskill (46 helpers)"
+echo "   /sys-admin:sql-deep-qa         — SQL audit (17 categories)"
+echo "   /sys-admin:postgres-deep-qa    — PostgreSQL deep audit (17 categories)"
+echo "   /sys-admin:api-deep-qa         — API testing (18 categories)"
+echo "   /sys-admin:smart-todo          — task tracking (auto for 3+ step tasks)"
+echo "   /sys-admin:marketplace         — Claude Code plugin lifecycle"
 echo ""
 echo "   Restart Claude Code to load the new plugin."

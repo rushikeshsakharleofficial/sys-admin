@@ -8,6 +8,7 @@ import {
 import { collectStorageState, writeStorageReport } from './helpers/storage';
 import { collectLayoutIssues } from './helpers/layout';
 import { testVisibleButtons, testVisibleLinks } from './helpers/interactions';
+import { testZoomScroll } from './helpers/zoom-scroll';
 import { collectAccessibilityIssues, collectKeyboardFocusOrder } from './helpers/accessibility';
 import { attachConsoleMonitor, severeConsoleFindings } from './helpers/console';
 import { collectPerformanceSnapshot, poorWebVitals } from './helpers/performance';
@@ -94,6 +95,35 @@ test.describe('Deep UI QA', () => {
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.waitForTimeout(300);
 
+      // ── Zoom + scroll tests ──────────────────────────────────────────────
+      // CSS zoom is Chromium + WebKit only; Firefox silently ignores it.
+      // Findings are written to qa-artifacts/zoom-scroll/ — NOT fed into
+      // the strict assertNoBasicLayoutIssues assertion because horizontal
+      // overflow at high zoom is expected behaviour, not a hard test fail.
+      // Scroll-stuck findings (programmatic/wheel/keyboard blocked) are
+      // reported as High/Medium defects in the zoom-scroll JSON artifact.
+      const zoomScrollReport = await testZoomScroll(page, route);
+      const zoomScrollHighFindings = zoomScrollReport.findings.filter(
+        (f) => f.severity === 'critical' || f.severity === 'high'
+      );
+      // Assert: scroll must not be completely broken (stuck) at any zoom level.
+      // Horizontal overflow at zoom and info-level skips do NOT fail here.
+      expect(
+        zoomScrollHighFindings,
+        `Scroll broken under zoom on ${route}:\n${JSON.stringify(zoomScrollHighFindings, null, 2)}`
+      ).toEqual([]);
+
+      // Verify zoom fully reset before continuing (prevents leak into interactions
+      // and visualRegression baseline screenshots).
+      const zoomAfterTest = await page.evaluate(
+        () => (document.documentElement as HTMLElement).style.zoom
+      );
+      expect(
+        zoomAfterTest,
+        `[zoom-scroll] Zoom leaked after testZoomScroll on ${route}. ` +
+          `style.zoom="${zoomAfterTest}" — subsequent tests will run zoomed.`
+      ).toMatch(/^(|1)$/);
+
       // ── Interaction tests ────────────────────────────────────────────────
       await testVisibleLinks(page, route);
       await testVisibleButtons(page, route);
@@ -150,6 +180,8 @@ test.describe('Deep UI QA', () => {
       appendMarkdownReport(
         'final-report.md',
         `\n## Route: ${route}\n\n` +
+        `- Zoom/scroll findings: ${zoomScrollReport.findings.length} (browser zoom supported: ${zoomScrollReport.browserZoomSupported})\n` +
+        `- Zoom/scroll high+critical: ${zoomScrollHighFindings.length}\n` +
         `- Accessibility issues: ${accessibilityIssues.length}\n` +
         `- Focus visibility issues: ${keyboardResult.focusVisibilityIssues.length}\n` +
         `- Form findings: ${formFindings.length}\n` +

@@ -317,6 +317,66 @@ const FIX_RECOMMENDATIONS: Record<string, FixMeta> = {
   'skeleton-not-resolved': { fix: 'Skeleton still visible after 3s — fix data loading or add error state fallback', effort: 'M' },
   'error-boundary-visible': { fix: 'Fix JavaScript error causing component crash; check React/component error boundary logs', effort: 'M' },
   '404-not-handled': { fix: 'Add 404 route handler returning proper not-found page (not homepage content)', effort: 'S' },
+  // Placeholder content
+  'lorem-ipsum': { fix: 'Replace lorem ipsum text with real copy before shipping to production', effort: 'M' },
+  'todo-comment-visible': { fix: 'Remove or resolve TODO/FIXME comments from production UI', effort: 'XS' },
+  'placeholder-image': { fix: 'Replace placeholder/generic image with real content image', effort: 'S' },
+  'test-data-visible': { fix: 'Remove test/sample data from production; use a real seeded dataset or empty state', effort: 'M' },
+  'example-com-link': { fix: 'Replace example.com URL with real destination link', effort: 'XS' },
+  'hardcoded-name': { fix: 'Replace hardcoded test user name with real dynamic content', effort: 'S' },
+  'placeholder-attribute-visible': { fix: 'Placeholder attribute should not substitute for a real label; add visible label or aria-label', effort: 'XS', wcag: 'WCAG 1.3.1' },
+  // Link checker
+  'empty-href': { fix: 'Add a real URL or remove the anchor; replace href="#" only-click with a <button>', effort: 'S' },
+  'noop-href': { fix: 'Replace href="#" placeholder with a real destination URL or convert to <button>', effort: 'S' },
+  'missing-noopener': { fix: 'Add rel="noopener noreferrer" to all a[target="_blank"] links to prevent tab-napping', effort: 'XS' },
+  'empty-link-text': { fix: 'Add visible text or aria-label to link so screen readers can identify its purpose', effort: 'XS', wcag: 'WCAG 2.4.4' },
+  'mailto-no-text': { fix: 'Add visible email address or descriptive text inside mailto: link', effort: 'XS' },
+  'tel-no-text': { fix: 'Add visible phone number or descriptive text inside tel: link', effort: 'XS' },
+  // Cookie consent
+  'cookies-before-consent': { fix: 'Do not set non-essential cookies until user accepts consent; move cookie-set to accept handler', effort: 'L' },
+  'no-consent-banner': { fix: 'Add GDPR cookie consent banner with Accept/Reject options before setting analytics/tracking cookies', effort: 'L' },
+  'consent-no-reject-button': { fix: 'Add "Reject all" / "Decline" button to consent banner; GDPR requires equal-weight opt-out', effort: 'S' },
+  'consent-no-privacy-link': { fix: 'Add link to Privacy Policy inside consent banner', effort: 'XS' },
+  'consent-pre-checked-optional': { fix: 'Do not pre-check optional analytics/marketing checkboxes in consent UI', effort: 'S' },
+  // HTML validation
+  'duplicate-id-html': { fix: 'Ensure all id attributes are unique; duplicate IDs break ARIA references and JS querySelector', effort: 'S', wcag: 'WCAG 4.1.1' },
+  'missing-lang-attribute': { fix: 'Add lang attribute to <html> element (e.g. lang="en")', effort: 'XS', wcag: 'WCAG 3.1.1' },
+  'deprecated-html-tag': { fix: 'Replace deprecated HTML tag with semantic equivalent (e.g. <b>→<strong>, <i>→<em>, <center>→CSS)', effort: 'XS' },
+  'nested-interactive': { fix: 'Remove interactive element nested inside another (e.g. <a> inside <a>, <button> inside <a>)', effort: 'S', wcag: 'WCAG 4.1.1' },
+  'missing-doctype': { fix: 'Add <!DOCTYPE html> as first line of HTML document', effort: 'XS' },
+  'form-missing-action-method': { fix: 'Add action and method attributes to <form> or add JS submit handler', effort: 'S' },
+  // Media players
+  'video-no-captions': { fix: 'Add <track kind="captions"> or <track kind="subtitles"> to <video> element', effort: 'M', wcag: 'WCAG 1.2.2' },
+  'video-autoplay-unmuted': { fix: 'Add muted attribute to autoplaying video, or remove autoplay', effort: 'XS', wcag: 'WCAG 1.4.2' },
+  'video-no-controls': { fix: 'Add controls attribute to <video> or provide custom accessible player controls', effort: 'S', wcag: 'WCAG 1.2.1' },
+  'audio-no-controls': { fix: 'Add controls attribute to <audio> element so users can pause/adjust volume', effort: 'S', wcag: 'WCAG 1.2.1' },
+  'video-no-poster': { fix: 'Add poster attribute with a representative frame image to <video>', effort: 'XS' },
+  'media-not-keyboard-accessible': { fix: 'Ensure media controls are reachable via Tab key and operable with keyboard', effort: 'S', wcag: 'WCAG 2.1.1' },
+  // Carousels
+  'carousel-no-keyboard-support': { fix: 'Implement keyboard navigation for carousel (arrow keys for slides, Tab for controls)', effort: 'M', wcag: 'WCAG 2.1.1' },
+  'carousel-autoplay-no-pause': { fix: 'Add pause-on-hover and a visible pause/stop button to auto-advancing carousel', effort: 'S', wcag: 'WCAG 2.2.2' },
+  'carousel-no-aria-label': { fix: 'Add aria-label or aria-labelledby to carousel container and aria-label to prev/next buttons', effort: 'XS', wcag: 'WCAG 4.1.2' },
+  'carousel-no-live-region': { fix: 'Add aria-live="polite" region to announce slide changes to screen readers', effort: 'S', wcag: 'WCAG 4.1.3' },
+  // Print media
+  'no-print-stylesheet': { fix: 'Add @media print CSS rules to hide nav/sidebar/ads and ensure readable print layout', effort: 'M' },
+  'nav-visible-in-print': { fix: 'Add @media print { nav { display: none } } to hide navigation in print output', effort: 'XS' },
+  'print-horizontal-overflow': { fix: 'Add @media print { * { max-width: 100% } } to prevent overflow in print layout', effort: 'XS' },
+  'print-low-contrast': { fix: 'In @media print, force text to black and background to white for print readability', effort: 'XS' },
+  // CSRF
+  'form-missing-csrf-token': { fix: 'Add CSRF token to form as hidden input; verify server-side CSRF validation middleware is active', effort: 'M' },
+  'get-form-with-sensitive-field': { fix: 'Change form method to POST to prevent sensitive data appearing in URL/server logs', effort: 'XS' },
+  // Sitemap + robots
+  'missing-sitemap': { fix: 'Create /sitemap.xml listing all public URLs; submit to Google Search Console', effort: 'S' },
+  'missing-robots': { fix: 'Create /robots.txt to control crawl behavior; at minimum add User-agent: * and Sitemap: URL', effort: 'XS' },
+  'sitemap-noindex-conflict': { fix: 'Remove noindex from pages that are listed in sitemap.xml — conflicting signals hurt SEO', effort: 'S' },
+  'robots-disallow-all': { fix: 'Review robots.txt — "Disallow: /" blocks all crawlers; replace with more targeted disallow rules', effort: 'S' },
+  'canonical-mismatch': { fix: 'Update canonical URL to match actual page URL, or implement canonical redirects', effort: 'S' },
+  // Search
+  'search-no-results-state': { fix: 'Add "No results found" message when search returns empty results', effort: 'S' },
+  'search-no-aria-label': { fix: 'Add aria-label="Search" to search input and role="search" to containing landmark', effort: 'XS', wcag: 'WCAG 4.1.2' },
+  'search-xss-reflection': { fix: 'Sanitize/encode search query before inserting into DOM — potential XSS vector', effort: 'M' },
+  'search-keyboard-submit': { fix: 'Ensure pressing Enter in search input triggers search (submit event or keydown handler)', effort: 'XS' },
+  'search-empty-query-unguarded': { fix: 'Guard against empty string search queries — show prompt or disable submit when input is empty', effort: 'XS' },
   // Performance
   'poor-lcp': {
     fix: 'Preload largest contentful image; defer non-critical scripts; check server response time',
@@ -705,6 +765,147 @@ function ingestEdgeStates(route: string, routeName: string): NormalizedFinding[]
   }));
 }
 
+function ingestPlaceholderContent(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'placeholder-content', `${routeName}-placeholder-content.json`);
+  const data = safeReadJson<Array<{ severity?: string; type?: string; message?: string; selector?: string; text?: string }>>(filePath);
+  if (!data) return [];
+  return data.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'placeholder-content',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'placeholder-content',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    text: item.text,
+    evidencePath: filePath,
+  }));
+}
+
+function ingestLinkChecker(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'link-checker', `${routeName}-link-checker.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; href?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'link-checker',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'link-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector || item.href,
+    evidencePath: filePath,
+  }));
+}
+
+function ingestCookieConsent(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'cookie-consent', `${routeName}-cookie-consent.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'cookie-consent',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'cookie-consent-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
+function ingestHtmlValidation(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'html-validation', `${routeName}-html-validation.json`);
+  const data = safeReadJson<Array<{ severity?: string; type?: string; message?: string; selector?: string }>>(filePath);
+  if (!data) return [];
+  return data.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'html-validation',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'html-validation-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
+function ingestMediaPlayers(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'media-player', `${routeName}-media-player.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'media-player',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'media-player-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
+function ingestCarousels(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'carousel', `${routeName}-carousel.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'carousel',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'carousel-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
+function ingestPrintMedia(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'print-media', `${routeName}-print-media.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'print-media',
+    severity: (item.severity as Severity) || 'low',
+    type: item.type || 'print-media-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
+function ingestCsrf(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'csrf', `${routeName}-csrf.json`);
+  const data = safeReadJson<Array<{ severity?: string; type?: string; message?: string; selector?: string; formIndex?: number }>>(filePath);
+  if (!data) return [];
+  return data.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'csrf',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'csrf-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
+function ingestSitemap(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'sitemap', `${routeName}-sitemap.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; url?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'sitemap',
+    severity: (item.severity as Severity) || 'low',
+    type: item.type || 'sitemap-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.url,
+    evidencePath: filePath,
+  }));
+}
+
+function ingestSearch(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'search', `${routeName}-search.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'search',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'search-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
 // ─── Deduplication ────────────────────────────────────────────────────────────
 
 function dedupeFindings(findings: NormalizedFinding[]): NormalizedFinding[] {
@@ -840,6 +1041,16 @@ export function writeFixPlan(routes: string[]): void {
       ...ingestAuth(route, routeName),
       ...ingestBackForward(route, routeName),
       ...ingestEdgeStates(route, routeName),
+      ...ingestPlaceholderContent(route, routeName),
+      ...ingestLinkChecker(route, routeName),
+      ...ingestCookieConsent(route, routeName),
+      ...ingestHtmlValidation(route, routeName),
+      ...ingestMediaPlayers(route, routeName),
+      ...ingestCarousels(route, routeName),
+      ...ingestPrintMedia(route, routeName),
+      ...ingestCsrf(route, routeName),
+      ...ingestSitemap(route, routeName),
+      ...ingestSearch(route, routeName),
     );
   }
 

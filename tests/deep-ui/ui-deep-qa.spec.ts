@@ -29,6 +29,16 @@ import { auditPWA } from './helpers/pwa';
 import { auditAuthSurface } from './helpers/auth';
 import { testBackForwardNavigation } from './helpers/back-forward';
 import { auditEdgeStates } from './helpers/edge-states';
+import { auditPlaceholderContent } from './helpers/placeholder-content';
+import { auditLinks } from './helpers/link-checker';
+import { auditCookieConsent } from './helpers/cookie-consent';
+import { auditHtmlValidation } from './helpers/html-validation';
+import { auditMediaPlayers } from './helpers/media-player';
+import { auditCarousels } from './helpers/carousel';
+import { auditPrintMedia } from './helpers/print-media';
+import { auditCsrf } from './helpers/csrf';
+import { auditSitemapAndRobots } from './helpers/sitemap';
+import { auditSearch } from './helpers/search';
 
 /**
  * Deep UI QA — enhanced entry point.
@@ -36,7 +46,9 @@ import { auditEdgeStates } from './helpers/edge-states';
  * Covers: layout, interactions, forms, overlays, network, storage,
  * accessibility, performance (Web Vitals), SEO, DOM security,
  * broken images, lazy images, reduced motion, responsive behavior,
- * toasts, tables, PWA, auth surface, back/forward navigation, edge states.
+ * toasts, tables, PWA, auth surface, back/forward navigation, edge states,
+ * placeholder content, link checker, cookie consent, HTML validation,
+ * media players, carousels, print media, CSRF, sitemap/robots, search.
  */
 test.describe('Deep UI QA', () => {
   test('discover and test visible routes', async ({ page, context, baseURL }, testInfo) => {
@@ -273,6 +285,62 @@ test.describe('Deep UI QA', () => {
         (f) => f.severity === 'high'
       );
 
+      // ── Placeholder content ──────────────────────────────────────────────
+      // Detects lorem ipsum, TODO/FIXME, test data, placeholder images.
+      // HIGH = visible placeholder text in production UI.
+      const placeholderFindings = await auditPlaceholderContent(page, route);
+      const placeholderHigh = placeholderFindings.filter((f) => f.severity === 'high');
+
+      // ── Link checker ─────────────────────────────────────────────────────
+      // Audits anchor hrefs: broken (#-only no-op, mailto/tel missing text),
+      // missing rel=noopener on external _blank links, empty href.
+      // HIGH = dead links that break primary navigation.
+      const linkReport = await auditLinks(page, route);
+      const linkCheckerHigh = linkReport.findings.filter((f) => f.severity === 'high');
+
+      // ── Cookie consent ───────────────────────────────────────────────────
+      // Checks consent banner presence, accept/reject buttons, GDPR phrasing,
+      // cookies set before consent. HIGH = cookies stored before any consent.
+      const cookieConsentReport = await auditCookieConsent(page, route);
+      const cookieConsentHigh = cookieConsentReport.findings.filter((f) => f.severity === 'high');
+
+      // ── HTML validation ──────────────────────────────────────────────────
+      // Checks duplicate IDs, missing <html lang>, deprecated tags, misuse of
+      // interactive-element nesting, missing doctype. HIGH = duplicate IDs / no lang.
+      const htmlValidationFindings = await auditHtmlValidation(page, route);
+      const htmlValidationHigh = htmlValidationFindings.filter((f) => f.severity === 'high');
+
+      // ── Media players ────────────────────────────────────────────────────
+      // Audits <video>/<audio>: captions, autoplay without mute, controls
+      // attribute, poster image, keyboard focus. Informational for non-media sites.
+      const mediaPlayerReport = await auditMediaPlayers(page, route);
+
+      // ── Carousels ────────────────────────────────────────────────────────
+      // Detects carousel/slider widgets, checks keyboard nav, autoplay pause,
+      // ARIA labels, indicator dots. Informational if no carousels present.
+      const carouselReport = await auditCarousels(page, route);
+
+      // ── Print media ──────────────────────────────────────────────────────
+      // Emulates print media, checks print stylesheet presence, nav/sidebar
+      // visibility, page-break issues. Resets to screen after.
+      const printMediaReport = await auditPrintMedia(page, route);
+
+      // ── CSRF ─────────────────────────────────────────────────────────────
+      // Inspects forms for CSRF token fields, meta tags, SameSite cookie attrs.
+      // Informational — DOM-only check, cannot verify server-side validation.
+      const csrfFindings = await auditCsrf(page, route);
+
+      // ── Sitemap + robots.txt ─────────────────────────────────────────────
+      // Fetches /sitemap.xml and /robots.txt via page.evaluate fetch (no navigate).
+      // Checks for missing files, noindex on public pages, disallow misuse.
+      // Only runs on first route to avoid repeated fetches.
+      const sitemapReport = await auditSitemapAndRobots(page, route, baseURL || '/');
+
+      // ── Search ───────────────────────────────────────────────────────────
+      // Detects search input, tests empty/special-char queries, checks for
+      // no-results state, keyboard submit, ARIA role=search.
+      const searchReport = await auditSearch(page, route);
+
       // ── Console findings ─────────────────────────────────────────────────
       const consoleFindings = severeConsoleFindings(consoleMonitor.records, consoleMonitor.pageErrors);
       writeJsonArtifact('console', `${routeName}-console.json`, {
@@ -307,6 +375,16 @@ test.describe('Deep UI QA', () => {
         `- Edge states: 404=${edgeStateReport.notFoundPageWorks}, infiniteSpinner=${edgeStateReport.infiniteSpinnerSuspected}\n` +
         `- Security findings (critical): ${criticalSec} / total: ${allSecFindings.length}\n` +
         `- Network records: ${network.records.length} | Leaks: ${leaks.length} | Duplicates: ${duplicates.length} | Large payloads: ${largePayloads.length}\n` +
+        `- Placeholder content: ${placeholderFindings.length} total | High: ${placeholderHigh.length}\n` +
+        `- Links: ${linkReport.totalLinks} total | High: ${linkCheckerHigh.length} | Total findings: ${linkReport.findings.length}\n` +
+        `- Cookie consent: banner=${cookieConsentReport.bannerDetected}, cookiesBeforeConsent=${cookieConsentReport.cookiesBeforeConsent.length} | High: ${cookieConsentHigh.length}\n` +
+        `- HTML validation: ${htmlValidationFindings.length} total | High: ${htmlValidationHigh.length}\n` +
+        `- Media players: videos=${mediaPlayerReport.videosFound}, audio=${mediaPlayerReport.audiosFound} | Findings: ${mediaPlayerReport.findings.length}\n` +
+        `- Carousels: ${carouselReport.carouselsFound} found | Findings: ${carouselReport.findings.length}\n` +
+        `- Print media: hasPrintCSS=${printMediaReport.hasPrintStylesheet} | Findings: ${printMediaReport.findings.length}\n` +
+        `- CSRF: ${csrfFindings.length} findings\n` +
+        `- Sitemap/robots: sitemap=${sitemapReport.sitemapFound}, robots=${sitemapReport.robotsFound} | Findings: ${sitemapReport.findings.length}\n` +
+        `- Search: found=${searchReport.searchFound} | Findings: ${searchReport.findings.length}\n` +
         `- Console errors/page errors: ${consoleFindings.severeMessages.length + consoleFindings.pageErrors.length}\n` +
         `- React key warnings: ${consoleFindings.reactKeyWarnings.length} | React warnings: ${consoleFindings.reactWarnings.length}\n` +
         `- Hydration errors: ${consoleFindings.hydrationErrors.length}\n` +
@@ -362,6 +440,26 @@ test.describe('Deep UI QA', () => {
       expect(
         responsiveHigh,
         `Responsive layout broken on ${route}:\n${JSON.stringify(responsiveHigh, null, 2)}`
+      ).toEqual([]);
+
+      expect(
+        placeholderHigh,
+        `Placeholder/test content in production on ${route}:\n${JSON.stringify(placeholderHigh, null, 2)}`
+      ).toEqual([]);
+
+      expect(
+        linkCheckerHigh,
+        `Broken links on ${route}:\n${JSON.stringify(linkCheckerHigh, null, 2)}`
+      ).toEqual([]);
+
+      expect(
+        htmlValidationHigh,
+        `HTML validation errors on ${route}:\n${JSON.stringify(htmlValidationHigh, null, 2)}`
+      ).toEqual([]);
+
+      expect(
+        cookieConsentHigh,
+        `Cookie consent violations on ${route}:\n${JSON.stringify(cookieConsentHigh, null, 2)}`
       ).toEqual([]);
 
       await visualRegression(page, route);

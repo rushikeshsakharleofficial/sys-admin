@@ -60,3 +60,16 @@ AGENTS.md               ← Codex-style guidance (mirrors CLAUDE.md intent)
 No tests to run. Review manually: frontmatter validity, all internal resource paths under `resources/`, helper references (e.g. `helpers/forms.ts`, `helpers/seo.ts`) still accurate.
 
 See `SKILL.md → ## Skill quality bar` for the quality rules that govern all edits to this skill.
+
+## Agent allocation
+
+When dispatching sub-agents to build or edit this skill, follow the rules in
+[`agents/agent-allocation.md`](agents/agent-allocation.md).
+
+**Short version:**
+- `caveman:cavecrew-builder` — writing or editing any single helper file (`helpers/*.ts`)
+- `caveman:cavecrew-investigator` — find where a function is defined / locate patterns
+- `caveman:cavecrew-reviewer` — review a PR, diff, or single file
+- `general-purpose` — tasks spanning 3+ files that cannot be split
+- Parallel dispatch for independent helpers (same message = concurrent execution)
+- Main thread always does the wiring: imports, calls, assertions, fix-plan entries

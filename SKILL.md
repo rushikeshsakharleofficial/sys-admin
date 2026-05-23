@@ -60,7 +60,7 @@ All artifacts → `qa-artifacts/`. Fix plan → `qa-artifacts/reports/fix-plan.m
 
 ## Ecosystem
 
-Part of the `code-real-builder` testing ecosystem. For multi-domain testing (UI + backend + security simultaneously), invoke `/code-real-builder` first. For UI-only testing, invoke this skill directly as `/code-real-builder:website-ui-deep-qa`.
+Part of the `sys-admin` testing ecosystem. For multi-domain testing (UI + SQL + security simultaneously), invoke `/sys-admin` first. For UI-only testing, invoke this skill directly as `/sys-admin:website-ui-deep-qa`.
 
 ## Requested task
 

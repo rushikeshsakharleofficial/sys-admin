@@ -2,7 +2,7 @@
 
 # sys-admin
 
-**A Claude Code plugin with QA, database auditing, and task-tracking skills.**  
+**A Claude Code plugin with UI QA, API testing, database auditing, and task-tracking skills.**  
 Install once. Invoke from any project. Add your own skills freely.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -23,9 +23,10 @@ Install once. Invoke from any project. Add your own skills freely.
 
 | Skill | Invocation | What it does |
 |:------|:-----------|:-------------|
-| Router | `/sys-admin:sys-admin` | Picks the right subskill when the domain is unclear or multiple apply |
+| Router | `/sys-admin:sys-admin` | Reads the request, extracts domain keywords, dispatches to the right subskills in priority order |
 | UI / Web QA | `/sys-admin:website-ui-deep-qa` | Deep QA of any website: layout, forms, a11y, network, security, responsive, SEO — 46 check categories with Playwright |
-| SQL / DB audit | `/sys-admin:sql-deep-qa` | Audits the SQL layer: injection, schema, indexes, migrations, ORM patterns, multi-tenancy, credentials — 12 check categories |
+| SQL / DB audit | `/sys-admin:sql-deep-qa` | Audits the SQL layer: injection (all types + sqlmap), schema, indexes, performance (pg_stat_statements, bloat), migrations (lock analysis), connections, ORM patterns, multi-tenancy, NoSQL injection, privilege audit, DB config hardening, compliance — 17 check categories |
+| API testing | `/sys-admin:api-deep-qa` | Tests REST, GraphQL, and gRPC APIs: OWASP Top 10, JWT/OAuth2 attacks, rate limit bypass, webhooks, contract testing, fuzzing, load testing with k6, HTTP/2 & HTTP/3 — 18 check categories |
 | Smart Todo | `/sys-admin:smart-todo` | **Mandatory for any 3+ step task.** Decomposes work into a tracked list, updates status in real time, surfaces blockers |
 
 ---
@@ -40,13 +41,36 @@ cd sys-admin
 bash install.sh
 ```
 
-Restart Claude Code. All four skills appear in the `/` picker under the `sys-admin:` namespace.
+Restart Claude Code. All five skills appear in the `/` picker under the `sys-admin:` namespace.
 
 > The script copies skill files to `~/.claude/plugins/cache/sys-admin/`, writes manifests, registers the plugin, and enables it automatically.
 
 ---
 
 ## Usage
+
+### Router — smart multi-domain dispatch
+
+```text
+/sys-admin:sys-admin Audit our entire app — UI, database, and security
+```
+
+The router scans the request for domain keywords and dispatches subskills in the right order. It always runs `smart-todo` first for multi-domain tasks, then `sql-deep-qa`, then `api-deep-qa`, then `website-ui-deep-qa` — higher-severity layers before the surface.
+
+Examples it handles automatically:
+
+```text
+/sys-admin:sys-admin Test the login page on http://localhost:3000/login
+# → website-ui-deep-qa only
+
+/sys-admin:sys-admin Our N+1 queries are killing performance
+# → sql-deep-qa only
+
+/sys-admin:sys-admin Full security audit — AI built this with Cursor
+# → smart-todo + sql-deep-qa + api-deep-qa + website-ui-deep-qa
+```
+
+---
 
 ### UI / Web QA
 
@@ -74,13 +98,60 @@ npm run report          # open HTML report
 
 Artifacts land in `qa-artifacts/`: screenshots, network records, storage snapshots, a11y findings, console errors, and a `final-report.md`.
 
+---
+
 ### SQL / DB audit
 
 ```text
 /sys-admin:sql-deep-qa Audit the database layer in ./src
 ```
 
-Works from source code alone or against a live DB (read-only). Covers: SQL injection in all ORM patterns, schema integrity, missing/unnecessary indexes, N+1 queries, migration safety, connection pooling, sensitive column exposure, tenant isolation, credential hygiene, and transaction safety.
+Works from source code alone or against a live DB (read-only). Covers all 17 categories:
+
+- SQL injection (error-based, boolean, time-based, OOB, union, second-order) + automated sqlmap scanning
+- Schema integrity: PKs, FKs, NOT NULL, UNIQUE, column types, check constraints
+- Index strategy: missing indexes, unnecessary indexes, composite order, partial indexes, bloat
+- Query performance: N+1, unbounded queries, offset pagination, `SELECT *`, pg_stat_statements analysis
+- Migration safety: dangerous DDL patterns, lock timeout analysis, zero-downtime patterns
+- Connection management: pool sizing, PgBouncer, idle timeout, connection leaks
+- Sensitive data exposure and log hygiene
+- Access control, RLS, multi-tenancy, FORCE ROW LEVEL SECURITY
+- Credential and config hygiene
+- ORM-specific checks: Prisma, SQLAlchemy, ActiveRecord, TypeORM, Sequelize, GORM
+- Backup and PITR verification
+- Transaction and concurrency safety
+- DB configuration security: pg_hba.conf, SSL, scram-sha-256, MySQL hardening
+- Audit logging and compliance: pgaudit, PCI DSS, HIPAA, SOC2, GDPR
+- Data integrity: orphaned FK records, constraint violations, duplicate detection
+- NoSQL injection: MongoDB `$where`/`$ne` bypass, Redis KEYS injection, Elasticsearch script injection
+- Privilege testing: least-privilege audit, SECURITY DEFINER escalation, ideal privilege model
+
+---
+
+### API testing
+
+```text
+/sys-admin:api-deep-qa Audit the REST API in ./src
+```
+
+Covers all 18 categories:
+
+- Correctness: status codes, response shape, field types, pagination, idempotency
+- OWASP API Top 10 (2023): BOLA, broken auth, mass assignment, resource consumption, BFLA, SSRF, shadow APIs
+- Auth security: JWT attacks (alg:none, RS256→HS256 confusion, kid injection), OAuth2 (PKCE bypass, redirect URI, state CSRF)
+- Input validation: injection payloads, XXE, SSTI, prototype pollution
+- Rate limit bypass: header spoofing, distributed bypass, body variation
+- GraphQL: introspection in prod, depth limits, alias batching, query cost
+- gRPC: server reflection, mTLS, deadline propagation
+- Webhooks: HMAC signature validation, replay prevention, SSRF
+- Load testing with k6: arrival rate, thresholds as CI gates
+- Contract testing: Pact, oasdiff, Schemathesis, schema drift
+- Fuzzing: unexpected types, boundary values, special characters
+- HTTP/2 and HTTP/3: header injection, stream multiplexing, QUIC behavior
+- Content negotiation: type confusion, format downgrade
+- Observability: correlation IDs, structured error shapes, trace propagation
+
+---
 
 ### Smart Todo
 
@@ -89,14 +160,6 @@ Works from source code alone or against a live DB (read-only). Covers: SQL injec
 ```
 
 Automatically invoked before any multi-step task. Creates a `TodoWrite` list with priority tags (`[P1]`/`[P2]`/`[P3]`/`[BLOCKER]`), updates status as work progresses, and delivers a completion summary.
-
-### Router
-
-```text
-/sys-admin:sys-admin Audit our entire app — UI, database, and security
-```
-
-Use when the scope spans multiple domains. The router reads the request and dispatches to the right subskills.
 
 ---
 
@@ -209,8 +272,9 @@ AGENTS.md                     Codex/OpenAI-compatible guidance
 CLAUDE.md                     Claude Code project guidance
 playwright.config.ts          viewport matrix and artifact paths
 skills/
-  sys-admin/SKILL.md          router skill
-  sql-deep-qa/SKILL.md        SQL audit skill
+  sys-admin/SKILL.md          router skill — smart keyword → subskill dispatch
+  sql-deep-qa/SKILL.md        SQL audit skill — 17 check categories
+  api-deep-qa/SKILL.md        API testing skill — 18 check categories
   smart-todo/SKILL.md         task tracking skill
 tests/deep-ui/
   ui-deep-qa.spec.ts          main Playwright spec (website-ui-deep-qa)
@@ -277,6 +341,8 @@ The UI QA skill and Playwright spec never perform the following without explicit
 Login, 2FA, and payment flows require a human to take over the browser. Credentials are never requested in chat.
 
 The SQL audit skill runs **read-only** by default. `DROP`, `DELETE`, `TRUNCATE`, and `ALTER TABLE` require explicit confirmation with a stated rollback plan.
+
+The API testing skill never sends requests to production endpoints that create, modify, or delete real data without explicit confirmation. Automated scanning tools (sqlmap, fuzzing) require authorization context before use.
 
 ---
 

@@ -313,6 +313,126 @@ export async function auditTypography(page: Page, route: string): Promise<Typogr
     }
   }
 
+  const viewports = [
+    { name: 'tablet' as const, width: 1024, height: 768 },
+    { name: 'mobile' as const, width: 390, height: 844 },
+  ];
+
+  let vpScreenshots = 0;
+
+  for (const vp of viewports) {
+    try {
+      await page.setViewportSize({ width: vp.width, height: vp.height });
+      await page.waitForTimeout(300);
+
+      const vpFindings = await page.evaluate(([vpName, vpWidth]) => {
+        const findings: Array<{ severity: 'high' | 'medium' | 'low' | 'info'; type: string; message: string; selector?: string }> = [];
+
+        const visible = (el: HTMLElement): boolean => {
+          const s = getComputedStyle(el);
+          const r = el.getBoundingClientRect();
+          return s.display !== 'none' && s.visibility !== 'hidden' && s.opacity !== '0' && r.width > 0 && r.height > 0;
+        };
+
+        // CHECK 1: font-size at viewport
+        try {
+          const fs = parseFloat(getComputedStyle(document.body).fontSize);
+          if (!isNaN(fs)) {
+            if (fs < 12) {
+              findings.push({ severity: 'high', type: `${vpName}-body-font-too-small`, message: `Body font size is ${fs}px at ${vpName} — inaccessible (< 12px)` });
+            } else if (fs < 14) {
+              findings.push({ severity: 'medium', type: `${vpName}-body-font-small`, message: `Body font size is ${fs}px at ${vpName} — too small for body text (< 14px)` });
+            }
+          }
+        } catch {
+          // skip
+        }
+
+        // CHECK 2: text overflow at viewport
+        try {
+          const scrollWidth = document.documentElement.scrollWidth;
+          const clientWidth = document.documentElement.clientWidth;
+          if (scrollWidth > clientWidth + 5) {
+            findings.push({ severity: 'high', type: `${vpName}-page-h-overflow`, message: `Page has unexpected horizontal overflow at ${vpName} (${scrollWidth}px > ${clientWidth}px) — text/content may be cut off` });
+          }
+        } catch {
+          // skip
+        }
+
+        // CHECK 3: content line length at viewport
+        try {
+          const candidates = Array.from(document.querySelectorAll<HTMLElement>('p, article, main'));
+          const visibleCandidate = candidates.find(el => visible(el));
+          if (visibleCandidate) {
+            const w = visibleCandidate.getBoundingClientRect().width;
+            if (w > vpWidth) {
+              findings.push({ severity: 'low', type: `${vpName}-line-length-too-wide`, message: `Content width ${Math.round(w)}px exceeds viewport width ${vpWidth}px at ${vpName} — content wider than viewport` });
+            }
+          }
+        } catch {
+          // skip
+        }
+
+        // CHECK 4: tap target — font in buttons/links
+        try {
+          const els = Array.from(document.querySelectorAll<HTMLElement>('a, button')).filter(el => visible(el)).slice(0, 10);
+          for (const el of els) {
+            const fs = parseFloat(getComputedStyle(el).fontSize);
+            if (!isNaN(fs) && fs < 12) {
+              const sel = el.id || el.className?.toString().slice(0, 40) || el.tagName;
+              findings.push({ severity: 'medium', type: `${vpName}-tap-target-font-tiny`, message: `Link/button has font size ${fs}px at ${vpName} — too small for tap targets (< 12px)`, selector: sel });
+              break;
+            }
+          }
+        } catch {
+          // skip
+        }
+
+        // CHECK 5: heading visible and readable
+        try {
+          const heading = document.querySelector<HTMLElement>('h1') || document.querySelector<HTMLElement>('h2');
+          if (heading && visible(heading)) {
+            const fs = parseFloat(getComputedStyle(heading).fontSize);
+            const threshold = vpName === 'mobile' ? 16 : 18;
+            if (!isNaN(fs) && fs < threshold) {
+              findings.push({ severity: 'medium', type: `${vpName}-heading-too-small`, message: `Heading font size is ${fs}px at ${vpName} — too small (< ${threshold}px)`, selector: heading.tagName.toLowerCase() });
+            }
+          }
+        } catch {
+          // skip
+        }
+
+        // CHECK 6: viewport meta (mobile only)
+        if (vpName === 'mobile') {
+          try {
+            const metaViewport = document.querySelector('meta[name="viewport"]');
+            if (!metaViewport) {
+              findings.push({ severity: 'high', type: 'mobile-no-viewport-meta', message: 'No <meta name="viewport"> tag found — page will not scale correctly on mobile devices' });
+            }
+          } catch {
+            // skip
+          }
+        }
+
+        return findings;
+      }, [vp.name, vp.width] as const);
+
+      report.findings.push(...vpFindings);
+
+      const hasHighVp = vpFindings.some(f => f.severity === 'high');
+      if (hasHighVp && vpScreenshots < 2) {
+        try { await screenshotStep(page, route, `typography-${vp.name}-high`); vpScreenshots++; } catch { /* ignore */ }
+      }
+    } catch {
+      // skip this viewport
+    }
+  }
+
+  try {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.waitForTimeout(200);
+  } catch { /* ignore */ }
+
   writeJsonArtifact('typography', `${routeName}-typography.json`, report);
 
   return report;

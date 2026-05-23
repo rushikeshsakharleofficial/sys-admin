@@ -522,6 +522,20 @@ const FIX_RECOMMENDATIONS: Record<string, FixMeta> = {
   'text-overflow-clipped': { fix: 'Replace overflow: hidden with overflow: hidden + text-overflow: ellipsis + title attribute, or allow text to wrap', effort: 'S' },
   'negative-letter-spacing': { fix: 'Remove negative letter-spacing from body/paragraph text — it hurts readability', effort: 'XS' },
   'heading-letter-spacing-extreme': { fix: 'Reduce heading letter-spacing to ≤ 0.2em for readability (decorative wide-spaced headings are hard to read)', effort: 'XS' },
+  // Typography — mobile/tablet viewport checks
+  'mobile-no-viewport-meta': { fix: 'Add <meta name="viewport" content="width=device-width, initial-scale=1"> to <head> — without it mobile browsers zoom out and text becomes unreadable', effort: 'XS', wcag: 'WCAG 1.4.4' },
+  'mobile-body-font-too-small': { fix: 'Body font size < 12px at 390px viewport — check if viewport meta is missing or if CSS uses fixed px that does not scale', effort: 'S', wcag: 'WCAG 1.4.4' },
+  'mobile-body-font-small': { fix: 'Increase body font-size to 14px+ on mobile; consider clamp(14px, 4vw, 18px) for fluid sizing', effort: 'XS' },
+  'mobile-page-h-overflow': { fix: 'Page overflows horizontally at 390px — find fixed-width element wider than viewport and set max-width: 100%; add overflow-x: hidden to body as guard', effort: 'S' },
+  'mobile-line-length-too-wide': { fix: 'Content container wider than mobile viewport — set width: 100% and padding: 0 1rem on content wrapper', effort: 'XS' },
+  'mobile-tap-target-font-tiny': { fix: 'Link/button font < 12px on mobile — increase to 14px+ and ensure min tap target of 44×44px', effort: 'S', wcag: 'WCAG 2.5.5' },
+  'mobile-heading-too-small': { fix: 'Heading font < 16px on mobile — use clamp() or media queries to ensure headings are visually distinct from body text on mobile', effort: 'S' },
+  'tablet-body-font-too-small': { fix: 'Body font size < 12px at 1024px tablet viewport — check if CSS units are px-fixed and not responsive', effort: 'S', wcag: 'WCAG 1.4.4' },
+  'tablet-body-font-small': { fix: 'Body font-size < 14px at tablet viewport — increase base font or use fluid sizing', effort: 'XS' },
+  'tablet-page-h-overflow': { fix: 'Page overflows horizontally at 1024px — find fixed-width element and set max-width: 100%', effort: 'S' },
+  'tablet-line-length-too-wide': { fix: 'Content container wider than 1024px tablet viewport — add max-width or padding to content wrapper', effort: 'XS' },
+  'tablet-tap-target-font-tiny': { fix: 'Link/button font < 12px at tablet — increase font size for touch usability', effort: 'S' },
+  'tablet-heading-too-small': { fix: 'Heading font < 18px at tablet — use responsive font sizes so headings stay visually prominent', effort: 'S' },
   // Performance
   'poor-lcp': {
     fix: 'Preload largest contentful image; defer non-critical scripts; check server response time',

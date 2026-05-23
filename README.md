@@ -28,6 +28,7 @@ Install once. Invoke from any project. Add your own skills freely.
 | SQL / DB audit | `/sys-admin:sql-deep-qa` | Audits the SQL layer: injection (all types + sqlmap), schema, indexes, performance (pg_stat_statements, bloat), migrations (lock analysis), connections, ORM patterns, multi-tenancy, NoSQL injection, privilege audit, DB config hardening, compliance — 17 check categories |
 | API testing | `/sys-admin:api-deep-qa` | Tests REST, GraphQL, and gRPC APIs: OWASP Top 10, JWT/OAuth2 attacks, rate limit bypass, webhooks, contract testing, fuzzing, load testing with k6, HTTP/2 & HTTP/3 — 18 check categories |
 | Smart Todo | `/sys-admin:smart-todo` | **Mandatory for any 3+ step task.** Decomposes work into a tracked list, updates status in real time, surfaces blockers |
+| Marketplace | `/sys-admin:marketplace` | Full Claude Code plugin lifecycle: discover, install, manage scopes, create `plugin.json` + `SKILL.md`, publish to GitHub, submit to community, validate, debug |
 
 ---
 
@@ -41,7 +42,7 @@ cd sys-admin
 bash install.sh
 ```
 
-Restart Claude Code. All five skills appear in the `/` picker under the `sys-admin:` namespace.
+Restart Claude Code. All six skills appear in the `/` picker under the `sys-admin:` namespace.
 
 > The script copies skill files to `~/.claude/plugins/cache/sys-admin/`, writes manifests, registers the plugin, and enables it automatically.
 
@@ -163,6 +164,17 @@ Automatically invoked before any multi-step task. Creates a `TodoWrite` list wit
 
 ---
 
+### Marketplace — Claude Code plugin lifecycle
+
+```text
+/sys-admin:marketplace How do I install a plugin?
+/sys-admin:marketplace How do I create and publish my own plugin?
+```
+
+Covers every `claude plugin` CLI command and flag, the `/plugin` interactive UI, all `plugin.json` and `marketplace.json` schema fields, SKILL.md frontmatter options, installation scopes (`user` / `project` / `local`), publishing to GitHub, submitting to the Anthropic community marketplace, team auto-install via `settings.json`, versioning strategy, and a debugging guide.
+
+---
+
 ## Configuration
 
 ### Seed routes (website-ui-deep-qa)
@@ -276,6 +288,7 @@ skills/
   sql-deep-qa/SKILL.md        SQL audit skill — 17 check categories
   api-deep-qa/SKILL.md        API testing skill — 18 check categories
   smart-todo/SKILL.md         task tracking skill
+  marketplace/SKILL.md        Claude Code plugin lifecycle guide
 tests/deep-ui/
   ui-deep-qa.spec.ts          main Playwright spec (website-ui-deep-qa)
   helpers/                    46 helper modules (routes, forms, a11y, network, …)

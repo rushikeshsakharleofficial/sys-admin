@@ -48,6 +48,7 @@ import { auditSidebar } from './helpers/sidebar';
 import { auditDialogScroll } from './helpers/dialog-scroll';
 import { auditFormAlignment } from './helpers/form-alignment';
 import { auditTypography } from './helpers/typography';
+import { auditAuthPermissions } from './helpers/auth-permissions';
 
 /**
  * Deep UI QA — enhanced entry point.
@@ -393,6 +394,18 @@ test.describe('Deep UI QA', () => {
       const popupQualityReport = await auditPopupQuality(page, route);
       const popupQualityHigh = popupQualityReport.findings.filter((f) => f.severity === 'high');
 
+      // ── Auth permissions audit ───────────────────────────────────────────
+      // 8 checks (inspection only, never submits): login form quality,
+      // remember-me label, permission-blocked UI elements, permission error
+      // message quality (aria-live, descriptive text), role-gated elements,
+      // logout via GET (CSRF risk), API 403/401 in DOM, sensitive data leak
+      // after permission denial.
+      // CRITICAL = password-field-not-type-password, sensitive-data-after-permission-denial
+      // HIGH = remember-me-no-label, logout-via-get-link
+      const authPermReport = await auditAuthPermissions(page, route);
+      const authPermCritical = authPermReport.findings.filter((f) => f.severity === 'critical');
+      const authPermHigh = authPermReport.findings.filter((f) => f.severity === 'high');
+
       // ── Typography audit ─────────────────────────────────────────────────
       // 10 checks: body font size, line-height ratio, heading hierarchy,
       // line length (readability), font family count, web font preload,
@@ -484,6 +497,7 @@ test.describe('Deep UI QA', () => {
         `- Dialog scroll: dialogs=${dialogScrollReport.dialogsFound} | High: ${dialogScrollHigh.length} | Findings: ${dialogScrollReport.findings.length}\n` +
         `- Form alignment: forms=${formAlignReport.formsChecked}, inputs=${formAlignReport.inputsChecked} | High: ${formAlignHigh.length} | Findings: ${formAlignReport.findings.length}\n` +
         `- Typography: bodyFont=${typographyReport.bodyFontSize}px, lineHeight=${typographyReport.bodyLineHeight.toFixed(2)}, families=${typographyReport.fontFamiliesFound.length}, webFonts=${typographyReport.webFontsDetected} | High: ${typographyHigh.length} | Findings: ${typographyReport.findings.length}\n` +
+        `- Auth permissions: loginForm=${authPermReport.loginFormDetected}, rememberMe=${authPermReport.rememberMeDetected}, blocked=${authPermReport.permissionBlockedElementsFound}, roleGated=${authPermReport.roleGatedElementsFound} | Critical: ${authPermCritical.length} | High: ${authPermHigh.length} | Findings: ${authPermReport.findings.length}\n` +
         `- Console errors/page errors: ${consoleFindings.severeMessages.length + consoleFindings.pageErrors.length}\n` +
         `- React key warnings: ${consoleFindings.reactKeyWarnings.length} | React warnings: ${consoleFindings.reactWarnings.length}\n` +
         `- Hydration errors: ${consoleFindings.hydrationErrors.length}\n` +
@@ -609,6 +623,16 @@ test.describe('Deep UI QA', () => {
       expect(
         typographyHigh,
         `Typography issues on ${route}:\n${JSON.stringify(typographyHigh, null, 2)}`
+      ).toEqual([]);
+
+      expect(
+        authPermCritical,
+        `Critical auth/permission issues on ${route}:\n${JSON.stringify(authPermCritical, null, 2)}`
+      ).toEqual([]);
+
+      expect(
+        authPermHigh,
+        `High auth/permission issues on ${route}:\n${JSON.stringify(authPermHigh, null, 2)}`
       ).toEqual([]);
 
       await visualRegression(page, route);

@@ -503,6 +503,19 @@ const FIX_RECOMMENDATIONS: Record<string, FixMeta> = {
   'hint-text-above-input': { fix: 'Move hint/help text below its associated input field — above placement may be confused with the label', effort: 'XS' },
   'hint-text-misaligned': { fix: 'Align hint text left edge with its associated input field', effort: 'XS' },
   'required-field-no-indicator': { fix: 'Add * or "required" text to label of required fields and include a legend explaining the indicator', effort: 'XS', wcag: 'WCAG 3.3.2' },
+  // Auth permissions
+  'password-field-not-type-password': { fix: 'Change input type to type="password" immediately — plaintext password input exposes credentials in browser history and screen recordings', effort: 'XS', wcag: 'WCAG 1.3.5' },
+  'remember-me-no-label': { fix: 'Add <label> wrapping or for/id connection to remember-me checkbox, or add aria-label="Remember me on this device"', effort: 'XS', wcag: 'WCAG 1.3.1' },
+  'remember-me-no-description': { fix: 'Change label text to "Remember me on this device" or "Keep me signed in" — one-word labels are ambiguous', effort: 'XS' },
+  'permission-blocked-no-explanation': { fix: 'Add title attribute, aria-label, or nearby tooltip explaining why the element is locked (e.g. "Upgrade to Pro to access this feature")', effort: 'S', wcag: 'WCAG 3.3.2' },
+  'permission-error-not-accessible': { fix: 'Add role="alert" or aria-live="polite" to permission error message element so screen readers announce it automatically', effort: 'XS', wcag: 'WCAG 1.3.1' },
+  'permission-error-too-generic': { fix: 'Replace generic error text with descriptive message: what permission is missing, and how to get it (e.g. "You need Admin role to view this. Contact your administrator.")', effort: 'S' },
+  'role-gated-elements-present': { fix: 'Review role-gated elements — verify they are hidden/disabled for users without the required role in all auth states', effort: 'M' },
+  'logout-via-get-link': { fix: 'Replace GET logout link with a POST form containing a CSRF token, or use a <button> that submits a POST request — GET logout is vulnerable to CSRF via image/link injection', effort: 'S' },
+  'logout-button-not-keyboard-accessible': { fix: 'Remove tabindex="-1" from logout button so it is reachable via Tab key', effort: 'XS', wcag: 'WCAG 2.1.1' },
+  'api-permission-error-visible': { fix: 'Replace raw 403/401 error with user-friendly message explaining what access is needed and providing an action (contact admin, upgrade plan, go back)', effort: 'S' },
+  'api-permission-error-no-retry': { fix: 'Add a "Go back", "Contact support", or "Request access" button/link near the permission error', effort: 'S' },
+  'sensitive-data-after-permission-denial': { fix: 'CRITICAL: Audit server-side permission check — data is being returned to the client before access is validated. Fix: check permissions before querying/returning any data in the API handler.', effort: 'L' },
   // Typography
   'body-font-too-small': { fix: 'Set font-size on body to at least 14px (16px recommended); never use px < 12', effort: 'XS', wcag: 'WCAG 1.4.4' },
   'body-font-small': { fix: 'Increase body font-size to 14px or above for comfortable reading', effort: 'XS' },
@@ -1135,6 +1148,20 @@ function ingestSearch(route: string, routeName: string): NormalizedFinding[] {
   }));
 }
 
+function ingestAuthPermissions(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'auth-permissions', `${routeName}-auth-permissions.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'auth-permissions',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'auth-permission-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
 function ingestTypography(route: string, routeName: string): NormalizedFinding[] {
   const filePath = path.join('qa-artifacts', 'typography', `${routeName}-typography.json`);
   const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
@@ -1345,6 +1372,7 @@ export function writeFixPlan(routes: string[]): void {
       ...ingestDialogScroll(route, routeName),
       ...ingestFormAlignment(route, routeName),
       ...ingestTypography(route, routeName),
+      ...ingestAuthPermissions(route, routeName),
     );
   }
 

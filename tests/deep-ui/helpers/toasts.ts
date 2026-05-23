@@ -21,6 +21,18 @@ export async function auditToasts(page: Page, route: string): Promise<ToastRepor
   const routeName = normalizeRoute(route);
   const findings: ToastFinding[] = [];
 
+  // Token-efficient early exit: skip full audit if no toast-like elements visible.
+  try {
+    const hasToasts = await page.evaluate(() =>
+      document.querySelector('[role="status"], [role="alert"], [role="log"], [class*="toast" i], [class*="snackbar" i], [data-testid*="toast" i]') !== null
+    );
+    if (!hasToasts) {
+      const emptyReport: ToastReport = { route, toastsFound: 0, findings: [] };
+      writeJsonArtifact('toasts', `${routeName}-toasts.json`, emptyReport);
+      return emptyReport;
+    }
+  } catch { /* proceed to full audit on pre-check error */ }
+
   const result = await page.evaluate(() => {
     // Contrast helpers
     const parseRgb = (s: string): [number, number, number] | null => {

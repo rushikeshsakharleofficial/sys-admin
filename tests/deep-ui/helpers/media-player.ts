@@ -22,6 +22,19 @@ export async function auditMediaPlayers(page: Page, route: string): Promise<Medi
   const routeName = normalizeRoute(route);
   const findings: MediaPlayerFinding[] = [];
 
+  // Token-efficient early exit: skip heavy DOM audit if no media elements present.
+  // One cheap querySelector check before the full evaluate round-trip.
+  try {
+    const hasAnyMedia = await page.evaluate(() =>
+      document.querySelector('video, audio, iframe[src*="youtube"], iframe[src*="vimeo"], iframe[src*="dailymotion"]') !== null
+    );
+    if (!hasAnyMedia) {
+      const emptyReport: MediaPlayerReport = { route, videosFound: 0, audiosFound: 0, findings: [] };
+      writeJsonArtifact('media-player', `${routeName}-media-player.json`, emptyReport);
+      return emptyReport;
+    }
+  } catch { /* proceed to full audit on pre-check error */ }
+
   const { videosFound, audiosFound, hasMedia, videoFindings, audioFindings, iframeFindings } =
     await page.evaluate(() => {
       const MAX_CHECKED = 10;

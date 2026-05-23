@@ -1117,6 +1117,100 @@ If a new class of defect is found that the helpers do not detect (e.g. a new typ
 
 Do not silently skip uncovered areas. Always report them.
 
+## Token and context efficiency
+
+These rules are mandatory. Violating them bloats context and degrades session quality.
+
+### Never dump raw page content into context
+
+- Do NOT call `page.content()` or read full HTML into the conversation.
+- Do NOT print or summarise raw DOM trees. Use structured `page.evaluate()` queries that return only the fields you need.
+- Do NOT read full artifact files back into context after writing them. `writeJsonArtifact` writes to disk — that is sufficient.
+- Do NOT log or echo large arrays of findings inline — refer to the artifact path instead.
+
+### Screenshot discipline
+
+- Take screenshots only when there is a visible finding OR the protocol explicitly requires one (top, full-page, scroll positions).
+- Do NOT screenshot the same state twice.
+- Do NOT embed screenshot content in the conversation — reference the file path only.
+- If no relevant elements exist for a check (e.g. no `<video>` on page), skip the screenshot for that check entirely.
+
+### Early-exit on empty pages
+
+Before running any helper, check if its target elements exist:
+
+```typescript
+// Example: skip media-player audit if no video/audio present
+const hasMedia = await page.evaluate(() =>
+  document.querySelectorAll('video, audio').length > 0
+);
+if (!hasMedia) return emptyReport;
+```
+
+Apply this pattern to: carousels, media players, tables, forms, toasts, overlays, search, auth surface.
+
+### Batch DOM queries
+
+- Combine multiple related DOM checks into a **single `page.evaluate()` call** that returns all needed data.
+- Do NOT make separate `page.evaluate()` calls for each field/property you need from the same element.
+- One round-trip per helper section, not one per check.
+
+### Deferred helpers — skip if no trigger
+
+Run these helpers only when their trigger condition is confirmed:
+
+| Helper | Skip unless |
+|--------|-------------|
+| `auditPrintMedia` | `@media print` stylesheet exists OR user requests it |
+| `auditMediaPlayers` | `<video>` or `<audio>` or iframe embed detected |
+| `auditCarousels` | carousel/slider element detected |
+| `auditSearch` | search input detected |
+| `auditCsrf` | `<form method="post">` or similar detected |
+| `auditPWA` | `<link rel="manifest">` or service worker detected |
+| `auditCookieConsent` | cookie-setting script or existing cookies detected |
+| `auditToasts` | toast/alert role element detected |
+
+### Artifact-first reporting
+
+- Write all findings to JSON artifacts during the test run.
+- In the final Claude Code session summary, report **counts and paths only** — not full finding objects.
+- Use this pattern:
+
+```
+- Accessibility: 3 findings → qa-artifacts/accessibility/root-accessibility.json
+- Security: 0 critical → qa-artifacts/security/root-security.json
+- Broken images: 2 high → qa-artifacts/broken-images/root-broken-images.json
+```
+
+Never paste full JSON arrays into conversation output.
+
+### Route deduplication
+
+- Do NOT test the same normalised route twice.
+- `discoverLinks()` already deduplicates — do not re-add seed routes that were already visited.
+- If a route differs only in query string (e.g. `?page=1` vs `?page=2`), test only the base path unless pagination is the explicit target.
+
+### Timeout minimums
+
+Use the smallest timeout that reliably passes on the target app:
+
+| Operation | Default | Minimum allowed |
+|-----------|---------|----------------|
+| `waitForLoadState('domcontentloaded')` | — | Required after each goto |
+| `waitForTimeout` after goto | 700 ms | 300 ms for fast local apps |
+| `waitForTimeout` after scroll | 300 ms | 100 ms |
+| `waitForTimeout` after interaction | 300 ms | 200 ms |
+
+Do NOT add `waitForTimeout` calls beyond these unless a specific race condition is being worked around.
+
+### Context window hygiene
+
+- Do NOT re-read a file you just wrote. Trust `writeJsonArtifact` and `Write` tool confirmations.
+- Do NOT re-read the spec or helpers mid-run to "verify" them — load them once at the start.
+- When a helper returns an empty result, log `0 findings` and move on without printing the empty array.
+- Use the `advisor` tool only before substantive decisions — not to validate every helper call.
+- Truncate long error messages to 200 characters when logging inline.
+
 ## Skill quality bar
 
 This skill must remain:

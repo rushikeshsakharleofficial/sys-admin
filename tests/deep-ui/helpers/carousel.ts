@@ -21,6 +21,20 @@ export async function auditCarousels(page: Page, route: string): Promise<Carouse
   const routeName = normalizeRoute(route);
   const findings: CarouselFinding[] = [];
 
+  // Token-efficient early exit: skip full audit if no carousel-like element detected.
+  try {
+    const hasCarousel = await page.evaluate(() =>
+      document.querySelector(
+        '[class*="carousel" i], [class*="slider" i], [class*="swiper" i], [data-ride="carousel"], [class*="slick" i], [role="region"][aria-roledescription]'
+      ) !== null
+    );
+    if (!hasCarousel) {
+      const emptyReport: CarouselReport = { route, carouselsFound: 0, findings: [] };
+      writeJsonArtifact('carousel', `${routeName}-carousel.json`, emptyReport);
+      return emptyReport;
+    }
+  } catch { /* proceed to full audit on pre-check error */ }
+
   type StaticFinding = {
     severity: 'high' | 'medium' | 'low' | 'info';
     type: string;

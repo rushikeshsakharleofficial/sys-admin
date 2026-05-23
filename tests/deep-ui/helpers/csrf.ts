@@ -14,6 +14,15 @@ export async function auditCsrf(page: Page, route: string): Promise<CsrfFinding[
   const routeName = normalizeRoute(route);
   const findings: CsrfFinding[] = [];
 
+  // Token-efficient early exit: skip if no forms present.
+  try {
+    const hasForms = await page.evaluate(() => document.querySelector('form') !== null);
+    if (!hasForms) {
+      writeJsonArtifact('csrf', `${routeName}-csrf.json`, findings);
+      return findings;
+    }
+  } catch { /* proceed on pre-check error */ }
+
   try {
     const domFindings = await page.evaluate((): Array<{
       severity: 'high' | 'medium' | 'low' | 'info';

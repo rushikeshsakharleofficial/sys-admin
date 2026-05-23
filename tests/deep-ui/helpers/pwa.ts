@@ -21,17 +21,25 @@ export async function auditPWA(page: Page, route: string): Promise<PWAReport> {
   const routeName = normalizeRoute(route);
   const findings: PWAFinding[] = [];
 
-  const hasServiceWorker = await page.evaluate(async () => {
+  // Token-efficient: batch SW + manifest detection in one evaluate round-trip.
+  const { hasServiceWorker, hasManifest } = await page.evaluate(async () => {
+    let sw = false;
     try {
-      return 'serviceWorker' in navigator && navigator.serviceWorker.controller !== null;
-    } catch {
-      return false;
-    }
+      sw = 'serviceWorker' in navigator && navigator.serviceWorker.controller !== null;
+    } catch { /* ignore */ }
+    const manifest = document.querySelector('link[rel="manifest"]') !== null;
+    return { hasServiceWorker: sw, hasManifest: manifest };
   });
 
-  const hasManifest = await page.evaluate(() => {
-    return document.querySelector('link[rel="manifest"]') !== null;
-  });
+  // Early exit: not a PWA — report info-only findings, skip heavy manifest fetch.
+  if (!hasServiceWorker && !hasManifest) {
+    const report: PWAReport = {
+      route, isPWA: false, hasServiceWorker: false, hasManifest: false,
+      findings: [{ severity: 'info', type: 'not-a-pwa', message: 'No manifest or service worker detected — not a PWA.' }],
+    };
+    writeJsonArtifact('pwa', `${routeName}-pwa.json`, report);
+    return report;
+  }
 
   if (hasManifest) {
     const manifestData = await page.evaluate(async () => {

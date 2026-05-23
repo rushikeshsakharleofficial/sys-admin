@@ -377,6 +377,31 @@ const FIX_RECOMMENDATIONS: Record<string, FixMeta> = {
   'search-xss-reflection': { fix: 'Sanitize/encode search query before inserting into DOM — potential XSS vector', effort: 'M' },
   'search-keyboard-submit': { fix: 'Ensure pressing Enter in search input triggers search (submit event or keydown handler)', effort: 'XS' },
   'search-empty-query-unguarded': { fix: 'Guard against empty string search queries — show prompt or disable submit when input is empty', effort: 'XS' },
+  // Scroll axes
+  'vertical-scroll-broken': { fix: 'Remove overflow: hidden from html/body; check no JS is blocking wheel/touch events', effort: 'M', wcag: 'WCAG 2.1.1' },
+  'h-scroll-container-broken': { fix: 'Set overflow-x: auto on container with scrollWidth > clientWidth; verify scrollLeft mutation is not blocked', effort: 'S' },
+  'unexpected-page-h-scroll': { fix: 'Find element wider than viewport and add max-width: 100%; set overflow-x: hidden on body as last resort', effort: 'S' },
+  'scroll-snap-missing-align': { fix: 'Add scroll-snap-align: start|center|end to children of scroll-snap-type container', effort: 'XS' },
+  // Button animations
+  'btn-animation-layout-prop': { fix: 'Replace transition on layout properties (width/height/top/left) with transform/opacity for GPU compositing', effort: 'S' },
+  'btn-animation-too-slow': { fix: 'Reduce button transition duration to ≤300ms for hover/focus feedback', effort: 'XS' },
+  'btn-animation-too-fast': { fix: 'Increase button transition duration to ≥100ms so the animation is perceptible', effort: 'XS' },
+  'btn-no-hover-feedback': { fix: 'Add :hover CSS rule with background-color, transform: scale(1.02), or box-shadow change to button', effort: 'S' },
+  'btn-no-active-state': { fix: 'Add :active CSS rule with transform: scale(0.98) or darker background to button for press feedback', effort: 'XS' },
+  'btn-disabled-no-visual': { fix: 'Add opacity: 0.5 and cursor: not-allowed to disabled/aria-disabled buttons', effort: 'XS', wcag: 'WCAG 1.4.3' },
+  'btn-loading-no-spinner': { fix: 'Add visible spinner/loader inside button when aria-busy="true" or loading class is applied', effort: 'S' },
+  // Popup quality
+  'popup-no-shadow': { fix: 'Add box-shadow to modal/popup for visual elevation above page content (e.g. 0 8px 32px rgba(0,0,0,0.2))', effort: 'XS' },
+  'popup-no-backdrop': { fix: 'Add semi-transparent backdrop behind modal dialog (e.g. rgba(0,0,0,0.5)) to separate from background', effort: 'S' },
+  'popup-transparent-backdrop': { fix: 'Set non-zero opacity on backdrop element (e.g. background: rgba(0,0,0,0.4)) so background is visually muted', effort: 'XS' },
+  'popup-no-open-animation': { fix: 'Add CSS transition: opacity 200ms, transform 200ms to popup for smooth entry (transform: scale(0.95)→scale(1))', effort: 'S' },
+  'popup-animation-layout-prop': { fix: 'Replace top/left/width/height animation on popup with transform: translate/scale for GPU compositing', effort: 'S' },
+  'popup-animation-too-slow': { fix: 'Reduce popup open/close animation to ≤300ms', effort: 'XS' },
+  'popup-low-zindex': { fix: 'Increase modal z-index to 1000+ to ensure it renders above all page content', effort: 'XS' },
+  'popup-clipped-right': { fix: 'Add max-width: calc(100vw - 2rem) and margin: auto to center popup within viewport', effort: 'S' },
+  'popup-clipped-bottom': { fix: 'Add max-height: calc(100vh - 2rem) and overflow-y: auto to popup for tall content', effort: 'S' },
+  'popup-clipped-left': { fix: 'Ensure popup left position is ≥ 0; check negative margin or transform causing off-screen placement', effort: 'S' },
+  'popup-no-internal-scroll': { fix: 'Add overflow-y: auto and max-height: 80vh to modal body content area for tall popups', effort: 'XS' },
   // Performance
   'poor-lcp': {
     fix: 'Preload largest contentful image; defer non-critical scripts; check server response time',
@@ -765,6 +790,48 @@ function ingestEdgeStates(route: string, routeName: string): NormalizedFinding[]
   }));
 }
 
+function ingestScrollAxes(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'scroll-axes', `${routeName}-scroll-axes.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'scroll-axes',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'scroll-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
+function ingestButtonAnimations(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'button-animations', `${routeName}-button-animations.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'button-animations',
+    severity: (item.severity as Severity) || 'low',
+    type: item.type || 'btn-animation-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
+function ingestPopupQuality(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'popup-quality', `${routeName}-popup-quality.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'popup-quality',
+    severity: (item.severity as Severity) || 'low',
+    type: item.type || 'popup-quality-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
 function ingestPlaceholderContent(route: string, routeName: string): NormalizedFinding[] {
   const filePath = path.join('qa-artifacts', 'placeholder-content', `${routeName}-placeholder-content.json`);
   const data = safeReadJson<Array<{ severity?: string; type?: string; message?: string; selector?: string; text?: string }>>(filePath);
@@ -1051,6 +1118,9 @@ export function writeFixPlan(routes: string[]): void {
       ...ingestCsrf(route, routeName),
       ...ingestSitemap(route, routeName),
       ...ingestSearch(route, routeName),
+      ...ingestScrollAxes(route, routeName),
+      ...ingestButtonAnimations(route, routeName),
+      ...ingestPopupQuality(route, routeName),
     );
   }
 

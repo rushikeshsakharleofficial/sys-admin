@@ -39,6 +39,9 @@ import { auditPrintMedia } from './helpers/print-media';
 import { auditCsrf } from './helpers/csrf';
 import { auditSitemapAndRobots } from './helpers/sitemap';
 import { auditSearch } from './helpers/search';
+import { auditScrollAxes } from './helpers/scroll-axes';
+import { auditButtonAnimations } from './helpers/button-animations';
+import { auditPopupQuality } from './helpers/popup-quality';
 
 /**
  * Deep UI QA — enhanced entry point.
@@ -341,6 +344,25 @@ test.describe('Deep UI QA', () => {
       // no-results state, keyboard submit, ARIA role=search.
       const searchReport = await auditSearch(page, route);
 
+      // ── Scroll axes ──────────────────────────────────────────────────────
+      // Tests vertical + horizontal scroll on page and overflow-x containers.
+      // HIGH = vertical scroll completely broken (page taller than viewport but scrollY stuck).
+      const scrollAxesReport = await auditScrollAxes(page, route);
+      const scrollAxesHigh = scrollAxesReport.findings.filter((f) => f.severity === 'high');
+
+      // ── Button animations ────────────────────────────────────────────────
+      // Checks CSS transitions, box-shadow, hover/active state feedback,
+      // disabled styling, loading states. Uses GPU-compositing best practices.
+      // MEDIUM = buttons with no hover feedback.
+      const buttonAnimReport = await auditButtonAnimations(page, route);
+
+      // ── Popup quality ────────────────────────────────────────────────────
+      // Inspects currently-visible modals/dialogs/drawers for shadow, backdrop,
+      // open/close animation, z-index, viewport containment, internal scroll.
+      // HIGH = popup z-index too low or clipped outside viewport.
+      const popupQualityReport = await auditPopupQuality(page, route);
+      const popupQualityHigh = popupQualityReport.findings.filter((f) => f.severity === 'high');
+
       // ── Console findings ─────────────────────────────────────────────────
       const consoleFindings = severeConsoleFindings(consoleMonitor.records, consoleMonitor.pageErrors);
       writeJsonArtifact('console', `${routeName}-console.json`, {
@@ -385,6 +407,9 @@ test.describe('Deep UI QA', () => {
         `- CSRF: ${csrfFindings.length} findings\n` +
         `- Sitemap/robots: sitemap=${sitemapReport.sitemapFound}, robots=${sitemapReport.robotsFound} | Findings: ${sitemapReport.findings.length}\n` +
         `- Search: found=${searchReport.searchFound} | Findings: ${searchReport.findings.length}\n` +
+        `- Scroll axes: v=${scrollAxesReport.verticalScrollWorks}, h=${scrollAxesReport.horizontalScrollWorks} | Containers: ${scrollAxesReport.scrollableContainersFound} | High: ${scrollAxesHigh.length}\n` +
+        `- Button animations: checked=${buttonAnimReport.buttonsChecked} | Findings: ${buttonAnimReport.findings.length}\n` +
+        `- Popup quality: ${popupQualityReport.popupsFound} popups | High: ${popupQualityHigh.length} | Findings: ${popupQualityReport.findings.length}\n` +
         `- Console errors/page errors: ${consoleFindings.severeMessages.length + consoleFindings.pageErrors.length}\n` +
         `- React key warnings: ${consoleFindings.reactKeyWarnings.length} | React warnings: ${consoleFindings.reactWarnings.length}\n` +
         `- Hydration errors: ${consoleFindings.hydrationErrors.length}\n` +
@@ -460,6 +485,16 @@ test.describe('Deep UI QA', () => {
       expect(
         cookieConsentHigh,
         `Cookie consent violations on ${route}:\n${JSON.stringify(cookieConsentHigh, null, 2)}`
+      ).toEqual([]);
+
+      expect(
+        scrollAxesHigh,
+        `Scroll broken on ${route}:\n${JSON.stringify(scrollAxesHigh, null, 2)}`
+      ).toEqual([]);
+
+      expect(
+        popupQualityHigh,
+        `Popup quality issues on ${route}:\n${JSON.stringify(popupQualityHigh, null, 2)}`
       ).toEqual([]);
 
       await visualRegression(page, route);

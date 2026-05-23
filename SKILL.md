@@ -5,7 +5,7 @@ description: Use when a website or web app needs QA — AI-generated or hand-bui
 
 # Website UI Deep QA
 
-## Quick Reference — 45 helper categories
+## Quick Reference — 46 helper categories
 
 | Category | Helper | Artifact folder | Asserts HIGH? |
 |----------|--------|----------------|---------------|
@@ -54,6 +54,7 @@ description: Use when a website or web app needs QA — AI-generated or hand-bui
 | Form alignment | form-alignment.ts | form-alignment/ | ✅ |
 | Typography | typography.ts | typography/ | ✅ |
 | Auth permissions | auth-permissions.ts | auth-permissions/ | ✅ (critical) |
+| Flow bypass | flow-bypass.ts | flow-bypass/ | ✅ |
 
 All artifacts → `qa-artifacts/`. Fix plan → `qa-artifacts/reports/fix-plan.md`.
 
@@ -1199,7 +1200,7 @@ const hasMedia = await page.evaluate(() =>
 if (!hasMedia) return emptyReport;
 ```
 
-Apply this pattern to: carousels, media players, tables, forms, toasts, overlays, search, auth surface, sidebar, dialog scroll, form alignment, auth permissions.
+Apply this pattern to: carousels, media players, tables, forms, toasts, overlays, search, auth surface, sidebar, dialog scroll, form alignment, auth permissions, flow bypass.
 
 ### Batch DOM queries
 
@@ -1225,6 +1226,7 @@ Run these helpers only when their trigger condition is confirmed:
 | `auditDialogScroll` | `[role="dialog"]`, `dialog`, or `[class*="modal"]` element detected |
 | `auditFormAlignment` | `form` or `[role="form"]` element detected |
 | `auditAuthPermissions` | `input[type="password"]`, `[class*="login"]`, `[class*="permission"]`, `[data-role]`, or `[class*="logout"]` detected |
+| `auditFlowBypass` | `[class*="wizard"]`, `[class*="stepper"]`, `[class*="paywall"]`, `[data-step]`, `form[novalidate]`, `input[type="hidden"][name*="step"]`, or `?step=` in URL detected |
 
 ### Artifact-first reporting
 

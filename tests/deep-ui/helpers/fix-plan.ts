@@ -567,6 +567,19 @@ const FIX_RECOMMENDATIONS: Record<string, FixMeta> = {
     fix: 'Investigate server latency; enable caching; consider CDN or edge delivery',
     effort: 'L',
   },
+  // Flow bypass
+  'multistep-flow-detected': { fix: 'Info — verify server enforces step sequence independently; do not rely on client-side step data', effort: 'XS' },
+  'form-novalidate-client-only': { fix: 'Add server action endpoint and CSRF token to form; server must validate all required fields — client novalidate means browser skips validation, server cannot', effort: 'M' },
+  'form-novalidate-no-csrf': { fix: 'Add CSRF token to form; server must independently validate all fields since novalidate disables browser-side required checks', effort: 'S' },
+  'hidden-step-field-found': { fix: 'Server must not trust hidden step field value from client — derive current step from server-side session state, reject submissions where step does not match session', effort: 'M' },
+  'paywall-content-in-dom': { fix: 'Move premium content server-side — do not render it in HTML when user lacks access; CSS blur/opacity is bypassable by any user via DevTools', effort: 'L' },
+  'paywall-overflow-hidden': { fix: 'Content behind paywall is in DOM and accessible by removing overflow:hidden — consider server-side rendering only a teaser excerpt for unpaid users', effort: 'M' },
+  'paywall-gate-present': { fix: 'Verify paywall enforcement is server-side, not only client CSS/JS — check that the API returns no data for users without the required plan', effort: 'XS' },
+  'multistep-form-no-token': { fix: 'Add CSRF token and per-step sequence token to multi-step form so server can detect and reject out-of-order submissions', effort: 'S' },
+  'client-only-step-navigation': { fix: 'Server must validate step eligibility on every form submission — do not rely on data-step attributes; track completed steps in session', effort: 'M' },
+  'step-url-bypass-allowed': { fix: 'CRITICAL: Server accepted direct URL access to later step without completing prior steps — add session-based step tracking; store highest completed step in session and redirect if user attempts to skip ahead', effort: 'L' },
+  'step-url-bypass-blocked': { fix: 'No action — step URL bypass is correctly blocked by server', effort: 'XS' },
+  'step-url-test-error': { fix: 'Manual verification needed — automated step URL bypass test encountered navigation error', effort: 'XS' },
 };
 
 const DEFAULT_FIX: FixMeta = {
@@ -1218,6 +1231,20 @@ function ingestFormAlignment(route: string, routeName: string): NormalizedFindin
   }));
 }
 
+function ingestFlowBypass(route: string, routeName: string): NormalizedFinding[] {
+  const filePath = path.join('qa-artifacts', 'flow-bypass', `${routeName}-flow-bypass.json`);
+  const data = safeReadJson<{ findings: Array<{ severity?: string; type?: string; message?: string; selector?: string }> }>(filePath);
+  if (!data?.findings) return [];
+  return data.findings.filter(f => f.severity !== 'info').map(item => ({
+    route, source: 'flow-bypass',
+    severity: (item.severity as Severity) || 'medium',
+    type: item.type || 'flow-bypass-issue',
+    message: item.message || JSON.stringify(item),
+    selector: item.selector,
+    evidencePath: filePath,
+  }));
+}
+
 // ─── Deduplication ────────────────────────────────────────────────────────────
 
 function dedupeFindings(findings: NormalizedFinding[]): NormalizedFinding[] {
@@ -1373,6 +1400,7 @@ export function writeFixPlan(routes: string[]): void {
       ...ingestFormAlignment(route, routeName),
       ...ingestTypography(route, routeName),
       ...ingestAuthPermissions(route, routeName),
+      ...ingestFlowBypass(route, routeName),
     );
   }
 

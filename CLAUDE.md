@@ -77,6 +77,7 @@ tests/deep-ui/
     form-alignment.ts        ← auditFormAlignment()
     typography.ts            ← auditTypography()
     auth-permissions.ts      ← auditAuthPermissions()
+    flow-bypass.ts           ← auditFlowBypass()
     fix-plan.ts              ← writeFixPlan()
 resources/              ← checklists and templates referenced by SKILL.md
 agents/openai.yaml      ← UI metadata for Codex/OpenAI-compatible agents

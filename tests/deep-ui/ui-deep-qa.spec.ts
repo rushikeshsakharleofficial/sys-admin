@@ -49,6 +49,7 @@ import { auditDialogScroll } from './helpers/dialog-scroll';
 import { auditFormAlignment } from './helpers/form-alignment';
 import { auditTypography } from './helpers/typography';
 import { auditAuthPermissions } from './helpers/auth-permissions';
+import { auditFlowBypass } from './helpers/flow-bypass';
 
 /**
  * Deep UI QA — enhanced entry point.
@@ -58,7 +59,8 @@ import { auditAuthPermissions } from './helpers/auth-permissions';
  * broken images, lazy images, reduced motion, responsive behavior,
  * toasts, tables, PWA, auth surface, back/forward navigation, edge states,
  * placeholder content, link checker, cookie consent, HTML validation,
- * media players, carousels, print media, CSRF, sitemap/robots, search.
+ * media players, carousels, print media, CSRF, sitemap/robots, search,
+ * flow/step bypass (multi-step wizard, paywall, hidden step fields, novalidate).
  */
 test.describe('Deep UI QA', () => {
   test('discover and test visible routes', async ({ page, context, baseURL }, testInfo) => {
@@ -444,6 +446,15 @@ test.describe('Deep UI QA', () => {
       const formAlignReport = await auditFormAlignment(page, route);
       const formAlignHigh = formAlignReport.findings.filter((f) => f.severity === 'high');
 
+      // ── Flow bypass audit ────────────────────────────────────────────────
+      // Detects multi-step wizard flows and tests whether step URL params can
+      // be incremented to skip steps. Checks novalidate forms, hidden step
+      // fields, and paywall content rendered in DOM (CSS-only gating).
+      // HIGH = step URL param bypass allowed, novalidate client-only form,
+      //        hidden step field found, paywall content in DOM via CSS blur.
+      const flowBypassReport = await auditFlowBypass(page, route);
+      const flowBypassHigh = flowBypassReport.findings.filter((f) => f.severity === 'high');
+
       // ── Console findings ─────────────────────────────────────────────────
       const consoleFindings = severeConsoleFindings(consoleMonitor.records, consoleMonitor.pageErrors);
       writeJsonArtifact('console', `${routeName}-console.json`, {
@@ -498,6 +509,7 @@ test.describe('Deep UI QA', () => {
         `- Form alignment: forms=${formAlignReport.formsChecked}, inputs=${formAlignReport.inputsChecked} | High: ${formAlignHigh.length} | Findings: ${formAlignReport.findings.length}\n` +
         `- Typography: bodyFont=${typographyReport.bodyFontSize}px, lineHeight=${typographyReport.bodyLineHeight.toFixed(2)}, families=${typographyReport.fontFamiliesFound.length}, webFonts=${typographyReport.webFontsDetected} | High: ${typographyHigh.length} | Findings: ${typographyReport.findings.length}\n` +
         `- Auth permissions: loginForm=${authPermReport.loginFormDetected}, rememberMe=${authPermReport.rememberMeDetected}, blocked=${authPermReport.permissionBlockedElementsFound}, roleGated=${authPermReport.roleGatedElementsFound} | Critical: ${authPermCritical.length} | High: ${authPermHigh.length} | Findings: ${authPermReport.findings.length}\n` +
+        `- Flow bypass: multiStep=${flowBypassReport.multiStepFlowDetected}, stepUrlParam=${flowBypassReport.stepUrlParamDetected}, novalidateForms=${flowBypassReport.novalidateFormsFound}, hiddenStepFields=${flowBypassReport.hiddenStepFieldsFound}, paywalls=${flowBypassReport.paywallGatesFound}, stepBypassBlocked=${flowBypassReport.directStepAccessBlocked} | High: ${flowBypassHigh.length} | Findings: ${flowBypassReport.findings.length}\n` +
         `- Console errors/page errors: ${consoleFindings.severeMessages.length + consoleFindings.pageErrors.length}\n` +
         `- React key warnings: ${consoleFindings.reactKeyWarnings.length} | React warnings: ${consoleFindings.reactWarnings.length}\n` +
         `- Hydration errors: ${consoleFindings.hydrationErrors.length}\n` +
@@ -633,6 +645,11 @@ test.describe('Deep UI QA', () => {
       expect(
         authPermHigh,
         `High auth/permission issues on ${route}:\n${JSON.stringify(authPermHigh, null, 2)}`
+      ).toEqual([]);
+
+      expect(
+        flowBypassHigh,
+        `Flow bypass issues on ${route}:\n${JSON.stringify(flowBypassHigh, null, 2)}`
       ).toEqual([]);
 
       await visualRegression(page, route);

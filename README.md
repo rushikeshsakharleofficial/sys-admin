@@ -2,7 +2,7 @@
 
 # sys-admin
 
-**A Claude Code plugin with UI QA, visual design QA, SEO auditing, SQL/PostgreSQL auditing, API testing, and task-tracking skills.**  
+**A Claude Code plugin with nine QA and productivity skills — UI, visual design, SEO, SQL, PostgreSQL, API, and more.**  
 Install once. Invoke from any project. Add your own skills freely.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -11,11 +11,36 @@ Install once. Invoke from any project. Add your own skills freely.
 
 ---
 
+## Table of contents
+
+- [What is this?](#what-is-this)
+- [Skills](#skills)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Router](#router--smart-dispatch)
+  - [UI / Web QA](#ui--web-qa)
+  - [SQL / DB audit](#sql--db-audit)
+  - [PostgreSQL deep audit](#postgresql-deep-audit)
+  - [API testing](#api-testing)
+  - [SEO audit](#seo-audit)
+  - [Visual design QA](#visual-design-qa)
+  - [Smart Todo](#smart-todo)
+  - [Marketplace](#marketplace)
+- [Configuration](#configuration)
+- [Commands](#commands)
+- [Project structure](#project-structure)
+- [Adding a new skill](#adding-a-new-skill)
+- [Contributing](#contributing)
+- [Safety boundaries](#safety-boundaries)
+- [License](#license)
+
+---
+
 ## What is this?
 
 `sys-admin` is an open-source Claude Code plugin that bundles a growing set of QA and productivity skills. Each skill is a focused instruction file Claude loads on demand — no runtime, no server, no build step.
 
-Nine skills ship out of the box: a smart router, deep functional UI QA with Playwright, visual design QA with industry benchmarks, SEO page optimization auditing, generic SQL auditing, PostgreSQL-specific auditing, REST/GraphQL/gRPC API testing, task tracking, and a Claude Code marketplace guide.
+Nine skills ship out of the box: a **smart router**, **functional UI QA** with Playwright (46 helpers), **visual design QA** with industry benchmarks, **SEO auditing**, **SQL auditing**, **PostgreSQL-specific auditing**, **REST/GraphQL/gRPC API testing**, **task tracking**, and a **Claude Code marketplace guide**.
 
 **100% open. Fork it, modify it, add your own skills. MIT licensed.**
 
@@ -23,23 +48,23 @@ Nine skills ship out of the box: a smart router, deep functional UI QA with Play
 
 ## Skills
 
-| Skill | Invocation | What it does |
-|:------|:-----------|:-------------|
-| Router | `/sys-admin:sys-admin` | Reads the request, extracts domain keywords, dispatches to the right subskills in priority order |
-| UI / Web QA | `/sys-admin:website-ui-deep-qa` | Deep QA of any website: layout, forms, a11y, network, security, responsive, SEO — 46 check categories with Playwright |
-| SQL / DB audit | `/sys-admin:sql-deep-qa` | Audits the SQL layer: injection (all types + sqlmap), schema, indexes, performance (pg_stat_statements, bloat), migrations (lock analysis), connections, ORM patterns, multi-tenancy, NoSQL injection, privilege audit, DB config hardening, compliance — 17 check categories |
-| PostgreSQL deep audit | `/sys-admin:postgres-deep-qa` | PostgreSQL-specific checks: XID wraparound, autovacuum tuning, WAL/replication, PgBouncer gotchas, partitioning, JSONB indexes, advanced index types (BRIN/GiST/GIN/Bloom), 11 RLS bypass vectors, PG16/PG17 features, CVE table, backup strategy (pgBackRest/Barman/WAL-G), postgresql.conf tuning — 17 check categories |
-| API testing | `/sys-admin:api-deep-qa` | Tests REST, GraphQL, and gRPC APIs: OWASP Top 10, JWT/OAuth2 attacks, rate limit bypass, webhooks, contract testing, fuzzing, load testing with k6, HTTP/2 & HTTP/3 — 18 check categories |
-| Visual design QA | `/sys-admin:ui-visual-qa` | Visual layer audit: pixel regression across 5 viewports + 3 browsers, 14-category design quality checks (typography, color, spacing, states, motion, icons, images, responsive, dark mode, skeletons, errors, scroll, z-index, font rendering), industry benchmark vs 73 real-world design references (Stripe, Linear, Vercel, Supabase, and 69 more) |
-| SEO audit | `/sys-admin:seo-deep-qa` | 21-category SEO audit: title tags, meta descriptions, heading hierarchy, Core Web Vitals (LCP/INP/CLS), structured data (Schema.org JSON-LD), Open Graph + Twitter Card, canonical URLs, robots.txt + robots meta, XML sitemap, hreflang, URL structure, internal linking, image SEO, page speed + resource hints, mobile-first indexing, JavaScript SEO, duplicate content, E-E-A-T signals, crawlability + indexability pipeline, breadcrumbs |
-| Smart Todo | `/sys-admin:smart-todo` | **Mandatory for any 3+ step task.** Decomposes work into a tracked list, updates status in real time, surfaces blockers |
-| Marketplace | `/sys-admin:marketplace` | Full Claude Code plugin lifecycle: discover, install, manage scopes, create `plugin.json` + `SKILL.md`, publish to GitHub, submit to community, validate, debug |
+| Skill | Invocation | Checks |
+|:------|:-----------|:-------|
+| Router | `/sys-admin:sys-admin` | Reads the request, extracts domain keywords, dispatches subskills in priority order |
+| UI / Web QA | `/sys-admin:website-ui-deep-qa` | 46 check categories: layout, forms, a11y, network, security, responsive, SEO, CSRF, auth, flow bypass |
+| SQL / DB audit | `/sys-admin:sql-deep-qa` | 17 categories: injection (all types + sqlmap), schema, indexes, performance, migrations, connections, ORM, compliance |
+| PostgreSQL | `/sys-admin:postgres-deep-qa` | 17 categories: XID wraparound, autovacuum, WAL/replication, PgBouncer, RLS bypass (11 vectors), PG17, postgresql.conf |
+| API testing | `/sys-admin:api-deep-qa` | 18 categories: OWASP Top 10, JWT/OAuth2, GraphQL, gRPC, webhooks, fuzzing, k6 load testing, contract testing |
+| SEO audit | `/sys-admin:seo-deep-qa` | 21 categories: title/meta/headings, Core Web Vitals, structured data, canonical, sitemap, hreflang, E-E-A-T, crawlability |
+| Visual design QA | `/sys-admin:ui-visual-qa` | Pixel regression + 14-category design quality + 73-design industry benchmark (awesome-design-md) |
+| Smart Todo | `/sys-admin:smart-todo` | **Mandatory for any 3+ step task.** Tracked list with `[P1]`/`[P2]`/`[P3]`/`[BLOCKER]` tags |
+| Marketplace | `/sys-admin:marketplace` | Full Claude Code plugin lifecycle: discover, install, create, publish, debug |
 
 ---
 
 ## Installation
 
-**Requirements:** Claude Code CLI, Node.js 18+, npm
+**Requirements:** Claude Code CLI · Node.js 18+ · npm
 
 ```bash
 git clone https://github.com/rushikeshsakharleofficial/sys-admin.git
@@ -49,21 +74,19 @@ bash install.sh
 
 Restart Claude Code. All nine skills appear in the `/` picker under the `sys-admin:` namespace.
 
-> The script copies skill files to `~/.claude/plugins/cache/sys-admin/`, writes manifests, registers the plugin, and enables it automatically.
+> The installer copies skill files to `~/.claude/plugins/cache/sys-admin/`, writes manifests, registers the plugin, and enables it automatically.
 
 ---
 
 ## Usage
 
-### Router — smart multi-domain dispatch
+### Router — smart dispatch
 
 ```text
 /sys-admin:sys-admin Audit our entire app — UI, database, and security
 ```
 
-The router scans the request for domain keywords and dispatches subskills in the right order. It always runs `smart-todo` first for multi-domain tasks, then `sql-deep-qa` (and `postgres-deep-qa` when PostgreSQL-specific keywords appear), then `api-deep-qa`, then `website-ui-deep-qa` — higher-severity layers before the surface.
-
-Examples it handles automatically:
+The router scans the request for domain keywords and dispatches subskills in priority order: `smart-todo` → `sql-deep-qa` → `postgres-deep-qa` → `api-deep-qa` → `seo-deep-qa` → `website-ui-deep-qa` → `ui-visual-qa`. Higher-severity layers run before the surface.
 
 ```text
 /sys-admin:sys-admin Test the login page on http://localhost:3000/login
@@ -74,6 +97,9 @@ Examples it handles automatically:
 
 /sys-admin:sys-admin XID wraparound risk and replication lag on our Postgres instance
 # → postgres-deep-qa only
+
+/sys-admin:sys-admin Page not indexed in Google, Core Web Vitals failing
+# → seo-deep-qa only
 
 /sys-admin:sys-admin Full security audit — AI built this with Cursor
 # → smart-todo + sql-deep-qa + api-deep-qa + website-ui-deep-qa
@@ -87,25 +113,19 @@ Examples it handles automatically:
 /sys-admin:website-ui-deep-qa Test the checkout flow on http://localhost:3000
 ```
 
-Supports three modes:
-
-- **Playwright MCP** (live browser, exploratory) — preferred when MCP is connected
-- **Playwright Test** (automated, repeatable) — runs `tests/deep-ui/ui-deep-qa.spec.ts`
-- **Source inspection** — static analysis when no running app is available
+Three modes: **Playwright MCP** (live browser, exploratory) → **Playwright Test** (automated, repeatable) → **source inspection** (static analysis when no app is running).
 
 ```bash
-# Run the bundled Playwright suite
 npm install && npx playwright install
 BASE_URL=http://localhost:3000 npm test
 
-# Scope to one browser/viewport
 npm run test:chromium   # desktop 1440×900
 npm run test:mobile     # mobile 390×844
 npm run test:headed     # visible browser window
 npm run report          # open HTML report
 ```
 
-Artifacts land in `qa-artifacts/`: screenshots, network records, storage snapshots, a11y findings, console errors, and a `final-report.md`.
+Artifacts land in `qa-artifacts/`: screenshots, network records, storage snapshots, a11y findings, console errors, and `final-report.md`.
 
 ---
 
@@ -115,25 +135,7 @@ Artifacts land in `qa-artifacts/`: screenshots, network records, storage snapsho
 /sys-admin:sql-deep-qa Audit the database layer in ./src
 ```
 
-Works from source code alone or against a live DB (read-only). Covers all 17 categories:
-
-- SQL injection (error-based, boolean, time-based, OOB, union, second-order) + automated sqlmap scanning
-- Schema integrity: PKs, FKs, NOT NULL, UNIQUE, column types, check constraints
-- Index strategy: missing indexes, unnecessary indexes, composite order, partial indexes, bloat
-- Query performance: N+1, unbounded queries, offset pagination, `SELECT *`, pg_stat_statements analysis
-- Migration safety: dangerous DDL patterns, lock timeout analysis, zero-downtime patterns
-- Connection management: pool sizing, PgBouncer, idle timeout, connection leaks
-- Sensitive data exposure and log hygiene
-- Access control, RLS, multi-tenancy, FORCE ROW LEVEL SECURITY
-- Credential and config hygiene
-- ORM-specific checks: Prisma, SQLAlchemy, ActiveRecord, TypeORM, Sequelize, GORM
-- Backup and PITR verification
-- Transaction and concurrency safety
-- DB configuration security: pg_hba.conf, SSL, scram-sha-256, MySQL hardening
-- Audit logging and compliance: pgaudit, PCI DSS, HIPAA, SOC2, GDPR
-- Data integrity: orphaned FK records, constraint violations, duplicate detection
-- NoSQL injection: MongoDB `$where`/`$ne` bypass, Redis KEYS injection, Elasticsearch script injection
-- Privilege testing: least-privilege audit, SECURITY DEFINER escalation, ideal privilege model
+Works from source code alone or against a live DB (read-only). 17 categories including injection (error-based, boolean, time-based, OOB, union, second-order, sqlmap), schema integrity, index strategy, query performance (N+1, pg_stat_statements), migration safety, connection management, ORM-specific checks (Prisma, SQLAlchemy, ActiveRecord, TypeORM, Sequelize, GORM), NoSQL injection (MongoDB, Redis, Elasticsearch), privilege audit, and compliance (PCI DSS, HIPAA, SOC2, GDPR).
 
 ---
 
@@ -143,25 +145,7 @@ Works from source code alone or against a live DB (read-only). Covers all 17 cat
 /sys-admin:postgres-deep-qa Audit our PostgreSQL database
 ```
 
-PostgreSQL-specific checks that go deeper than `sql-deep-qa`. Run both skills together for full coverage. Requires a live PostgreSQL connection or a running instance. Covers all 17 categories:
-
-- Version and CVE exposure: patch level check against 2024–2025 CVE table (CVSSv3 scores), PG17 feature adoption gaps
-- XID wraparound risk: `age(relfrozenxid)` thresholds (warn 150M / critical 500M / emergency 1.5B), autovacuum health, bloat via pgstattuple
-- WAL and replication: `archive_command` health, replication lag, inactive slot disk bomb prevention (`max_slot_wal_keep_size`)
-- PgBouncer gotchas: session vs transaction vs statement mode, `SET LOCAL` for RLS, `pg_advisory_xact_lock` vs session locks
-- Table partitioning: partition pruning validation via EXPLAIN, partition-wise join/aggregate, pg_partman automation
-- JSONB and advanced indexes: `jsonb_ops` vs `jsonb_path_ops`, BRIN correlation check, GiST/GIN/Bloom selection guide, expression indexes
-- Full-text search: tsvector column audit, GIN vs GiST for FTS, query-time tsvector anti-pattern
-- Lock monitoring: blocked query detection, idle-in-transaction alerts, `lock_timeout` enforcement
-- RLS bypass vectors: all 11 documented vectors (superuser, missing FORCE, SECURITY DEFINER views, COPY, PgBouncer context loss, missing WITH CHECK, non-LEAKPROOF functions, OR policy semantics, materialized views, FK/unique constraint leakage)
-- Sequences and IDENTITY: INT4 SERIAL overflow detection, `BIGINT GENERATED ALWAYS AS IDENTITY`, UUIDv7 via `gen_uuid_v7()`
-- Foreign Data Wrappers: credential exposure audit, `pg_read_server_files` grant check
-- Extensions: high-risk extension audit (`plpythonu`, `dblink`, `file_fdw`), recommended extension setup
-- Monitoring queries: cache hit rate, connection saturation, slowest queries via pg_stat_statements
-- Backup strategy: pgBackRest vs Barman vs WAL-G comparison, `pg_stat_archiver` health check, PG17 incremental backup
-- postgresql.conf tuning: `shared_buffers = 25% RAM`, `work_mem` formula, SSD tuning, logging for compliance
-- PostgreSQL-specific anti-patterns: `NOT IN` with NULLs, `timestamp without time zone`, `BETWEEN` with timestamps, `trust` auth, missing `search_path` in SECURITY DEFINER functions
-- Compliance and audit logging: pgaudit setup, PCI DSS / HIPAA / SOC2 / GDPR requirement map
+PostgreSQL-specific checks that go deeper than `sql-deep-qa`. Run both for full coverage. Requires a live PostgreSQL connection. 17 categories including XID wraparound (`age(relfrozenxid)` thresholds: warn 150M / critical 500M / emergency 1.5B), autovacuum tuning, WAL/replication and inactive slot disk-bomb prevention, PgBouncer transaction-mode gotchas, JSONB/BRIN/GiST/GIN/Bloom index selection, all 11 RLS bypass vectors, PG16/PG17 features (`transaction_timeout`, `gen_uuid_v7`, incremental backup), backup strategy (pgBackRest vs Barman vs WAL-G), and `postgresql.conf` tuning formulas.
 
 ---
 
@@ -171,22 +155,7 @@ PostgreSQL-specific checks that go deeper than `sql-deep-qa`. Run both skills to
 /sys-admin:api-deep-qa Audit the REST API in ./src
 ```
 
-Covers all 18 categories:
-
-- Correctness: status codes, response shape, field types, pagination, idempotency
-- OWASP API Top 10 (2023): BOLA, broken auth, mass assignment, resource consumption, BFLA, SSRF, shadow APIs
-- Auth security: JWT attacks (alg:none, RS256→HS256 confusion, kid injection), OAuth2 (PKCE bypass, redirect URI, state CSRF)
-- Input validation: injection payloads, XXE, SSTI, prototype pollution
-- Rate limit bypass: header spoofing, distributed bypass, body variation
-- GraphQL: introspection in prod, depth limits, alias batching, query cost
-- gRPC: server reflection, mTLS, deadline propagation
-- Webhooks: HMAC signature validation, replay prevention, SSRF
-- Load testing with k6: arrival rate, thresholds as CI gates
-- Contract testing: Pact, oasdiff, Schemathesis, schema drift
-- Fuzzing: unexpected types, boundary values, special characters
-- HTTP/2 and HTTP/3: header injection, stream multiplexing, QUIC behavior
-- Content negotiation: type confusion, format downgrade
-- Observability: correlation IDs, structured error shapes, trace propagation
+18 categories: correctness, OWASP API Top 10 (2023), JWT attacks (`alg:none`, RS256→HS256 confusion), OAuth2 (PKCE bypass, state CSRF), GraphQL (introspection, depth limits, alias batching), gRPC (server reflection, mTLS), webhooks (HMAC validation, replay prevention), rate limit bypass, load testing with k6, contract testing (Pact, Schemathesis), fuzzing, HTTP/2 & HTTP/3, content negotiation, and observability.
 
 ---
 
@@ -196,20 +165,16 @@ Covers all 18 categories:
 /sys-admin:seo-deep-qa Audit SEO on https://example.com
 ```
 
-Full technical SEO audit across 21 check categories. Works against any live URL or static HTML source. Supports Playwright MCP (live browser), Lighthouse CLI, and `curl`/`fetch` for HTTP-level checks.
+21 check categories across on-page, technical, and page-experience SEO. Works against any live URL via Playwright MCP, Lighthouse CLI, or `curl`/`fetch` for HTTP-level signals.
 
-Covers:
-
-- **On-page:** title tags (50–60 chars, unique, keyword-first), meta descriptions (150–160 chars, CTA), heading hierarchy (single H1, logical H2–H6, keyword usage)
-- **Core Web Vitals:** LCP < 2.5s, INP < 200ms, CLS < 0.1 — measured via Lighthouse CLI or PageSpeed Insights API, with specific fix guidance (preload LCP image, remove render-blocking resources, add `width`/`height` to images)
-- **Structured data:** Schema.org JSON-LD for Article, Product, FAQ, BreadcrumbList, Organization, WebSite/SearchAction, Review, HowTo, LocalBusiness, VideoObject, Event — validated against Google Rich Results Test
-- **Technical SEO:** canonical URLs (self-referencing, no relative, no redirect target), robots meta + X-Robots-Tag HTTP header, robots.txt (no blocking of CSS/JS, Sitemap directive present), XML sitemap (all indexable pages, no noindex URLs, accurate lastmod)
-- **International:** hreflang (valid BCP 47 codes, `x-default`, bidirectional pairs, absolute URLs)
-- **Page experience:** HTTPS, no intrusive interstitials, mobile-first indexing (viewport meta, content parity, 44×44px touch targets, 16px+ input font)
-- **JavaScript SEO:** SSR detection via `curl` vs rendered comparison, JS-only content flagging, infinite scroll pagination check
-- **Duplicate content:** www/non-www redirect, HTTP→HTTPS, trailing slash consistency, URL parameter canonicals
-- **E-E-A-T signals:** author bio, About/Contact/Privacy pages, `datePublished` in schema, HTTPS, reviews with AggregateRating schema
-- **Crawlability pipeline:** noindex check, redirect chain length (max 1 hop), soft 404 detection, crawl budget waste patterns
+| Area | Categories |
+|:-----|:-----------|
+| On-page | Title tags (50–60 chars), meta descriptions (150–160 chars, CTA), heading hierarchy (single H1, logical H2–H6) |
+| Core Web Vitals | LCP < 2.5s · INP < 200ms · CLS < 0.1 — Lighthouse CLI + PageSpeed Insights API |
+| Structured data | Schema.org JSON-LD: Article, Product, FAQ, BreadcrumbList, Organization, WebSite, Review, HowTo, LocalBusiness, VideoObject, Event |
+| Technical SEO | Canonical URLs, robots meta + X-Robots-Tag header, robots.txt, XML sitemap, hreflang (BCP 47, `x-default`, bidirectional) |
+| Crawlability | noindex detection, redirect chains (max 1 hop), soft 404s, JavaScript SEO (SSR vs JS-only content) |
+| Page experience | HTTPS, no intrusive interstitials, mobile-first indexing, E-E-A-T signals (About/Contact/Privacy, author bio, reviews) |
 
 ---
 
@@ -221,35 +186,19 @@ Covers:
 
 Three-phase visual audit — run alongside `website-ui-deep-qa` for full UI coverage:
 
-**Phase 1 — Visual regression:** Pixel diffs across all 5 viewports and 3 browsers. Baselines created on first run via Playwright `toHaveScreenshot()`. Dark/light mode and reduced-motion regression included.
+**Phase 1 — Visual regression:** Pixel diffs via Playwright `toHaveScreenshot()` (0.1% threshold) across 5 viewports × 3 browsers. Dark/light mode and `prefers-reduced-motion` regression included.
 
-**Phase 2 — Design quality audit (14 categories):**
-- Typography system: font scale, line-height, letter-spacing, overflow
-- Color & contrast: WCAG AA/AAA, design token compliance, no hardcoded hex
-- Spacing grid: 8pt grid compliance, touch targets (44×44px minimum)
-- Component states: hover, focus, active, disabled, loading, error, empty
-- Animation & motion: timing, easing, jank, `prefers-reduced-motion`
-- Icon system: size grid, `currentColor`, SVG quality, alignment
-- Image quality: retina resolution, aspect ratio, lazy loading, CLS prevention
-- Responsive behavior: breakpoint transitions, no horizontal scroll
-- Dark mode / theme: CSS variables, no hardcoded colors, system preference
-- Skeleton & loading: content dimension match, no CLS
-- Error & empty states: clear messaging, ARIA live regions, actionable CTAs
-- Scroll behavior: sticky headers, modal containment, scroll axes
-- Z-index & stacking: modal > dropdown > header, no bleed-through
-- Font rendering: `font-display: swap`, antialiasing, web font preload
+**Phase 2 — Design quality (14 categories):** Typography · Color/Contrast (WCAG AA/AAA) · 8pt Spacing Grid · Component States (hover/focus/active/disabled/loading/error/empty) · Animation & Motion · Icon System · Image Quality · Responsive Behavior · Dark Mode · Skeletons · Error/Empty States · Scroll & Sticky · Z-index Stacking · Font Rendering
 
-**Phase 3 — Industry benchmark (73 designs from [awesome-design-md](https://github.com/voltagent/awesome-design-md)):**
-
-Condition-based selection picks the best reference — Stripe for fintech, Linear for dark SaaS tools, Vercel for dev platforms, Supabase for databases, Coinbase for crypto, Tesla for EV/tech, Spotify for media, and 66 more. Every defect gets an industry citation:
+**Phase 3 — Industry benchmark:** Condition-based selection from 73 real-world DESIGN.md references ([awesome-design-md](https://github.com/voltagent/awesome-design-md)) — Stripe for fintech, Linear for dark SaaS, Vercel for dev tools, Supabase for databases, and 69 more. Every defect gets a real-world citation:
 
 ```
 VIS-DEFECT-3: Card padding 10px/14px — not on 8pt grid
-Industry reference: Stripe uses 8px base unit, scale xxs(2)·xs(4)·sm(8)·md(12)·lg(16)
-Fix: Standardize to CSS custom properties --spacing-sm: 8px, --spacing-md: 16px
+Industry reference: Stripe uses 8px base unit — xxs(2)·xs(4)·sm(8)·md(12)·lg(16)
+Fix: --spacing-sm: 8px, --spacing-md: 16px, --spacing-lg: 24px
 ```
 
-Artifacts land in `qa-artifacts/visual/`: screenshots, diffs, phase2-audit.md, benchmark.md, final-report.md.
+Artifacts land in `qa-artifacts/visual/`: screenshots, diffs, `phase2-audit.md`, `benchmark.md`, `final-report.md`.
 
 ---
 
@@ -259,24 +208,24 @@ Artifacts land in `qa-artifacts/visual/`: screenshots, diffs, phase2-audit.md, b
 /sys-admin:smart-todo
 ```
 
-Automatically invoked before any multi-step task. Creates a `TodoWrite` list with priority tags (`[P1]`/`[P2]`/`[P3]`/`[BLOCKER]`), updates status as work progresses, and delivers a completion summary.
+Automatically invoked before any multi-step task. Creates a tracked list with `[P1]`/`[P2]`/`[P3]`/`[BLOCKER]` tags, updates status in real time, surfaces blockers, and delivers a completion summary.
 
 ---
 
-### Marketplace — Claude Code plugin lifecycle
+### Marketplace
 
 ```text
 /sys-admin:marketplace How do I install a plugin?
 /sys-admin:marketplace How do I create and publish my own plugin?
 ```
 
-Covers every `claude plugin` CLI command and flag, the `/plugin` interactive UI, all `plugin.json` and `marketplace.json` schema fields, SKILL.md frontmatter options, installation scopes (`user` / `project` / `local`), publishing to GitHub, submitting to the Anthropic community marketplace, team auto-install via `settings.json`, versioning strategy, and a debugging guide.
+Covers every `claude plugin` CLI command, the `/plugin` interactive UI, all `plugin.json` and `marketplace.json` schema fields, `SKILL.md` frontmatter, installation scopes (`user` / `project` / `local`), publishing to GitHub, submitting to the Anthropic community marketplace, team auto-install via `settings.json`, versioning strategy, and a debugging guide.
 
 ---
 
 ## Configuration
 
-### Seed routes (website-ui-deep-qa)
+### Seed routes (`website-ui-deep-qa`)
 
 Edit `tests/deep-ui/helpers/routes.ts` to set the initial routes the spec visits:
 
@@ -293,7 +242,7 @@ Additional routes are discovered automatically via visible `<a href>` links at r
 
 ### BASE_URL
 
-`BASE_URL` defaults to `http://localhost:3000` when not set. Override per run:
+`BASE_URL` defaults to `http://localhost:3000`. Override per run:
 
 ```bash
 BASE_URL=http://localhost:8080 npm test
@@ -306,6 +255,32 @@ Update baselines only when changes are intentional:
 ```bash
 BASE_URL=http://localhost:3000 npx playwright test --update-snapshots
 ```
+
+---
+
+## Commands
+
+| Command | Purpose |
+|:--------|:--------|
+| `npm test` | Full Playwright suite — all viewports and browsers |
+| `npm run test:chromium` | Chromium desktop 1440×900 only |
+| `npm run test:mobile` | Chromium mobile 390×844 only |
+| `npm run test:headed` | Headed mode — visible browser window |
+| `npm run test:ci` | GitHub Actions reporter format |
+| `npm run report` | Open HTML report from last run |
+| `npm run typecheck` | Type-check helpers without running tests |
+
+### Viewport matrix (`website-ui-deep-qa`)
+
+| Project | Viewport |
+|:--------|:---------|
+| `chromium-desktop-1440` | 1440×900 |
+| `chromium-laptop-1366` | 1366×768 |
+| `chromium-tablet-1024` | 1024×768 |
+| `chromium-mobile-390` | 390×844 |
+| `chromium-mobile-360` | 360×640 |
+| `firefox-smoke` | 1440×900 |
+| `webkit-smoke` | 1440×900 |
 
 ---
 
@@ -325,17 +300,44 @@ npx playwright install
 BASE_URL=http://localhost:3000 npm test
 ```
 
-When editing only `SKILL.md` or `skills/` files: verify manually — check frontmatter validity, internal resource paths, and that helper references in SKILL.md still match `tests/deep-ui/helpers/` filenames.
+When editing only `SKILL.md` or `skills/` files: verify manually — check frontmatter validity, internal resource paths, and that helper references in `SKILL.md` still match filenames in `tests/deep-ui/helpers/`.
+
+---
+
+## Project structure
+
+```text
+install.sh                    installer — run once, re-run after any change
+SKILL.md                      website-ui-deep-qa skill (UI QA, 46 helpers)
+playwright.config.ts          viewport matrix and artifact output paths
+skills/
+  sys-admin/SKILL.md          router — keyword → subskill dispatch
+  sql-deep-qa/SKILL.md        SQL audit — 17 categories
+  postgres-deep-qa/SKILL.md   PostgreSQL deep audit — 17 categories
+  api-deep-qa/SKILL.md        API testing — 18 categories
+  seo-deep-qa/SKILL.md        SEO audit — 21 categories
+  ui-visual-qa/SKILL.md       visual design QA — regression + 14 categories + 73-design benchmark
+  smart-todo/SKILL.md         task tracking
+  marketplace/SKILL.md        Claude Code plugin lifecycle guide
+tests/deep-ui/
+  ui-deep-qa.spec.ts          main Playwright spec (website-ui-deep-qa)
+  helpers/                    46 helper modules (routes, forms, a11y, network, …)
+resources/                    checklists and templates
+agents/openai.yaml            UI metadata for Codex/OpenAI-compatible agents
+CLAUDE.md                     Claude Code project guidance
+AGENTS.md                     Codex-style guidance
+CONTRIBUTING.md               contribution guide
+```
 
 ---
 
 ## Adding a new skill
 
-Any skill is one file. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. Quick version:
+Any skill is one file. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
 
-**1. Create `skills/my-skill/SKILL.md`** with valid frontmatter (`name` + `description: Use when ...`).
+**1.** Create `skills/my-skill/SKILL.md` with valid frontmatter (`name` + `description: Use when ...`).
 
-**2. Add a sync block to `install.sh`:**
+**2.** Add a sync block to `install.sh`:
 
 ```bash
 mkdir -p "$PLUGIN_CACHE/skills/my-skill"
@@ -343,67 +345,9 @@ cp "$REPO_DIR/skills/my-skill/SKILL.md" \
    "$PLUGIN_CACHE/skills/my-skill/SKILL.md"
 ```
 
-**3. Add a row to `skills/sys-admin/SKILL.md`** routing table with trigger keywords and domain map entry.
+**3.** Add a keyword row and domain map entry to `skills/sys-admin/SKILL.md`.
 
-**4. Re-run the installer:**
-
-```bash
-bash install.sh
-```
-
-Restart Claude Code. Your skill appears as `/sys-admin:my-skill`.
-
----
-
-## Project structure
-
-```text
-install.sh                    installer — runs once, re-run after any change
-SKILL.md                      website-ui-deep-qa skill (UI QA, 46 helpers)
-AGENTS.md                     Codex/OpenAI-compatible guidance
-CLAUDE.md                     Claude Code project guidance
-playwright.config.ts          viewport matrix and artifact paths
-skills/
-  sys-admin/SKILL.md          router skill — smart keyword → subskill dispatch
-  sql-deep-qa/SKILL.md        SQL audit skill — 17 check categories
-  postgres-deep-qa/SKILL.md   PostgreSQL deep audit — 17 check categories
-  api-deep-qa/SKILL.md        API testing skill — 18 check categories
-  ui-visual-qa/SKILL.md       visual design QA — regression + 14 quality categories + 73-design benchmark
-  seo-deep-qa/SKILL.md        SEO audit — 21 check categories
-  smart-todo/SKILL.md         task tracking skill
-  marketplace/SKILL.md        Claude Code plugin lifecycle guide
-tests/deep-ui/
-  ui-deep-qa.spec.ts          main Playwright spec (website-ui-deep-qa)
-  helpers/                    46 helper modules (routes, forms, a11y, network, …)
-resources/                    checklists and templates
-agents/openai.yaml            UI metadata for compatible agents
-```
-
-### Viewport matrix (website-ui-deep-qa)
-
-| Project | Viewport |
-|:--------|:---------|
-| `chromium-desktop-1440` | 1440×900 |
-| `chromium-laptop-1366` | 1366×768 |
-| `chromium-tablet-1024` | 1024×768 |
-| `chromium-mobile-390` | 390×844 |
-| `chromium-mobile-360` | 360×640 |
-| `firefox-smoke` | 1440×900 |
-| `webkit-smoke` | 1440×900 |
-
----
-
-## Commands
-
-| Command | Purpose |
-|:--------|:--------|
-| `npm test` | Full Playwright suite — all viewports and browsers |
-| `npm run test:chromium` | Chromium desktop 1440×900 only |
-| `npm run test:mobile` | Chromium mobile 390×844 only |
-| `npm run test:headed` | Headed mode — visible browser window |
-| `npm run test:ci` | GitHub Actions reporter format |
-| `npm run report` | Open HTML report from last run |
-| `npm run typecheck` | Type-check helpers without running tests |
+**4.** Re-run `bash install.sh`, restart Claude Code. The skill appears as `/sys-admin:my-skill`.
 
 ---
 
@@ -411,13 +355,11 @@ agents/openai.yaml            UI metadata for compatible agents
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
 
-Quick steps:
-
 1. Fork → `git checkout -b feat/my-skill`
 2. Add `skills/my-skill/SKILL.md` with valid frontmatter
 3. Wire it in `install.sh` and `skills/sys-admin/SKILL.md`
 4. Run `bash install.sh` + verify in a fresh Claude Code session
-5. `npm run typecheck` if you touched any `.ts` file
+5. Run `npm run typecheck` if you touched any `.ts` file
 6. Open a pull request
 
 No CLA, no bureaucracy. All skill additions welcome.
@@ -426,23 +368,16 @@ No CLA, no bureaucracy. All skill additions welcome.
 
 ## Safety boundaries
 
-The UI QA skill and Playwright spec never perform the following without explicit confirmation:
+| Skill | Read-only scope | Requires explicit confirmation for |
+|:------|:----------------|:-----------------------------------|
+| `website-ui-deep-qa` | Public pages only | Payments · bookings · email sends · account changes · data deletion · deployments |
+| `sql-deep-qa` | Read-only DB queries | `DROP` · `DELETE` · `TRUNCATE` · `ALTER TABLE` (must include rollback plan) |
+| `postgres-deep-qa` | Read-only DB queries | Same as `sql-deep-qa` |
+| `api-deep-qa` | Read endpoints freely | Mutations to production data · sqlmap · fuzzing (require authorization context) |
+| `seo-deep-qa` | GET/HEAD HTTP requests | Nothing — never submits forms, never authenticates |
+| `ui-visual-qa` | DOM inspection only | Baseline overwrites (require `UPDATE_SNAPSHOTS=true` flag) |
 
-- Payments, subscriptions, or billing changes
-- Bookings or reservations
-- Sending email or public messages
-- Destructive account changes or data deletion
-- Production deployments or live database migrations
-
-Login, 2FA, and payment flows require a human to take over the browser. Credentials are never requested in chat.
-
-The SQL audit skill and PostgreSQL deep audit skill run **read-only** by default. `DROP`, `DELETE`, `TRUNCATE`, and `ALTER TABLE` require explicit confirmation with a stated rollback plan.
-
-The API testing skill never sends requests to production endpoints that create, modify, or delete real data without explicit confirmation. Automated scanning tools (sqlmap, fuzzing) require authorization context before use.
-
-The visual design QA skill runs **read-only** by default. It never injects CSS into production pages, never modifies DOM or storage, and never overwrites visual regression baselines without an explicit `UPDATE_SNAPSHOTS=true` flag.
-
-The SEO audit skill runs **read-only** against public pages only. It never submits forms, never logs in, and never requests credentials. All HTTP checks use `curl` or `fetch` with read-only GET/HEAD requests.
+Login, 2FA, and payment flows in the UI skill require a human to take over the browser. Credentials are never requested in chat.
 
 ---
 

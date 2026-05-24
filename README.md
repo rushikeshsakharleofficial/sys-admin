@@ -2,7 +2,7 @@
 
 # sys-admin
 
-**A Claude Code plugin with UI QA, SQL/PostgreSQL auditing, API testing, and task-tracking skills.**  
+**A Claude Code plugin with UI QA, visual design QA, SQL/PostgreSQL auditing, API testing, and task-tracking skills.**  
 Install once. Invoke from any project. Add your own skills freely.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -15,7 +15,7 @@ Install once. Invoke from any project. Add your own skills freely.
 
 `sys-admin` is an open-source Claude Code plugin that bundles a growing set of QA and productivity skills. Each skill is a focused instruction file Claude loads on demand — no runtime, no server, no build step.
 
-Seven skills ship out of the box: a smart router that dispatches across domains, deep UI QA with Playwright, generic SQL auditing, PostgreSQL-specific auditing, REST/GraphQL/gRPC API testing, task tracking, and a Claude Code marketplace guide.
+Eight skills ship out of the box: a smart router, deep functional UI QA with Playwright, visual design QA with industry benchmarks, generic SQL auditing, PostgreSQL-specific auditing, REST/GraphQL/gRPC API testing, task tracking, and a Claude Code marketplace guide.
 
 **100% open. Fork it, modify it, add your own skills. MIT licensed.**
 
@@ -30,6 +30,7 @@ Seven skills ship out of the box: a smart router that dispatches across domains,
 | SQL / DB audit | `/sys-admin:sql-deep-qa` | Audits the SQL layer: injection (all types + sqlmap), schema, indexes, performance (pg_stat_statements, bloat), migrations (lock analysis), connections, ORM patterns, multi-tenancy, NoSQL injection, privilege audit, DB config hardening, compliance — 17 check categories |
 | PostgreSQL deep audit | `/sys-admin:postgres-deep-qa` | PostgreSQL-specific checks: XID wraparound, autovacuum tuning, WAL/replication, PgBouncer gotchas, partitioning, JSONB indexes, advanced index types (BRIN/GiST/GIN/Bloom), 11 RLS bypass vectors, PG16/PG17 features, CVE table, backup strategy (pgBackRest/Barman/WAL-G), postgresql.conf tuning — 17 check categories |
 | API testing | `/sys-admin:api-deep-qa` | Tests REST, GraphQL, and gRPC APIs: OWASP Top 10, JWT/OAuth2 attacks, rate limit bypass, webhooks, contract testing, fuzzing, load testing with k6, HTTP/2 & HTTP/3 — 18 check categories |
+| Visual design QA | `/sys-admin:ui-visual-qa` | Visual layer audit: pixel regression across 5 viewports + 3 browsers, 14-category design quality checks (typography, color, spacing, states, motion, icons, images, responsive, dark mode, skeletons, errors, scroll, z-index, font rendering), industry benchmark vs 73 real-world design references (Stripe, Linear, Vercel, Supabase, and 69 more) |
 | Smart Todo | `/sys-admin:smart-todo` | **Mandatory for any 3+ step task.** Decomposes work into a tracked list, updates status in real time, surfaces blockers |
 | Marketplace | `/sys-admin:marketplace` | Full Claude Code plugin lifecycle: discover, install, manage scopes, create `plugin.json` + `SKILL.md`, publish to GitHub, submit to community, validate, debug |
 
@@ -45,7 +46,7 @@ cd sys-admin
 bash install.sh
 ```
 
-Restart Claude Code. All seven skills appear in the `/` picker under the `sys-admin:` namespace.
+Restart Claude Code. All eight skills appear in the `/` picker under the `sys-admin:` namespace.
 
 > The script copies skill files to `~/.claude/plugins/cache/sys-admin/`, writes manifests, registers the plugin, and enables it automatically.
 
@@ -188,6 +189,46 @@ Covers all 18 categories:
 
 ---
 
+### Visual design QA
+
+```text
+/sys-admin:ui-visual-qa Audit the visual design of http://localhost:3000
+```
+
+Three-phase visual audit — run alongside `website-ui-deep-qa` for full UI coverage:
+
+**Phase 1 — Visual regression:** Pixel diffs across all 5 viewports and 3 browsers. Baselines created on first run via Playwright `toHaveScreenshot()`. Dark/light mode and reduced-motion regression included.
+
+**Phase 2 — Design quality audit (14 categories):**
+- Typography system: font scale, line-height, letter-spacing, overflow
+- Color & contrast: WCAG AA/AAA, design token compliance, no hardcoded hex
+- Spacing grid: 8pt grid compliance, touch targets (44×44px minimum)
+- Component states: hover, focus, active, disabled, loading, error, empty
+- Animation & motion: timing, easing, jank, `prefers-reduced-motion`
+- Icon system: size grid, `currentColor`, SVG quality, alignment
+- Image quality: retina resolution, aspect ratio, lazy loading, CLS prevention
+- Responsive behavior: breakpoint transitions, no horizontal scroll
+- Dark mode / theme: CSS variables, no hardcoded colors, system preference
+- Skeleton & loading: content dimension match, no CLS
+- Error & empty states: clear messaging, ARIA live regions, actionable CTAs
+- Scroll behavior: sticky headers, modal containment, scroll axes
+- Z-index & stacking: modal > dropdown > header, no bleed-through
+- Font rendering: `font-display: swap`, antialiasing, web font preload
+
+**Phase 3 — Industry benchmark (73 designs from [awesome-design-md](https://github.com/voltagent/awesome-design-md)):**
+
+Condition-based selection picks the best reference — Stripe for fintech, Linear for dark SaaS tools, Vercel for dev platforms, Supabase for databases, Coinbase for crypto, Tesla for EV/tech, Spotify for media, and 66 more. Every defect gets an industry citation:
+
+```
+VIS-DEFECT-3: Card padding 10px/14px — not on 8pt grid
+Industry reference: Stripe uses 8px base unit, scale xxs(2)·xs(4)·sm(8)·md(12)·lg(16)
+Fix: Standardize to CSS custom properties --spacing-sm: 8px, --spacing-md: 16px
+```
+
+Artifacts land in `qa-artifacts/visual/`: screenshots, diffs, phase2-audit.md, benchmark.md, final-report.md.
+
+---
+
 ### Smart Todo
 
 ```text
@@ -303,6 +344,7 @@ skills/
   sql-deep-qa/SKILL.md        SQL audit skill — 17 check categories
   postgres-deep-qa/SKILL.md   PostgreSQL deep audit — 17 check categories
   api-deep-qa/SKILL.md        API testing skill — 18 check categories
+  ui-visual-qa/SKILL.md       visual design QA — regression + 14 quality categories + 73-design benchmark
   smart-todo/SKILL.md         task tracking skill
   marketplace/SKILL.md        Claude Code plugin lifecycle guide
 tests/deep-ui/
@@ -372,6 +414,8 @@ Login, 2FA, and payment flows require a human to take over the browser. Credenti
 The SQL audit skill and PostgreSQL deep audit skill run **read-only** by default. `DROP`, `DELETE`, `TRUNCATE`, and `ALTER TABLE` require explicit confirmation with a stated rollback plan.
 
 The API testing skill never sends requests to production endpoints that create, modify, or delete real data without explicit confirmation. Automated scanning tools (sqlmap, fuzzing) require authorization context before use.
+
+The visual design QA skill runs **read-only** by default. It never injects CSS into production pages, never modifies DOM or storage, and never overwrites visual regression baselines without an explicit `UPDATE_SNAPSHOTS=true` flag.
 
 ---
 

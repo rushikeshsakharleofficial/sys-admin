@@ -27,6 +27,7 @@ Scan the user's request for trigger words. Each word maps to a subskill.
 | API, endpoint, REST, GraphQL, gRPC, HTTP, request, response, status code, JSON, JWT, token, rate limit, CORS, webhook, OpenAPI, Swagger, route, controller, payload, headers, auth, IDOR, BOLA, rate limiting, injection, fuzzing, contract, Pact, k6, Artillery | `api-deep-qa` |
 | plan, track, todo, checklist, steps, list, organize, manage tasks, what's left, progress | `smart-todo` |
 | plugin, skill, marketplace, install plugin, publish plugin, plugin.json, marketplace.json, SKILL.md, claude plugin, /plugin, add marketplace, submit plugin, plugin frontmatter, plugin manifest, plugin namespace, plugin scope | `marketplace` |
+| visual regression, pixel diff, design audit, design quality, component states, spacing grid, design tokens, visual QA, typography audit, color tokens, dark mode broken, animation quality, icon consistency, image quality, loading states, skeleton, error state design, touch targets, z-index, font rendering, does it look good, UI looks bad, compare to Stripe, compare to Linear, compare to Vercel, pixel perfect, screenshot diff, baseline, visual-qa, ui-visual-qa | `ui-visual-qa` |
 
 ---
 
@@ -47,13 +48,14 @@ Count distinct domains matched:
 When multiple subskills are needed, always run in this order:
 
 ```
-1. smart-todo      ← ALWAYS FIRST if task has 3+ steps (mandatory)
-2. sql-deep-qa     ← security/data risk highest; run before UI
-3. api-deep-qa     ← API surface before UI layer
-4. website-ui-deep-qa  ← UI/frontend last
+1. smart-todo          ← ALWAYS FIRST if task has 3+ steps (mandatory)
+2. sql-deep-qa         ← security/data risk highest; run before UI
+3. api-deep-qa         ← API surface before UI layer
+4. website-ui-deep-qa  ← functional UI layer
+5. ui-visual-qa        ← visual design layer last (runs on top of functional checks)
 ```
 
-**Rationale:** Data and API vulnerabilities are higher severity than UI defects. Fix the foundation before the surface.
+**Rationale:** Data and API vulnerabilities are higher severity than UI defects. Functional correctness before visual polish. `ui-visual-qa` runs after `website-ui-deep-qa` since visual checks assume functional correctness.
 
 Example multi-domain dispatch:
 
@@ -135,6 +137,7 @@ When smart-todo activates:
 | Task tracking | `smart-todo` | Mandatory for 3+ step tasks: decompose, track, update, surface blockers | ✅ Active (auto) |
 | Claude Code plugin / marketplace | `marketplace` | Full plugin lifecycle: discover, install, manage scopes, create plugin.json + SKILL.md, publish to GitHub, submit to community, validate, debug | ✅ Active |
 | PostgreSQL deep audit | `postgres-deep-qa` | 17 categories: XID wraparound, autovacuum, WAL/replication, PgBouncer gotchas, partitioning, JSONB/advanced indexes, FTS, lock monitoring, RLS bypass vectors (11), sequences/IDENTITY, FDW, extensions, monitoring queries, backup strategy, postgresql.conf tuning, anti-patterns, compliance | ✅ Active |
+| Visual design QA | `ui-visual-qa` | 3 phases: visual regression (pixel diff, all viewports), design quality (14 categories: typography, color, spacing, states, motion, icons, images, responsive, dark mode, skeletons, errors, scroll, z-index, font rendering), industry benchmark (73-design reference map from awesome-design-md, condition-based selection) | ✅ Active |
 | Backend contracts, REST rate limits | — | — | Planned |
 | Security deep dive (OWASP, CVEs, dep scan) | — | — | Planned |
 | Test quality (coverage, flaky, mutation) | — | — | Planned |

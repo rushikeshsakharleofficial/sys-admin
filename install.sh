@@ -123,9 +123,7 @@ CLAUDE_EOF
 mkdir -p "$PLUGIN_CACHE/.claude-plugin"
 cat > "$PLUGIN_CACHE/.claude-plugin/plugin.json" << 'PLUGIN_EOF'
 {
-  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "sys-admin",
-  "displayName": "Sys Admin",
   "description": "Eleven skills: UI/UX design builder (3D, GSAP, Framer Motion), functional UI QA (Playwright, 46 helpers), visual design QA (regression + benchmark), SEO audit (21 categories), SQL audit (17 categories), PostgreSQL deep audit, API testing (18 categories), web server security (Apache/Nginx/OLS, 22 categories), smart todo, and marketplace guide.",
   "author": {
     "name": "Rushikesh Sakharle",
@@ -135,7 +133,7 @@ cat > "$PLUGIN_CACHE/.claude-plugin/plugin.json" << 'PLUGIN_EOF'
   "license": "MIT",
   "homepage": "https://github.com/rushikeshsakharleofficial/sys-admin",
   "repository": "https://github.com/rushikeshsakharleofficial/sys-admin",
-  "keywords": ["testing", "qa", "ui", "web", "accessibility", "security", "playwright", "sql", "postgresql", "api", "seo", "visual", "marketplace"]
+  "keywords": ["testing", "qa", "ui", "web", "security", "playwright", "sql", "postgresql", "api", "seo", "visual", "design"]
 }
 PLUGIN_EOF
 

@@ -2,7 +2,7 @@
 
 # sys-admin
 
-**A Claude Code plugin with eleven skills — UI/UX design builder, web server security, visual design QA, SEO, SQL, PostgreSQL, API testing, and more.**  
+**A Claude Code plugin with twelve skills — UI/UX design builder, web server security, Supabase security audit, visual design QA, SEO, SQL, PostgreSQL, API testing, and more.**  
 Install once. Invoke from any project. Add your own skills freely.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -42,7 +42,7 @@ Install once. Invoke from any project. Add your own skills freely.
 
 `sys-admin` is an open-source Claude Code plugin that bundles a growing set of QA and productivity skills. Each skill is a focused instruction file Claude loads on demand — no runtime, no server, no build step.
 
-Eleven skills ship out of the box: a **smart router**, **UI/UX design builder** (animations, 3D, design systems, live scraping of 21st.dev and design sites), **functional UI QA** with Playwright (46 helpers), **visual design QA** with industry benchmarks, **SEO auditing**, **SQL auditing**, **PostgreSQL-specific auditing**, **REST/GraphQL/gRPC API testing**, **task tracking**, and a **Claude Code marketplace guide**.
+Twelve skills ship out of the box: a **smart router**, **UI/UX design builder** (animations, 3D, design systems, live scraping of 21st.dev and design sites), **functional UI QA** with Playwright (46 helpers), **visual design QA** with industry benchmarks, **SEO auditing**, **SQL auditing**, **PostgreSQL-specific auditing**, **REST/GraphQL/gRPC API testing**, **task tracking**, and a **Claude Code marketplace guide**.
 
 **100% open. Fork it, modify it, add your own skills. MIT licensed.**
 
@@ -61,6 +61,7 @@ Eleven skills ship out of the box: a **smart router**, **UI/UX design builder** 
 | SEO audit | `/sys-admin:seo-deep-qa` | 21 categories: title/meta/headings, Core Web Vitals, structured data, canonical, sitemap, hreflang, E-E-A-T, crawlability |
 | Visual design QA | `/sys-admin:ui-visual-qa` | Pixel regression + 14-category design quality + 73-design industry benchmark (awesome-design-md) |
 | **Web Server Security** | `/sys-admin:webserver-security` | **22 categories:** TLS audit, security headers, directory listing, HTTP methods, sensitive file exposure, admin interfaces, path traversal, CORS, rate limiting, DoS, request smuggling, WAF — Apache + Nginx + OpenLiteSpeed + any server |
+| **Supabase Security** | `/sys-admin:supabase-security` | **20 categories:** RLS policy audit, API key exposure, Postgres roles, JWT config, OAuth, Storage buckets, Edge Functions, PostgREST/GraphQL, Realtime auth, secrets + Vault, tenant isolation, GDPR compliance |
 | Smart Todo | `/sys-admin:smart-todo` | **Primary skill — always first.** Tracked list with `[P1]`/`[P2]`/`[P3]`/`[BLOCKER]` tags |
 | Marketplace | `/sys-admin:marketplace` | Full Claude Code plugin lifecycle: discover, install, create, publish, debug |
 
@@ -372,6 +373,7 @@ skills/
   ui-visual-qa/SKILL.md       visual design QA — regression + 14 categories + 73-design benchmark
   ui-ux-designer/SKILL.md     UI/UX design builder — tokens, 3D, GSAP, Framer Motion, live scraping
   webserver-security/SKILL.md web server security — Apache/Nginx/OLS, 22 check categories
+  supabase-security/SKILL.md  Supabase security audit — RLS, keys, auth, storage, functions, 20 categories
   smart-todo/SKILL.md         task tracking
   marketplace/SKILL.md        Claude Code plugin lifecycle guide
 tests/deep-ui/

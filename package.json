@@ -2,7 +2,7 @@
   "name": "website-ui-deep-qa-skill",
   "version": "2.0.0",
   "private": true,
-  "description": "sys-admin — Claude Code plugin with eleven skills: UI/UX design builder (3D, GSAP, Framer Motion, live scraping), web server security (Apache/Nginx/OLS, 22 categories), UI QA (Playwright, 46 helpers), visual design QA (regression + 73-design benchmark), SEO audit (21 categories), SQL audit, PostgreSQL deep audit, API testing, smart todo, and marketplace guide.",
+  "description": "sys-admin — Claude Code plugin with twelve skills: UI/UX design builder (3D, GSAP, Framer Motion), web server security (Apache/Nginx/OLS, 22 categories), Supabase security audit (20 categories: RLS/keys/auth/storage/functions), UI QA (Playwright, 46 helpers), visual design QA, SEO audit (21 categories), SQL audit, PostgreSQL deep audit, API testing, smart todo, marketplace guide.",
   "scripts": {
     "test": "playwright test tests/deep-ui/ui-deep-qa.spec.ts",
     "test:headed": "playwright test tests/deep-ui/ui-deep-qa.spec.ts --headed",

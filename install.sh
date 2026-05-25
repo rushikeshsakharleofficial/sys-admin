@@ -80,11 +80,16 @@ mkdir -p "$PLUGIN_CACHE/skills/webserver-security"
 cp "$REPO_DIR/skills/webserver-security/SKILL.md" \
    "$PLUGIN_CACHE/skills/webserver-security/SKILL.md"
 
+# supabase-security subskill
+mkdir -p "$PLUGIN_CACHE/skills/supabase-security"
+cp "$REPO_DIR/skills/supabase-security/SKILL.md" \
+   "$PLUGIN_CACHE/skills/supabase-security/SKILL.md"
+
 # Plugin CLAUDE.md
 cat > "$PLUGIN_CACHE/CLAUDE.md" << 'CLAUDE_EOF'
 # Sys Admin
 
-Eleven QA, design, and productivity skills — invoke via the router or directly.
+Twelve QA, design, and productivity skills — invoke via the router or directly.
 
 - Multi-domain audit (UI + SQL + API + SEO + visual + server): use `sys-admin:sys-admin`
 - Build UI/UX, animations, 3D, scroll effects, design systems: use `sys-admin:ui-ux-designer`
@@ -95,6 +100,7 @@ Eleven QA, design, and productivity skills — invoke via the router or directly
 - PostgreSQL-specific deep audit: use `sys-admin:postgres-deep-qa`
 - REST / GraphQL / gRPC API testing: use `sys-admin:api-deep-qa`
 - Web server security (Apache/Nginx/OpenLiteSpeed/any): use `sys-admin:webserver-security`
+- Supabase security audit (RLS, keys, auth, storage, functions): use `sys-admin:supabase-security`
 - Claude Code plugin lifecycle: use `sys-admin:marketplace`
 
 ## MANDATORY RULE — Smart Todo is always first
@@ -124,7 +130,7 @@ mkdir -p "$PLUGIN_CACHE/.claude-plugin"
 cat > "$PLUGIN_CACHE/.claude-plugin/plugin.json" << 'PLUGIN_EOF'
 {
   "name": "sys-admin",
-  "description": "Eleven skills: UI/UX design builder (3D, GSAP, Framer Motion), functional UI QA (Playwright, 46 helpers), visual design QA (regression + benchmark), SEO audit (21 categories), SQL audit (17 categories), PostgreSQL deep audit, API testing (18 categories), web server security (Apache/Nginx/OLS, 22 categories), smart todo, and marketplace guide.",
+  "description": "Twelve skills: UI/UX design builder, functional UI QA (Playwright, 46 helpers), visual design QA, SEO audit (21 categories), SQL audit (17 categories), PostgreSQL deep audit, API testing (18 categories), web server security (Apache/Nginx/OLS, 22 categories), Supabase security audit (20 categories: RLS/keys/auth/storage/functions), smart todo, marketplace guide.",
   "author": {
     "name": "Rushikesh Sakharle",
     "url": "https://github.com/rushikeshsakharleofficial"
@@ -224,6 +230,7 @@ echo "   /sys-admin:sql-deep-qa         — SQL audit (17 categories)"
 echo "   /sys-admin:postgres-deep-qa    — PostgreSQL deep audit (17 categories)"
 echo "   /sys-admin:api-deep-qa         — API testing (18 categories)"
 echo "   /sys-admin:webserver-security  — Apache/Nginx/OLS/any server security (22 categories)"
+echo "   /sys-admin:supabase-security   — Supabase security audit (20 categories)"
 echo "   /sys-admin:smart-todo          — task tracking (auto for 3+ step tasks)"
 echo "   /sys-admin:marketplace         — Claude Code plugin lifecycle"
 echo ""

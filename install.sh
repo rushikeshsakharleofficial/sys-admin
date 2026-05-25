@@ -75,13 +75,18 @@ mkdir -p "$PLUGIN_CACHE/skills/ui-ux-designer"
 cp "$REPO_DIR/skills/ui-ux-designer/SKILL.md" \
    "$PLUGIN_CACHE/skills/ui-ux-designer/SKILL.md"
 
+# webserver-security subskill
+mkdir -p "$PLUGIN_CACHE/skills/webserver-security"
+cp "$REPO_DIR/skills/webserver-security/SKILL.md" \
+   "$PLUGIN_CACHE/skills/webserver-security/SKILL.md"
+
 # Plugin CLAUDE.md
 cat > "$PLUGIN_CACHE/CLAUDE.md" << 'CLAUDE_EOF'
 # Sys Admin
 
-Ten QA, design, and productivity skills — invoke via the router or directly.
+Eleven QA, design, and productivity skills — invoke via the router or directly.
 
-- Multi-domain audit (UI + SQL + API + SEO + visual): use `sys-admin:sys-admin`
+- Multi-domain audit (UI + SQL + API + SEO + visual + server): use `sys-admin:sys-admin`
 - Build UI/UX, animations, 3D, scroll effects, design systems: use `sys-admin:ui-ux-designer`
 - Functional UI / web app testing: use `sys-admin:website-ui-deep-qa`
 - Visual design QA (regression + industry benchmark): use `sys-admin:ui-visual-qa`
@@ -89,6 +94,7 @@ Ten QA, design, and productivity skills — invoke via the router or directly.
 - SQL / database audit: use `sys-admin:sql-deep-qa`
 - PostgreSQL-specific deep audit: use `sys-admin:postgres-deep-qa`
 - REST / GraphQL / gRPC API testing: use `sys-admin:api-deep-qa`
+- Web server security (Apache/Nginx/OpenLiteSpeed/any): use `sys-admin:webserver-security`
 - Claude Code plugin lifecycle: use `sys-admin:marketplace`
 
 ## MANDATORY RULE — Smart Todo is always first
@@ -120,7 +126,7 @@ cat > "$PLUGIN_CACHE/.claude-plugin/plugin.json" << 'PLUGIN_EOF'
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "sys-admin",
   "displayName": "Sys Admin",
-  "description": "Ten skills: UI/UX design builder (3D, GSAP, Framer Motion, design systems), functional UI QA (Playwright, 46 helpers), visual design QA (regression + industry benchmark), SEO audit (21 categories), SQL audit (17 categories), PostgreSQL deep audit, API testing (18 categories), smart todo, and marketplace guide.",
+  "description": "Eleven skills: UI/UX design builder (3D, GSAP, Framer Motion), functional UI QA (Playwright, 46 helpers), visual design QA (regression + benchmark), SEO audit (21 categories), SQL audit (17 categories), PostgreSQL deep audit, API testing (18 categories), web server security (Apache/Nginx/OLS, 22 categories), smart todo, and marketplace guide.",
   "author": {
     "name": "Rushikesh Sakharle",
     "url": "https://github.com/rushikeshsakharleofficial"
@@ -137,7 +143,7 @@ cat > "$PLUGIN_CACHE/.claude-plugin/marketplace.json" << 'MARKET_EOF'
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "sys-admin",
-  "description": "Ten skills for websites and web apps: UI/UX design builder with 3D (Three.js/R3F), scroll animations (GSAP/Lenis), Framer Motion, design systems; functional UI QA (Playwright, 46 helpers); visual design QA (pixel regression + 73-design benchmark); SEO audit (21 categories); SQL audit; PostgreSQL deep audit; API testing; smart todo; marketplace guide.",
+  "description": "Eleven skills: UI/UX design builder (3D/GSAP/Framer Motion), functional UI QA (Playwright, 46 helpers), visual design QA (pixel regression + 73-design benchmark), SEO audit (21 categories), web server security (Apache/Nginx/OLS, 22 categories: TLS, headers, traversal, DoS, RCE, WAF), SQL audit, PostgreSQL deep audit, API testing, smart todo, marketplace guide.",
   "owner": {
     "name": "Rushikesh Sakharle",
     "url": "https://github.com/rushikeshsakharleofficial"
@@ -145,7 +151,7 @@ cat > "$PLUGIN_CACHE/.claude-plugin/marketplace.json" << 'MARKET_EOF'
   "plugins": [
     {
       "name": "sys-admin",
-      "description": "Ten skills. Use sys-admin:ui-ux-designer to build UI/UX with 3D+animations, sys-admin:sys-admin for multi-domain routing, sys-admin:website-ui-deep-qa for functional testing, sys-admin:ui-visual-qa for visual QA, sys-admin:seo-deep-qa for SEO.",
+      "description": "Eleven skills. Use sys-admin:webserver-security for Apache/Nginx/OLS hardening, sys-admin:ui-ux-designer to build UI/UX, sys-admin:sys-admin for multi-domain routing, sys-admin:website-ui-deep-qa for functional UI testing, sys-admin:ui-visual-qa for visual QA.",
       "source": "./",
       "category": "testing",
       "homepage": "https://github.com/rushikeshsakharleofficial/sys-admin"
@@ -219,6 +225,7 @@ echo "   /sys-admin:seo-deep-qa         — SEO audit (21 check categories)"
 echo "   /sys-admin:sql-deep-qa         — SQL audit (17 categories)"
 echo "   /sys-admin:postgres-deep-qa    — PostgreSQL deep audit (17 categories)"
 echo "   /sys-admin:api-deep-qa         — API testing (18 categories)"
+echo "   /sys-admin:webserver-security  — Apache/Nginx/OLS/any server security (22 categories)"
 echo "   /sys-admin:smart-todo          — task tracking (auto for 3+ step tasks)"
 echo "   /sys-admin:marketplace         — Claude Code plugin lifecycle"
 echo ""

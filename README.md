@@ -2,7 +2,7 @@
 
 # sys-admin
 
-**A Claude Code plugin with ten skills — UI/UX design builder, visual design QA, SEO, SQL, PostgreSQL, API testing, and more.**  
+**A Claude Code plugin with eleven skills — UI/UX design builder, web server security, visual design QA, SEO, SQL, PostgreSQL, API testing, and more.**  
 Install once. Invoke from any project. Add your own skills freely.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -19,6 +19,7 @@ Install once. Invoke from any project. Add your own skills freely.
 - [Usage](#usage)
   - [Router](#router--smart-dispatch)
   - [UI/UX Designer](#uiux-designer--build-animate-ship)
+  - [Web Server Security](#web-server-security)
   - [UI / Web QA](#ui--web-qa)
   - [SQL / DB audit](#sql--db-audit)
   - [PostgreSQL deep audit](#postgresql-deep-audit)
@@ -41,7 +42,7 @@ Install once. Invoke from any project. Add your own skills freely.
 
 `sys-admin` is an open-source Claude Code plugin that bundles a growing set of QA and productivity skills. Each skill is a focused instruction file Claude loads on demand — no runtime, no server, no build step.
 
-Ten skills ship out of the box: a **smart router**, **UI/UX design builder** (animations, 3D, design systems, live scraping of 21st.dev and design sites), **functional UI QA** with Playwright (46 helpers), **visual design QA** with industry benchmarks, **SEO auditing**, **SQL auditing**, **PostgreSQL-specific auditing**, **REST/GraphQL/gRPC API testing**, **task tracking**, and a **Claude Code marketplace guide**.
+Eleven skills ship out of the box: a **smart router**, **UI/UX design builder** (animations, 3D, design systems, live scraping of 21st.dev and design sites), **functional UI QA** with Playwright (46 helpers), **visual design QA** with industry benchmarks, **SEO auditing**, **SQL auditing**, **PostgreSQL-specific auditing**, **REST/GraphQL/gRPC API testing**, **task tracking**, and a **Claude Code marketplace guide**.
 
 **100% open. Fork it, modify it, add your own skills. MIT licensed.**
 
@@ -59,7 +60,8 @@ Ten skills ship out of the box: a **smart router**, **UI/UX design builder** (an
 | API testing | `/sys-admin:api-deep-qa` | 18 categories: OWASP Top 10, JWT/OAuth2, GraphQL, gRPC, webhooks, fuzzing, k6 load testing, contract testing |
 | SEO audit | `/sys-admin:seo-deep-qa` | 21 categories: title/meta/headings, Core Web Vitals, structured data, canonical, sitemap, hreflang, E-E-A-T, crawlability |
 | Visual design QA | `/sys-admin:ui-visual-qa` | Pixel regression + 14-category design quality + 73-design industry benchmark (awesome-design-md) |
-| Smart Todo | `/sys-admin:smart-todo` | **Mandatory for any 3+ step task.** Tracked list with `[P1]`/`[P2]`/`[P3]`/`[BLOCKER]` tags |
+| **Web Server Security** | `/sys-admin:webserver-security` | **22 categories:** TLS audit, security headers, directory listing, HTTP methods, sensitive file exposure, admin interfaces, path traversal, CORS, rate limiting, DoS, request smuggling, WAF — Apache + Nginx + OpenLiteSpeed + any server |
+| Smart Todo | `/sys-admin:smart-todo` | **Primary skill — always first.** Tracked list with `[P1]`/`[P2]`/`[P3]`/`[BLOCKER]` tags |
 | Marketplace | `/sys-admin:marketplace` | Full Claude Code plugin lifecycle: discover, install, create, publish, debug |
 
 ---
@@ -132,6 +134,29 @@ The router scans the request for domain keywords and dispatches subskills in pri
 | Design system | CSS tokens (colors, type, spacing, elevation, radius, motion) |
 
 After building, run `/sys-admin:ui-visual-qa` to audit visual quality.
+
+---
+
+### Web Server Security
+
+```text
+/sys-admin:webserver-security Audit Nginx config at /etc/nginx/nginx.conf
+/sys-admin:webserver-security Security audit https://mysite.com
+/sys-admin:webserver-security Harden our Apache 2.4 server
+/sys-admin:webserver-security Check OpenLiteSpeed for CVEs and misconfigs
+```
+
+Three modes: **live server** (curl + testssl.sh + nikto) → **config file audit** (nginx.conf / httpd.conf / .htaccess inspection) → **passive recon** (DNS, headers, certificate transparency).
+
+| Check | What it finds |
+|:------|:-------------|
+| TLS/SSL | Weak protocols (TLS 1.0/1.1/SSLv3), broken ciphers, missing OCSP stapling, cert expiry |
+| Security headers | Missing HSTS, CSP, X-Frame-Options, CORP, COOP, COEP |
+| Version disclosure | `Server:` header, `X-Powered-By`, `X-AspNet-Version` |
+| Sensitive files | `.env`, `.git/config`, `.htpasswd`, `phpinfo.php`, backup zips |
+| Server-specific | Nginx alias off-by-slash, Apache path traversal CVE-2021-41773, OLS WebAdmin default creds + ESI injection |
+| DoS / rate limiting | Slowloris, missing connection limits, missing request size caps |
+| Request smuggling | CL.TE and TE.CL desync via proxy chains |
 
 ---
 
@@ -346,6 +371,7 @@ skills/
   seo-deep-qa/SKILL.md        SEO audit — 21 categories
   ui-visual-qa/SKILL.md       visual design QA — regression + 14 categories + 73-design benchmark
   ui-ux-designer/SKILL.md     UI/UX design builder — tokens, 3D, GSAP, Framer Motion, live scraping
+  webserver-security/SKILL.md web server security — Apache/Nginx/OLS, 22 check categories
   smart-todo/SKILL.md         task tracking
   marketplace/SKILL.md        Claude Code plugin lifecycle guide
 tests/deep-ui/
@@ -406,6 +432,7 @@ No CLA, no bureaucracy. All skill additions welcome.
 | `seo-deep-qa` | GET/HEAD HTTP requests | Nothing — never submits forms, never authenticates |
 | `ui-visual-qa` | DOM inspection only | Baseline overwrites (require `UPDATE_SNAPSHOTS=true` flag) |
 | `ui-ux-designer` | Code blocks only — no file writes | Nothing — outputs code, user decides what to paste |
+| `webserver-security` | Read-only audit (curl, testssl, headers) | Active scanning (nikto, nuclei, gobuster) requires explicit authorization — never runs against production without confirmation |
 
 Login, 2FA, and payment flows in the UI skill require a human to take over the browser. Credentials are never requested in chat.
 

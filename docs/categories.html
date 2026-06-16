@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>46 Categories — SysAdmin Skills</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+  <!-- Nav -->
+  <nav class="sticky top-0 z-50 bg-gray-950/90 backdrop-blur border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="text-green-500 text-xl font-bold">⚡</span>
+        <span class="font-bold text-white">SysAdmin Skills</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm">
+        <a href="features.html" class="text-gray-400 hover:text-white transition-colors">Features</a>
+        <a href="categories.html" class="text-white font-medium border-b border-green-500 pb-0.5">46 Categories</a>
+        <a href="install.html" class="text-gray-400 hover:text-white transition-colors">Install</a>
+        <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="text-gray-400 hover:text-white transition-colors">GitHub</a>
+      </div>
+      <a href="install.html" class="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <section class="max-w-7xl mx-auto px-6 pt-20 pb-12 text-center">
+    <h1 class="text-4xl font-extrabold text-white mb-4">All 46 Check Categories</h1>
+    <p class="text-gray-400 text-lg max-w-2xl mx-auto">Every check writes artifacts to <code class="text-green-400 font-mono">qa-artifacts/</code>. Checks marked ✅ assert HIGH severity.</p>
+  </section>
+
+  <!-- Legend -->
+  <div class="max-w-7xl mx-auto px-6 mb-8 flex flex-wrap gap-4 text-xs text-gray-500">
+    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-blue-400 rounded-sm"></span>Layout</span>
+    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-purple-400 rounded-sm"></span>Interactions</span>
+    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-yellow-400 rounded-sm"></span>Accessibility</span>
+    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-orange-400 rounded-sm"></span>Media</span>
+    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-400 rounded-sm"></span>Security</span>
+    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-cyan-400 rounded-sm"></span>Network/Perf</span>
+    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-green-400 rounded-sm"></span>SEO/Content</span>
+  </div>
+
+  <!-- Table -->
+  <section class="max-w-7xl mx-auto px-6 pb-24">
+    <div class="overflow-x-auto rounded-xl border border-gray-800">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="bg-gray-900 text-gray-400 text-left">
+            <th class="px-5 py-3 font-semibold">Category</th>
+            <th class="px-5 py-3 font-semibold">Helper file</th>
+            <th class="px-5 py-3 font-semibold">Artifact folder</th>
+            <th class="px-5 py-3 font-semibold text-center">HIGH assert</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-800">
+          <!-- Layout group -->
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-blue-400 rounded-full"></span>Screenshots</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">screenshots.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">screenshots/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-blue-400 rounded-full"></span>Layout issues</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">layout.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">layout/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-blue-400 rounded-full"></span>Content clipping</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">content-clipping.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">content-clipping/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-blue-400 rounded-full"></span>Scroll axes (H+V)</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">scroll-axes.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">scroll-axes/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-blue-400 rounded-full"></span>Zoom + scroll</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">zoom-scroll.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">zoom-scroll/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-blue-400 rounded-full"></span>Responsive behavior</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">responsive-behavior.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">responsive-behavior/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-blue-400 rounded-full"></span>Typography</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">typography.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">typography/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <!-- Interactions group -->
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Interactions</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">interactions.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">—</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Button animations</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">button-animations.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">button-animations/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Forms</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">forms.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">forms/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Form alignment</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">form-alignment.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">form-alignment/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Overlays</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">overlays.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">overlays/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Popup quality</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">popup-quality.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">popup-quality/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Toasts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">toasts.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">toasts/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Tables</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">tables.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">tables/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Carousels</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">carousel.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">carousel/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Media players</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">media-player.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">media-player/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Search</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">search.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">search/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Sidebar</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">sidebar.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">sidebar/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Dialog scroll</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">dialog-scroll.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">dialog-scroll/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <!-- Accessibility group -->
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-yellow-400 rounded-full"></span>Accessibility</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">accessibility.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">accessibility/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-yellow-400 rounded-full"></span>Keyboard focus</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">accessibility.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">accessibility/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-yellow-400 rounded-full"></span>Reduced motion</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">reduced-motion.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">reduced-motion/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-yellow-400 rounded-full"></span>Theme comparison</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">theme-comparison.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">theme-comparison/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-yellow-400 rounded-full"></span>Cookie consent</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">cookie-consent.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">cookie-consent/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-yellow-400 rounded-full"></span>HTML validation</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">html-validation.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">html-validation/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <!-- Media group -->
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-orange-400 rounded-full"></span>Broken images</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">broken-images.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">broken-images/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-orange-400 rounded-full"></span>Lazy images</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">lazy-images.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">lazy-images/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-orange-400 rounded-full"></span>Print media</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">print-media.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">print-media/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <!-- Security group -->
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-red-400 rounded-full"></span>Security (DOM)</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">security.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">security/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-red-400 rounded-full"></span>CSRF</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">csrf.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">csrf/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-red-400 rounded-full"></span>Auth surface</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">auth.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">auth/</td>
+            <td class="px-5 py-3 text-center text-red-400">✅ critical</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-red-400 rounded-full"></span>Auth permissions</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">auth-permissions.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">auth-permissions/</td>
+            <td class="px-5 py-3 text-center text-red-400">✅ critical</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-red-400 rounded-full"></span>Flow bypass</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">flow-bypass.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">flow-bypass/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-red-400 rounded-full"></span>User lifecycle</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">user-lifecycle.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">user-lifecycle/</td>
+            <td class="px-5 py-3 text-center text-red-400">✅ critical</td>
+          </tr>
+          <!-- Network/Perf group -->
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-cyan-400 rounded-full"></span>Network</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">network.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">network/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-cyan-400 rounded-full"></span>Performance</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">performance.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">performance/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-cyan-400 rounded-full"></span>Storage</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">storage.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">storage/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-cyan-400 rounded-full"></span>Console</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">console.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">console/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-cyan-400 rounded-full"></span>Back/forward nav</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">back-forward.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">back-forward/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-cyan-400 rounded-full"></span>PWA</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">pwa.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">pwa/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <!-- SEO/Content group -->
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-green-400 rounded-full"></span>SEO</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">seo.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">seo/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-green-400 rounded-full"></span>Sitemap + robots</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">sitemap.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">sitemap/</td>
+            <td class="px-5 py-3 text-center text-gray-600">—</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-green-400 rounded-full"></span>Link checker</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">link-checker.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">link-checker/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-green-400 rounded-full"></span>Edge states</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">edge-states.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">edge-states/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+          <tr class="bg-gray-950 hover:bg-gray-900/60 transition-colors">
+            <td class="px-5 py-3 flex items-center gap-2"><span class="w-2 h-2 bg-green-400 rounded-full"></span>Placeholder content</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">placeholder-content.ts</td>
+            <td class="px-5 py-3 font-mono text-gray-400 text-xs">placeholder-content/</td>
+            <td class="px-5 py-3 text-center text-green-400">✅</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+      <span>© 2026 SysAdmin Skills · MIT License</span>
+      <div class="flex gap-6">
+        <a href="index.html" class="hover:text-white transition-colors">Home</a>
+        <a href="features.html" class="hover:text-white transition-colors">Features</a>
+        <a href="categories.html" class="hover:text-white transition-colors">Categories</a>
+        <a href="install.html" class="hover:text-white transition-colors">Install</a>
+        <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="hover:text-white transition-colors">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

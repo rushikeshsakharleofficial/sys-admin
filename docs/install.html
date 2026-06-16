@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Install — SysAdmin Skills</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .terminal { background: #0d1117; border: 1px solid #30363d; font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+  <!-- Nav -->
+  <nav class="sticky top-0 z-50 bg-gray-950/90 backdrop-blur border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="text-green-500 text-xl font-bold">⚡</span>
+        <span class="font-bold text-white">SysAdmin Skills</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm">
+        <a href="features.html" class="text-gray-400 hover:text-white transition-colors">Features</a>
+        <a href="categories.html" class="text-gray-400 hover:text-white transition-colors">46 Categories</a>
+        <a href="install.html" class="text-white font-medium border-b border-green-500 pb-0.5">Install</a>
+        <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="text-gray-400 hover:text-white transition-colors">GitHub</a>
+      </div>
+      <a href="install.html" class="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <section class="max-w-4xl mx-auto px-6 pt-20 pb-12 text-center">
+    <h1 class="text-4xl font-extrabold text-white mb-4">Install in 30 Seconds</h1>
+    <p class="text-gray-400 text-lg">Works with Claude Code. No config. No setup. Just point and run.</p>
+  </section>
+
+  <!-- Steps -->
+  <section class="max-w-3xl mx-auto px-6 pb-24 space-y-10">
+
+    <!-- Step 1 -->
+    <div>
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-sm">1</span>
+        <h2 class="text-lg font-semibold text-white">Install the skill</h2>
+      </div>
+      <div class="terminal rounded-xl p-5 text-sm">
+        <div class="flex gap-1.5 mb-4"><span class="w-3 h-3 bg-red-500 rounded-full"></span><span class="w-3 h-3 bg-yellow-500 rounded-full"></span><span class="w-3 h-3 bg-green-500 rounded-full"></span></div>
+        <p class="text-gray-500"># In your terminal</p>
+        <p class="text-green-400">$ claude install rushikeshsakharleofficial/sys-admin</p>
+        <br/>
+        <p class="text-gray-400">✓ Installing SysAdmin Skills...</p>
+        <p class="text-gray-400">✓ 12 skills registered</p>
+        <p class="text-gray-400">✓ Done</p>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div>
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-sm">2</span>
+        <h2 class="text-lg font-semibold text-white">Run on any site</h2>
+      </div>
+      <div class="terminal rounded-xl p-5 text-sm">
+        <div class="flex gap-1.5 mb-4"><span class="w-3 h-3 bg-red-500 rounded-full"></span><span class="w-3 h-3 bg-yellow-500 rounded-full"></span><span class="w-3 h-3 bg-green-500 rounded-full"></span></div>
+        <p class="text-gray-500"># Inside Claude Code</p>
+        <p class="text-white">&gt; /website-ui-deep-qa https://yoursite.com</p>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div>
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-sm">3</span>
+        <h2 class="text-lg font-semibold text-white">Review the fix plan</h2>
+      </div>
+      <div class="terminal rounded-xl p-5 text-sm">
+        <div class="flex gap-1.5 mb-4"><span class="w-3 h-3 bg-red-500 rounded-full"></span><span class="w-3 h-3 bg-yellow-500 rounded-full"></span><span class="w-3 h-3 bg-green-500 rounded-full"></span></div>
+        <p class="text-gray-500"># Artifacts written to qa-artifacts/</p>
+        <p class="text-gray-400">$ cat qa-artifacts/reports/fix-plan.md</p>
+        <br/>
+        <p class="text-red-400">## HIGH</p>
+        <p class="text-gray-300">- [auth] No CSRF token on /login form</p>
+        <p class="text-gray-300">- [layout] Horizontal overflow at 390px on /pricing</p>
+        <br/>
+        <p class="text-yellow-400">## MEDIUM</p>
+        <p class="text-gray-300">- [a11y] 4 images missing alt text</p>
+        <p class="text-gray-300">- [perf] LCP 4.2s — compress hero image</p>
+        <br/>
+        <p class="text-gray-400">## LOW</p>
+        <p class="text-gray-300">- [seo] Missing og:description on /blog</p>
+      </div>
+    </div>
+
+    <!-- Other skills -->
+    <div class="border border-gray-800 rounded-xl p-6">
+      <h3 class="font-semibold text-white mb-4">Other available skills</h3>
+      <div class="grid grid-cols-2 gap-3 text-sm">
+        <div class="flex items-center gap-2 text-gray-400"><span class="text-green-500">✓</span> supabase-security</div>
+        <div class="flex items-center gap-2 text-gray-400"><span class="text-green-500">✓</span> webserver-security</div>
+        <div class="flex items-center gap-2 text-gray-400"><span class="text-green-500">✓</span> api-deep-qa</div>
+        <div class="flex items-center gap-2 text-gray-400"><span class="text-green-500">✓</span> postgres-deep-qa</div>
+        <div class="flex items-center gap-2 text-gray-400"><span class="text-green-500">✓</span> seo-deep-qa</div>
+        <div class="flex items-center gap-2 text-gray-400"><span class="text-green-500">✓</span> sql-deep-qa</div>
+        <div class="flex items-center gap-2 text-gray-400"><span class="text-green-500">✓</span> ui-ux-designer</div>
+        <div class="flex items-center gap-2 text-gray-400"><span class="text-green-500">✓</span> smart-todo</div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-4 justify-center pt-4">
+      <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank"
+         class="bg-white text-gray-900 font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors">
+        View on GitHub
+      </a>
+      <a href="https://github.com/rushikeshsakharleofficial/sys-admin/blob/main/SKILL.md" target="_blank"
+         class="border border-gray-700 hover:border-gray-500 text-gray-300 hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+        Read the Docs
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+      <span>© 2026 SysAdmin Skills · MIT License</span>
+      <div class="flex gap-6">
+        <a href="index.html" class="hover:text-white transition-colors">Home</a>
+        <a href="features.html" class="hover:text-white transition-colors">Features</a>
+        <a href="categories.html" class="hover:text-white transition-colors">Categories</a>
+        <a href="install.html" class="hover:text-white transition-colors">Install</a>
+        <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="hover:text-white transition-colors">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

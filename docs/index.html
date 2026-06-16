@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,17 +7,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
-          colors: {
-            brand: { 50: '#f0fdf4', 500: '#22c55e', 600: '#16a34a', 900: '#14532d' },
-          },
           fontFamily: { mono: ['JetBrains Mono', 'Fira Code', 'monospace'] }
         }
       }
     }
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     body { font-family: 'Inter', sans-serif; }
@@ -29,29 +26,35 @@
     }
     .card-hover { transition: transform 0.2s, box-shadow 0.2s; }
     .card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
-    .terminal { background: #0d1117; border: 1px solid #30363d; }
-    .blink { animation: blink 1s step-end infinite; }
+    .terminal { background: #0d1117; border: 1px solid #30363d; font-family: 'JetBrains Mono', monospace; }
+    .cursor { display: inline-block; width: 8px; height: 1em; background: #22c55e; vertical-align: text-bottom; animation: blink 1s step-end infinite; }
     @keyframes blink { 50% { opacity: 0; } }
+    .typed-line { opacity: 0; }
+    .typed-line.visible { opacity: 1; }
   </style>
 </head>
-<body class="bg-gray-950 text-gray-100">
+<body class="bg-gray-950 text-gray-100 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-200" id="body">
 
   <!-- Nav -->
-  <nav class="sticky top-0 z-50 bg-gray-950/90 backdrop-blur border-b border-gray-800">
+  <nav class="sticky top-0 z-50 bg-gray-950/90 dark:bg-gray-950/90 backdrop-blur border-b border-gray-800 transition-colors" id="nav">
     <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <span class="text-brand-500 text-xl font-bold">⚡</span>
-        <span class="font-bold text-white">SysAdmin Skills</span>
-      </div>
-      <div class="hidden md:flex items-center gap-8 text-sm text-gray-400">
-        <a href="#features" class="hover:text-white transition-colors">Features</a>
-        <a href="#categories" class="hover:text-white transition-colors">46 Categories</a>
-        <a href="#install" class="hover:text-white transition-colors">Install</a>
-        <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="hover:text-white transition-colors">GitHub</a>
-      </div>
-      <a href="#install" class="bg-brand-500 hover:bg-brand-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
-        Get Started
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="text-green-500 text-xl font-bold">⚡</span>
+        <span class="font-bold text-white dark:text-white" id="logo-text">SysAdmin Skills</span>
       </a>
+      <div class="hidden md:flex items-center gap-8 text-sm">
+        <a href="features.html" class="text-gray-400 hover:text-white dark:hover:text-white transition-colors nav-link">Features</a>
+        <a href="categories.html" class="text-gray-400 hover:text-white dark:hover:text-white transition-colors nav-link">46 Categories</a>
+        <a href="install.html" class="text-gray-400 hover:text-white dark:hover:text-white transition-colors nav-link">Install</a>
+        <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="text-gray-400 hover:text-white dark:hover:text-white transition-colors nav-link">GitHub</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <!-- Theme toggle -->
+        <button id="theme-toggle" onclick="toggleTheme()" class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-700 hover:border-gray-500 text-gray-400 hover:text-white transition-colors" title="Toggle theme">
+          <span id="theme-icon">☀️</span>
+        </button>
+        <a href="install.html" class="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Get Started</a>
+      </div>
     </div>
   </nav>
 
@@ -60,7 +63,7 @@
     <div class="grid md:grid-cols-2 gap-12 items-center">
       <div>
         <div class="inline-flex items-center gap-2 bg-gray-800/60 border border-gray-700 rounded-full px-4 py-1.5 text-sm text-gray-300 mb-6">
-          <span class="w-2 h-2 bg-brand-500 rounded-full animate-pulse"></span>
+          <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
           Claude Code Skill · Open Source
         </div>
         <h1 class="text-5xl font-extrabold leading-tight mb-4">
@@ -71,7 +74,7 @@
           Automated layout, accessibility, security, and performance checks — powered by Playwright and Claude Code. One command, full-spectrum quality report.
         </p>
         <div class="flex flex-wrap gap-3">
-          <a href="#install" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+          <a href="install.html" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
             Install Skill →
           </a>
           <a href="https://github.com/rushikeshsakharleofficial/sys-admin/blob/main/SKILL.md" target="_blank"
@@ -81,27 +84,16 @@
         </div>
       </div>
 
-      <!-- Terminal -->
-      <div class="terminal rounded-xl p-5 font-mono text-sm leading-7">
+      <!-- Terminal with typing animation -->
+      <div class="terminal rounded-xl p-5 text-sm leading-7 min-h-[340px]" id="terminal">
         <div class="flex gap-1.5 mb-4">
           <span class="w-3 h-3 bg-red-500 rounded-full"></span>
           <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
           <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+          <span class="ml-auto text-xs text-gray-600">claude — bash</span>
         </div>
-        <p class="text-gray-500"># Point Claude Code at any site</p>
-        <p class="text-brand-500">$ /website-ui-deep-qa https://myapp.com</p>
-        <br/>
-        <p class="text-gray-400">✓ Screenshots captured (5 viewports)</p>
-        <p class="text-gray-400">✓ Layout issues: 2 found</p>
-        <p class="text-gray-400">✓ Accessibility: 8 violations</p>
-        <p class="text-gray-400">✓ Security headers: missing CSP</p>
-        <p class="text-gray-400">✓ Performance: LCP 4.2s ⚠</p>
-        <p class="text-gray-400">✓ SEO: 3 issues</p>
-        <p class="text-gray-400">✓ Forms: 1 alignment issue</p>
-        <p class="text-gray-400">... 39 more checks ...</p>
-        <br/>
-        <p class="text-yellow-400">→ Fix plan: qa-artifacts/reports/fix-plan.md</p>
-        <p class="text-gray-500">  46 checks · 14 issues · prioritized<span class="blink">█</span></p>
+        <div id="terminal-output"></div>
+        <span class="cursor" id="terminal-cursor"></span>
       </div>
     </div>
   </section>
@@ -125,27 +117,26 @@
   </section>
 
   <!-- Features -->
-  <section id="features" class="max-w-7xl mx-auto px-6 py-24">
+  <section class="max-w-7xl mx-auto px-6 py-24">
     <div class="text-center mb-14">
       <h2 class="text-3xl font-bold text-white mb-3">Everything Your QA Needs</h2>
       <p class="text-gray-400 max-w-xl mx-auto">From pixel-level layout checks to auth flow security — one skill covers the full stack.</p>
     </div>
     <div class="grid md:grid-cols-3 gap-6">
-      <!-- cards -->
       <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-6">
         <div class="text-2xl mb-3">📐</div>
-        <h3 class="font-semibold text-white mb-2">Layout & Responsive</h3>
-        <p class="text-gray-400 text-sm">Detects overflow, clipping, scroll axis issues, and broken layouts across 5 viewports from mobile 390px to desktop 1440px.</p>
+        <h3 class="font-semibold text-white mb-2">Layout &amp; Responsive</h3>
+        <p class="text-gray-400 text-sm">Detects overflow, clipping, and broken layouts across 5 viewports from mobile 390px to desktop 1440px.</p>
       </div>
       <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-6">
         <div class="text-2xl mb-3">♿</div>
-        <h3 class="font-semibold text-white mb-2">Accessibility & ARIA</h3>
+        <h3 class="font-semibold text-white mb-2">Accessibility &amp; ARIA</h3>
         <p class="text-gray-400 text-sm">WCAG 2.1 violations, keyboard focus order, reduced motion, and screen reader landmark checks.</p>
       </div>
       <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-6">
         <div class="text-2xl mb-3">🔒</div>
         <h3 class="font-semibold text-white mb-2">Security</h3>
-        <p class="text-gray-400 text-sm">DOM XSS patterns, missing security headers (CSP, HSTS), mixed content, CSRF surface, and auth permission checks.</p>
+        <p class="text-gray-400 text-sm">DOM XSS patterns, missing security headers, mixed content, CSRF surface, and auth permission checks.</p>
       </div>
       <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-6">
         <div class="text-2xl mb-3">⚡</div>
@@ -159,271 +150,58 @@
       </div>
       <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-6">
         <div class="text-2xl mb-3">📝</div>
-        <h3 class="font-semibold text-white mb-2">Forms & Flows</h3>
+        <h3 class="font-semibold text-white mb-2">Forms &amp; Flows</h3>
         <p class="text-gray-400 text-sm">Form alignment, validation trigger capture, user lifecycle flows, auth permissions, and flow bypass detection.</p>
       </div>
     </div>
-  </section>
-
-  <!-- 46 Categories -->
-  <section id="categories" class="bg-gray-900/40 border-y border-gray-800">
-    <div class="max-w-7xl mx-auto px-6 py-24">
-      <div class="text-center mb-14">
-        <h2 class="text-3xl font-bold text-white mb-3">All 46 Check Categories</h2>
-        <p class="text-gray-400">Every check writes artifacts to <code class="text-brand-500 font-mono text-sm">qa-artifacts/</code></p>
-      </div>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
-        <!-- Layout -->
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-blue-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Layout issues</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-blue-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Content clipping</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-blue-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Scroll axes</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-blue-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Zoom + scroll</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-blue-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Responsive behavior</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-blue-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Typography</span>
-        </div>
-        <!-- Interaction -->
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-purple-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Interactions</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-purple-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Button animations</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-purple-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Forms</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-purple-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Form alignment</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-purple-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Overlays</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-purple-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Popup quality</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-purple-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Toasts</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-purple-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Tables</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-purple-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Carousels</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-purple-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Media players</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-purple-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Search</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-purple-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Sidebar</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-purple-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Dialog scroll</span>
-        </div>
-        <!-- A11y -->
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Accessibility</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Keyboard focus</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Reduced motion</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Theme comparison</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Cookie consent</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">HTML validation</span>
-        </div>
-        <!-- Images -->
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-orange-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Broken images</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-orange-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Lazy images</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-orange-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Screenshots</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-orange-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Print media</span>
-        </div>
-        <!-- Security -->
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-red-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Security (DOM)</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-red-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">CSRF</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-red-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Auth surface</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-red-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Auth permissions</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-red-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Flow bypass</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-red-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">User lifecycle</span>
-        </div>
-        <!-- Network/Perf -->
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Network</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Performance</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Storage</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Console</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Back/forward nav</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">PWA</span>
-        </div>
-        <!-- SEO/Content -->
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-green-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">SEO</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-green-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Sitemap + robots</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-green-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Link checker</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-green-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Edge states</span>
-        </div>
-        <div class="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-green-400 rounded-full flex-shrink-0"></span>
-          <span class="text-gray-300">Placeholder content</span>
-        </div>
-      </div>
-      <div class="mt-6 flex flex-wrap gap-4 text-xs text-gray-500">
-        <span class="flex items-center gap-1.5"><span class="w-2 h-2 bg-blue-400 rounded-full"></span>Layout</span>
-        <span class="flex items-center gap-1.5"><span class="w-2 h-2 bg-purple-400 rounded-full"></span>Interactions</span>
-        <span class="flex items-center gap-1.5"><span class="w-2 h-2 bg-yellow-400 rounded-full"></span>Accessibility</span>
-        <span class="flex items-center gap-1.5"><span class="w-2 h-2 bg-orange-400 rounded-full"></span>Media</span>
-        <span class="flex items-center gap-1.5"><span class="w-2 h-2 bg-red-400 rounded-full"></span>Security</span>
-        <span class="flex items-center gap-1.5"><span class="w-2 h-2 bg-cyan-400 rounded-full"></span>Network/Perf</span>
-        <span class="flex items-center gap-1.5"><span class="w-2 h-2 bg-green-400 rounded-full"></span>SEO/Content</span>
-      </div>
+    <div class="text-center mt-10">
+      <a href="features.html" class="border border-gray-700 hover:border-gray-500 text-gray-300 hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+        See all features →
+      </a>
     </div>
   </section>
 
   <!-- How it works -->
-  <section class="max-w-7xl mx-auto px-6 py-24">
-    <div class="text-center mb-14">
-      <h2 class="text-3xl font-bold text-white mb-3">How It Works</h2>
-    </div>
-    <div class="grid md:grid-cols-3 gap-8 relative">
-      <div class="hidden md:block absolute top-8 left-1/3 right-1/3 h-px bg-gradient-to-r from-gray-700 via-brand-500 to-gray-700"></div>
-      <div class="text-center">
-        <div class="w-16 h-16 bg-gray-800 border-2 border-brand-500 rounded-full flex items-center justify-center text-2xl font-bold text-brand-500 mx-auto mb-4">1</div>
-        <h3 class="font-semibold text-white text-lg mb-2">Point at a URL</h3>
-        <p class="text-gray-400 text-sm">Run <code class="text-brand-500 font-mono">/website-ui-deep-qa https://yoursite.com</code> inside Claude Code. No config needed.</p>
+  <section class="bg-gray-900/40 border-y border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-24">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl font-bold text-white mb-3">How It Works</h2>
       </div>
-      <div class="text-center">
-        <div class="w-16 h-16 bg-gray-800 border-2 border-brand-500 rounded-full flex items-center justify-center text-2xl font-bold text-brand-500 mx-auto mb-4">2</div>
-        <h3 class="font-semibold text-white text-lg mb-2">46 Checks Run</h3>
-        <p class="text-gray-400 text-sm">Playwright tests layout, accessibility, security, SEO, forms, and performance across 5 viewports. Artifacts saved to <code class="text-brand-500 font-mono">qa-artifacts/</code>.</p>
-      </div>
-      <div class="text-center">
-        <div class="w-16 h-16 bg-gray-800 border-2 border-brand-500 rounded-full flex items-center justify-center text-2xl font-bold text-brand-500 mx-auto mb-4">3</div>
-        <h3 class="font-semibold text-white text-lg mb-2">Get a Fix Plan</h3>
-        <p class="text-gray-400 text-sm">AI generates a prioritized <code class="text-brand-500 font-mono">fix-plan.md</code> with every issue ranked by severity. Ship with confidence.</p>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-gray-800 border-2 border-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-green-500 mx-auto mb-4">1</div>
+          <h3 class="font-semibold text-white text-lg mb-2">Point at a URL</h3>
+          <p class="text-gray-400 text-sm">Run <code class="text-green-400 font-mono">/website-ui-deep-qa https://yoursite.com</code> inside Claude Code. No config needed.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-gray-800 border-2 border-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-green-500 mx-auto mb-4">2</div>
+          <h3 class="font-semibold text-white text-lg mb-2">46 Checks Run</h3>
+          <p class="text-gray-400 text-sm">Playwright tests layout, accessibility, security, SEO, forms, and performance across 5 viewports.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-gray-800 border-2 border-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-green-500 mx-auto mb-4">3</div>
+          <h3 class="font-semibold text-white text-lg mb-2">Get a Fix Plan</h3>
+          <p class="text-gray-400 text-sm">AI generates a prioritized <code class="text-green-400 font-mono">fix-plan.md</code> with every issue ranked by severity.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Install -->
-  <section id="install" class="bg-gray-900/60 border-t border-gray-800">
-    <div class="max-w-4xl mx-auto px-6 py-24 text-center">
-      <h2 class="text-3xl font-bold text-white mb-3">Ready to QA Your Site?</h2>
-      <p class="text-gray-400 mb-8">Install into Claude Code with one command.</p>
-      <div class="terminal rounded-xl p-5 text-left font-mono text-sm max-w-2xl mx-auto mb-6">
-        <p class="text-gray-500 mb-2"># Install via Claude Code</p>
-        <p class="text-brand-500">$ claude install rushikeshsakharleofficial/sys-admin</p>
-        <br/>
-        <p class="text-gray-500 mb-2"># Then run on any site</p>
-        <p class="text-gray-300">&gt; /website-ui-deep-qa https://yoursite.com</p>
-      </div>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank"
-           class="bg-white text-gray-900 font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors">
-          View on GitHub
-        </a>
-        <a href="https://github.com/rushikeshsakharleofficial/sys-admin/blob/main/SKILL.md" target="_blank"
-           class="border border-gray-700 hover:border-gray-500 text-gray-300 hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors">
-          Read the Docs
-        </a>
-      </div>
+  <!-- Install CTA -->
+  <section class="max-w-4xl mx-auto px-6 py-24 text-center">
+    <h2 class="text-3xl font-bold text-white mb-3">Ready to QA Your Site?</h2>
+    <p class="text-gray-400 mb-8">Install into Claude Code with one command.</p>
+    <div class="terminal rounded-xl p-5 text-left text-sm max-w-2xl mx-auto mb-6">
+      <p class="text-gray-500 mb-1"># Install</p>
+      <p class="text-green-400">$ claude install rushikeshsakharleofficial/sys-admin</p>
+      <br/>
+      <p class="text-gray-500 mb-1"># Run</p>
+      <p class="text-gray-300">&gt; /website-ui-deep-qa https://yoursite.com</p>
+    </div>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="install.html" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">Install Now →</a>
+      <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank"
+         class="border border-gray-700 hover:border-gray-500 text-gray-300 hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors">View on GitHub</a>
     </div>
   </section>
 
@@ -432,18 +210,18 @@
     <div class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">
       <div>
         <div class="flex items-center gap-2 mb-3">
-          <span class="text-brand-500 text-lg font-bold">⚡</span>
+          <span class="text-green-500 text-lg font-bold">⚡</span>
           <span class="font-bold text-white">SysAdmin Skills</span>
         </div>
         <p class="text-gray-500 text-sm">Open-source Claude Code skills for developers who care about quality.</p>
       </div>
       <div>
-        <h4 class="text-white font-semibold mb-3 text-sm uppercase tracking-wide">Skills</h4>
+        <h4 class="text-white font-semibold mb-3 text-sm uppercase tracking-wide">Pages</h4>
         <ul class="space-y-2 text-sm text-gray-400">
-          <li><a href="https://github.com/rushikeshsakharleofficial/sys-admin/blob/main/SKILL.md" target="_blank" class="hover:text-white transition-colors">website-ui-deep-qa</a></li>
-          <li><a href="https://github.com/rushikeshsakharleofficial/sys-admin/tree/main/skills" target="_blank" class="hover:text-white transition-colors">supabase-security</a></li>
-          <li><a href="https://github.com/rushikeshsakharleofficial/sys-admin/tree/main/skills" target="_blank" class="hover:text-white transition-colors">webserver-security</a></li>
-          <li><a href="https://github.com/rushikeshsakharleofficial/sys-admin/tree/main/skills" target="_blank" class="hover:text-white transition-colors">All skills →</a></li>
+          <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+          <li><a href="features.html" class="hover:text-white transition-colors">Features</a></li>
+          <li><a href="categories.html" class="hover:text-white transition-colors">46 Categories</a></li>
+          <li><a href="install.html" class="hover:text-white transition-colors">Install</a></li>
         </ul>
       </div>
       <div>
@@ -461,5 +239,96 @@
     </div>
   </footer>
 
+  <script>
+    // ─── Theme toggle ───────────────────────────────────────────────────────────
+    const html = document.documentElement;
+    const icon = document.getElementById('theme-icon');
+    let dark = true;
+
+    function toggleTheme() {
+      dark = !dark;
+      if (dark) {
+        html.classList.add('dark');
+        document.getElementById('body').classList.replace('bg-white','bg-gray-950');
+        document.getElementById('body').classList.replace('text-gray-900','text-gray-100');
+        icon.textContent = '☀️';
+      } else {
+        html.classList.remove('dark');
+        document.getElementById('body').style.background = '#f9fafb';
+        document.getElementById('body').style.color = '#111827';
+        icon.textContent = '🌙';
+      }
+    }
+
+    // ─── Typing animation ────────────────────────────────────────────────────────
+    const lines = [
+      { text: '# Auditing acmeshop.dev (e-commerce)', color: '#6b7280', delay: 0 },
+      { text: '> /website-ui-deep-qa https://acmeshop.dev', color: '#22c55e', delay: 600 },
+      { text: '', color: '', delay: 1100 },
+      { text: 'Claude: Running website-ui-deep-qa skill...', color: '#a78bfa', delay: 1300 },
+      { text: '  Launching Playwright on 5 viewports', color: '#6b7280', delay: 1800 },
+      { text: '', color: '', delay: 2100 },
+      { text: '  [1/46] screenshots         ✓', color: '#9ca3af', delay: 2200 },
+      { text: '  [2/46] layout              ✓  2 issues', color: '#f87171', delay: 2600 },
+      { text: '  [3/46] content-clipping    ✓', color: '#9ca3af', delay: 2950 },
+      { text: '  [4/46] scroll-axes         ✓  1 issue', color: '#fbbf24', delay: 3250 },
+      { text: '  [5/46] responsive          ✓', color: '#9ca3af', delay: 3550 },
+      { text: '  [6/46] interactions        ✓', color: '#9ca3af', delay: 3800 },
+      { text: '  [7/46] forms               ✓  1 issue', color: '#fbbf24', delay: 4050 },
+      { text: '  [8/46] accessibility       ✓  8 violations', color: '#f87171', delay: 4300 },
+      { text: '  [9/46] security (DOM)      ✓  CRITICAL', color: '#ef4444', delay: 4600 },
+      { text: '  [10/46] network            ✓', color: '#9ca3af', delay: 4900 },
+      { text: '  [11/46] performance        ✓  LCP 4.2s ⚠', color: '#fbbf24', delay: 5150 },
+      { text: '  [12/46] seo               ✓  3 issues', color: '#fbbf24', delay: 5400 },
+      { text: '  ... 34 more checks ...', color: '#6b7280', delay: 5650 },
+      { text: '', color: '', delay: 5900 },
+      { text: 'Claude: Generating fix plan...', color: '#a78bfa', delay: 6100 },
+      { text: '', color: '', delay: 6500 },
+      { text: '─────────────────────────────────────', color: '#374151', delay: 6700 },
+      { text: '  HIGH   (3)  auth CSRF, layout overflow, a11y', color: '#ef4444', delay: 6900 },
+      { text: '  MEDIUM (7)  perf LCP, lazy images, SEO', color: '#fbbf24', delay: 7100 },
+      { text: '  LOW    (4)  print, og:desc, placeholder', color: '#6b7280', delay: 7300 },
+      { text: '─────────────────────────────────────', color: '#374151', delay: 7500 },
+      { text: '', color: '', delay: 7600 },
+      { text: '→ qa-artifacts/reports/fix-plan.md written', color: '#22c55e', delay: 7700 },
+    ];
+
+    const out = document.getElementById('terminal-output');
+    const cursor = document.getElementById('terminal-cursor');
+
+    function appendLine(text, color) {
+      const p = document.createElement('p');
+      p.style.color = color || '#9ca3af';
+      p.style.minHeight = '1.75rem';
+      if (text === '') {
+        p.innerHTML = '&nbsp;';
+      } else {
+        p.textContent = '';
+        out.appendChild(p);
+        typeText(p, text, color);
+        return;
+      }
+      out.appendChild(p);
+    }
+
+    function typeText(el, text, color) {
+      let i = 0;
+      const speed = text.startsWith('>') || text.startsWith('$') ? 45 : 8;
+      function tick() {
+        if (i < text.length) {
+          el.textContent += text[i++];
+          setTimeout(tick, speed);
+        }
+      }
+      tick();
+    }
+
+    lines.forEach(({ text, color, delay }) => {
+      setTimeout(() => appendLine(text, color), delay);
+    });
+
+    // Hide cursor after done
+    setTimeout(() => { cursor.style.display = 'none'; }, 9000);
+  </script>
 </body>
 </html>

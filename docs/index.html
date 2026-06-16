@@ -25,35 +25,32 @@
       background-clip: text;
     }
     .card-hover { transition: transform 0.2s, box-shadow 0.2s; }
-    .card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
-    .terminal { background: #0d1117; border: 1px solid #30363d; font-family: 'JetBrains Mono', monospace; }
-    .cursor { display: inline-block; width: 8px; height: 1em; background: #22c55e; vertical-align: text-bottom; animation: blink 1s step-end infinite; }
+    .card-hover:hover { transform: translateY(-2px); }
+    .terminal-box { background: #0d1117; border: 1px solid #30363d; font-family: 'JetBrains Mono', monospace; }
+    .cursor-blink { display: inline-block; width: 8px; height: 1em; background: #22c55e; vertical-align: text-bottom; animation: blink 1s step-end infinite; }
     @keyframes blink { 50% { opacity: 0; } }
-    .typed-line { opacity: 0; }
-    .typed-line.visible { opacity: 1; }
   </style>
 </head>
-<body class="bg-gray-950 text-gray-100 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-200" id="body">
+<body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
 
   <!-- Nav -->
-  <nav class="sticky top-0 z-50 bg-gray-950/90 dark:bg-gray-950/90 backdrop-blur border-b border-gray-800 transition-colors" id="nav">
+  <nav class="sticky top-0 z-50 bg-white/90 dark:bg-gray-950/90 backdrop-blur border-b border-gray-200 dark:border-gray-800 transition-colors">
     <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-2">
-        <span class="text-green-500 text-xl font-bold">⚡</span>
-        <span class="font-bold text-white dark:text-white" id="logo-text">SysAdmin Skills</span>
+        <span class="text-green-600 dark:text-green-500 text-xl font-bold">⚡</span>
+        <span class="font-bold text-gray-900 dark:text-white">SysAdmin Skills</span>
       </a>
       <div class="hidden md:flex items-center gap-8 text-sm">
-        <a href="features.html" class="text-gray-400 hover:text-white dark:hover:text-white transition-colors nav-link">Features</a>
-        <a href="categories.html" class="text-gray-400 hover:text-white dark:hover:text-white transition-colors nav-link">46 Categories</a>
-        <a href="install.html" class="text-gray-400 hover:text-white dark:hover:text-white transition-colors nav-link">Install</a>
-        <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="text-gray-400 hover:text-white dark:hover:text-white transition-colors nav-link">GitHub</a>
+        <a href="features.html" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Features</a>
+        <a href="categories.html" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">46 Categories</a>
+        <a href="install.html" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Install</a>
+        <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">GitHub</a>
       </div>
       <div class="flex items-center gap-3">
-        <!-- Theme toggle -->
-        <button id="theme-toggle" class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-700 hover:border-gray-500 text-gray-400 hover:text-white transition-colors" title="Toggle theme">
+        <button id="theme-toggle" class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors" title="Toggle theme">
           <span id="theme-icon">☀️</span>
         </button>
-        <a href="install.html" class="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Get Started</a>
+        <a href="install.html" class="bg-green-600 dark:bg-green-500 hover:bg-green-700 dark:hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Get Started</a>
       </div>
     </div>
   </nav>
@@ -62,56 +59,56 @@
   <section class="max-w-7xl mx-auto px-6 pt-24 pb-20">
     <div class="grid md:grid-cols-2 gap-12 items-center">
       <div>
-        <div class="inline-flex items-center gap-2 bg-gray-800/60 border border-gray-700 rounded-full px-4 py-1.5 text-sm text-gray-300 mb-6">
+        <div class="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700 rounded-full px-4 py-1.5 text-sm text-gray-600 dark:text-gray-300 mb-6">
           <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
           Claude Code Skill · Open Source
         </div>
-        <h1 class="text-5xl font-extrabold leading-tight mb-4">
+        <h1 class="text-5xl font-extrabold leading-tight mb-4 text-gray-900 dark:text-white">
           46-Category UI QA<br/>
           <span class="gradient-text">for Any Website</span>
         </h1>
-        <p class="text-gray-400 text-lg mb-8 leading-relaxed">
+        <p class="text-gray-500 dark:text-gray-400 text-lg mb-8 leading-relaxed">
           Automated layout, accessibility, security, and performance checks — powered by Playwright and Claude Code. One command, full-spectrum quality report.
         </p>
         <div class="flex flex-wrap gap-3">
-          <a href="install.html" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+          <a href="install.html" class="bg-green-600 dark:bg-green-500 hover:bg-green-700 dark:hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
             Install Skill →
           </a>
           <a href="https://github.com/rushikeshsakharleofficial/sys-admin/blob/main/SKILL.md" target="_blank"
-             class="border border-gray-700 hover:border-gray-500 text-gray-300 hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+             class="border border-gray-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors">
             View Docs
           </a>
         </div>
       </div>
 
-      <!-- Terminal with typing animation -->
-      <div class="terminal rounded-xl p-5 text-sm leading-7 min-h-[340px]" id="terminal">
-        <div class="flex gap-1.5 mb-4">
+      <!-- Terminal — stays dark (it's a terminal) -->
+      <div class="terminal-box rounded-xl p-5 text-sm leading-7 h-[360px] flex flex-col">
+        <div class="flex gap-1.5 mb-4 flex-shrink-0">
           <span class="w-3 h-3 bg-red-500 rounded-full"></span>
           <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
           <span class="w-3 h-3 bg-green-500 rounded-full"></span>
           <span class="ml-auto text-xs text-gray-600">claude — bash</span>
         </div>
-        <div id="terminal-output"></div>
-        <span class="cursor" id="terminal-cursor"></span>
+        <div id="terminal-output" class="overflow-y-auto flex-1 pr-1" style="scrollbar-width:thin;scrollbar-color:#374151 transparent"></div>
+        <span class="cursor-blink flex-shrink-0" id="terminal-cursor"></span>
       </div>
     </div>
   </section>
 
   <!-- Stats -->
-  <section class="border-y border-gray-800 bg-gray-900/40">
-    <div class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-3 divide-x divide-gray-800 text-center">
+  <section class="border-y border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 transition-colors">
+    <div class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-3 divide-x divide-gray-200 dark:divide-gray-800 text-center">
       <div class="px-8">
-        <div class="text-4xl font-extrabold text-white mb-1">46</div>
-        <div class="text-gray-400 text-sm">Check Categories</div>
+        <div class="text-4xl font-extrabold text-gray-900 dark:text-white mb-1">46</div>
+        <div class="text-gray-500 dark:text-gray-400 text-sm">Check Categories</div>
       </div>
       <div class="px-8">
-        <div class="text-4xl font-extrabold text-white mb-1">5</div>
-        <div class="text-gray-400 text-sm">Viewport Sizes</div>
+        <div class="text-4xl font-extrabold text-gray-900 dark:text-white mb-1">5</div>
+        <div class="text-gray-500 dark:text-gray-400 text-sm">Viewport Sizes</div>
       </div>
       <div class="px-8">
-        <div class="text-4xl font-extrabold text-white mb-1">AI</div>
-        <div class="text-gray-400 text-sm">Prioritized Fix Plans</div>
+        <div class="text-4xl font-extrabold text-gray-900 dark:text-white mb-1">AI</div>
+        <div class="text-gray-500 dark:text-gray-400 text-sm">Prioritized Fix Plans</div>
       </div>
     </div>
   </section>
@@ -119,69 +116,69 @@
   <!-- Features -->
   <section class="max-w-7xl mx-auto px-6 py-24">
     <div class="text-center mb-14">
-      <h2 class="text-3xl font-bold text-white mb-3">Everything Your QA Needs</h2>
-      <p class="text-gray-400 max-w-xl mx-auto">From pixel-level layout checks to auth flow security — one skill covers the full stack.</p>
+      <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-3">Everything Your QA Needs</h2>
+      <p class="text-gray-500 dark:text-gray-400 max-w-xl mx-auto">From pixel-level layout checks to auth flow security — one skill covers the full stack.</p>
     </div>
     <div class="grid md:grid-cols-3 gap-6">
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-6">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 shadow-sm dark:shadow-none">
         <div class="text-2xl mb-3">📐</div>
-        <h3 class="font-semibold text-white mb-2">Layout &amp; Responsive</h3>
-        <p class="text-gray-400 text-sm">Detects overflow, clipping, and broken layouts across 5 viewports from mobile 390px to desktop 1440px.</p>
+        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Layout &amp; Responsive</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm">Detects overflow, clipping, and broken layouts across 5 viewports from mobile 390px to desktop 1440px.</p>
       </div>
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-6">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 shadow-sm dark:shadow-none">
         <div class="text-2xl mb-3">♿</div>
-        <h3 class="font-semibold text-white mb-2">Accessibility &amp; ARIA</h3>
-        <p class="text-gray-400 text-sm">WCAG 2.1 violations, keyboard focus order, reduced motion, and screen reader landmark checks.</p>
+        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Accessibility &amp; ARIA</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm">WCAG 2.1 violations, keyboard focus order, reduced motion, and screen reader landmark checks.</p>
       </div>
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-6">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 shadow-sm dark:shadow-none">
         <div class="text-2xl mb-3">🔒</div>
-        <h3 class="font-semibold text-white mb-2">Security</h3>
-        <p class="text-gray-400 text-sm">DOM XSS patterns, missing security headers, mixed content, CSRF surface, and auth permission checks.</p>
+        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Security</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm">DOM XSS patterns, missing security headers, mixed content, CSRF surface, and auth permission checks.</p>
       </div>
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-6">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 shadow-sm dark:shadow-none">
         <div class="text-2xl mb-3">⚡</div>
-        <h3 class="font-semibold text-white mb-2">Performance</h3>
-        <p class="text-gray-400 text-sm">Core Web Vitals snapshot, lazy image audits, and network health — flag what actually slows users down.</p>
+        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Performance</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm">Core Web Vitals snapshot, lazy image audits, and network health — flag what actually slows users down.</p>
       </div>
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-6">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 shadow-sm dark:shadow-none">
         <div class="text-2xl mb-3">🔍</div>
-        <h3 class="font-semibold text-white mb-2">SEO</h3>
-        <p class="text-gray-400 text-sm">Meta tags, sitemap, robots.txt, structured data, Open Graph, and canonical URL validation.</p>
+        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">SEO</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm">Meta tags, sitemap, robots.txt, structured data, Open Graph, and canonical URL validation.</p>
       </div>
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-6">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 shadow-sm dark:shadow-none">
         <div class="text-2xl mb-3">📝</div>
-        <h3 class="font-semibold text-white mb-2">Forms &amp; Flows</h3>
-        <p class="text-gray-400 text-sm">Form alignment, validation trigger capture, user lifecycle flows, auth permissions, and flow bypass detection.</p>
+        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Forms &amp; Flows</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm">Form alignment, validation trigger capture, user lifecycle flows, auth permissions, and flow bypass detection.</p>
       </div>
     </div>
     <div class="text-center mt-10">
-      <a href="features.html" class="border border-gray-700 hover:border-gray-500 text-gray-300 hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+      <a href="features.html" class="border border-gray-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors">
         See all features →
       </a>
     </div>
   </section>
 
   <!-- How it works -->
-  <section class="bg-gray-900/40 border-y border-gray-800">
+  <section class="bg-gray-50 dark:bg-gray-900/40 border-y border-gray-200 dark:border-gray-800 transition-colors">
     <div class="max-w-7xl mx-auto px-6 py-24">
       <div class="text-center mb-14">
-        <h2 class="text-3xl font-bold text-white mb-3">How It Works</h2>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-3">How It Works</h2>
       </div>
       <div class="grid md:grid-cols-3 gap-8">
         <div class="text-center">
-          <div class="w-16 h-16 bg-gray-800 border-2 border-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-green-500 mx-auto mb-4">1</div>
-          <h3 class="font-semibold text-white text-lg mb-2">Point at a URL</h3>
-          <p class="text-gray-400 text-sm">Run <code class="text-green-400 font-mono">/website-ui-deep-qa https://yoursite.com</code> inside Claude Code. No config needed.</p>
+          <div class="w-16 h-16 bg-white dark:bg-gray-800 border-2 border-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-green-600 dark:text-green-500 mx-auto mb-4 shadow-sm dark:shadow-none">1</div>
+          <h3 class="font-semibold text-gray-900 dark:text-white text-lg mb-2">Point at a URL</h3>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">Run <code class="text-green-600 dark:text-green-400 font-mono">/website-ui-deep-qa https://yoursite.com</code> inside Claude Code. No config needed.</p>
         </div>
         <div class="text-center">
-          <div class="w-16 h-16 bg-gray-800 border-2 border-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-green-500 mx-auto mb-4">2</div>
-          <h3 class="font-semibold text-white text-lg mb-2">46 Checks Run</h3>
-          <p class="text-gray-400 text-sm">Playwright tests layout, accessibility, security, SEO, forms, and performance across 5 viewports.</p>
+          <div class="w-16 h-16 bg-white dark:bg-gray-800 border-2 border-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-green-600 dark:text-green-500 mx-auto mb-4 shadow-sm dark:shadow-none">2</div>
+          <h3 class="font-semibold text-gray-900 dark:text-white text-lg mb-2">46 Checks Run</h3>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">Playwright tests layout, accessibility, security, SEO, forms, and performance across 5 viewports.</p>
         </div>
         <div class="text-center">
-          <div class="w-16 h-16 bg-gray-800 border-2 border-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-green-500 mx-auto mb-4">3</div>
-          <h3 class="font-semibold text-white text-lg mb-2">Get a Fix Plan</h3>
-          <p class="text-gray-400 text-sm">AI generates a prioritized <code class="text-green-400 font-mono">fix-plan.md</code> with every issue ranked by severity.</p>
+          <div class="w-16 h-16 bg-white dark:bg-gray-800 border-2 border-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-green-600 dark:text-green-500 mx-auto mb-4 shadow-sm dark:shadow-none">3</div>
+          <h3 class="font-semibold text-gray-900 dark:text-white text-lg mb-2">Get a Fix Plan</h3>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">AI generates a prioritized <code class="text-green-600 dark:text-green-400 font-mono">fix-plan.md</code> with every issue ranked by severity.</p>
         </div>
       </div>
     </div>
@@ -189,9 +186,9 @@
 
   <!-- Install CTA -->
   <section class="max-w-4xl mx-auto px-6 py-24 text-center">
-    <h2 class="text-3xl font-bold text-white mb-3">Ready to QA Your Site?</h2>
-    <p class="text-gray-400 mb-8">Install into Claude Code with one command.</p>
-    <div class="terminal rounded-xl p-5 text-left text-sm max-w-2xl mx-auto mb-6">
+    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-3">Ready to QA Your Site?</h2>
+    <p class="text-gray-500 dark:text-gray-400 mb-8">Install into Claude Code with one command.</p>
+    <div class="terminal-box rounded-xl p-5 text-left text-sm max-w-2xl mx-auto mb-6">
       <p class="text-gray-500 mb-1"># Install</p>
       <p class="text-green-400">$ claude install rushikeshsakharleofficial/sys-admin</p>
       <br/>
@@ -199,42 +196,42 @@
       <p class="text-gray-300">&gt; /website-ui-deep-qa https://yoursite.com</p>
     </div>
     <div class="flex flex-wrap justify-center gap-3">
-      <a href="install.html" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">Install Now →</a>
+      <a href="install.html" class="bg-green-600 dark:bg-green-500 hover:bg-green-700 dark:hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">Install Now →</a>
       <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank"
-         class="border border-gray-700 hover:border-gray-500 text-gray-300 hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors">View on GitHub</a>
+         class="border border-gray-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors">View on GitHub</a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="border-t border-gray-800">
+  <footer class="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-transparent transition-colors">
     <div class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">
       <div>
         <div class="flex items-center gap-2 mb-3">
-          <span class="text-green-500 text-lg font-bold">⚡</span>
-          <span class="font-bold text-white">SysAdmin Skills</span>
+          <span class="text-green-600 dark:text-green-500 text-lg font-bold">⚡</span>
+          <span class="font-bold text-gray-900 dark:text-white">SysAdmin Skills</span>
         </div>
-        <p class="text-gray-500 text-sm">Open-source Claude Code skills for developers who care about quality.</p>
+        <p class="text-gray-500 dark:text-gray-500 text-sm">Open-source Claude Code skills for developers who care about quality.</p>
       </div>
       <div>
-        <h4 class="text-white font-semibold mb-3 text-sm uppercase tracking-wide">Pages</h4>
-        <ul class="space-y-2 text-sm text-gray-400">
-          <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
-          <li><a href="features.html" class="hover:text-white transition-colors">Features</a></li>
-          <li><a href="categories.html" class="hover:text-white transition-colors">46 Categories</a></li>
-          <li><a href="install.html" class="hover:text-white transition-colors">Install</a></li>
+        <h4 class="text-gray-900 dark:text-white font-semibold mb-3 text-sm uppercase tracking-wide">Pages</h4>
+        <ul class="space-y-2 text-sm text-gray-500 dark:text-gray-400">
+          <li><a href="index.html" class="hover:text-gray-900 dark:hover:text-white transition-colors">Home</a></li>
+          <li><a href="features.html" class="hover:text-gray-900 dark:hover:text-white transition-colors">Features</a></li>
+          <li><a href="categories.html" class="hover:text-gray-900 dark:hover:text-white transition-colors">46 Categories</a></li>
+          <li><a href="install.html" class="hover:text-gray-900 dark:hover:text-white transition-colors">Install</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="text-white font-semibold mb-3 text-sm uppercase tracking-wide">Resources</h4>
-        <ul class="space-y-2 text-sm text-gray-400">
-          <li><a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="hover:text-white transition-colors">GitHub</a></li>
-          <li><a href="https://github.com/rushikeshsakharleofficial/sys-admin/blob/main/SKILL.md" target="_blank" class="hover:text-white transition-colors">Documentation</a></li>
-          <li><a href="https://github.com/rushikeshsakharleofficial/sys-admin/blob/main/CONTRIBUTING.md" target="_blank" class="hover:text-white transition-colors">Contributing</a></li>
-          <li><a href="https://github.com/rushikeshsakharleofficial/sys-admin/blob/main/LICENSE" target="_blank" class="hover:text-white transition-colors">License</a></li>
+        <h4 class="text-gray-900 dark:text-white font-semibold mb-3 text-sm uppercase tracking-wide">Resources</h4>
+        <ul class="space-y-2 text-sm text-gray-500 dark:text-gray-400">
+          <li><a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="hover:text-gray-900 dark:hover:text-white transition-colors">GitHub</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/sys-admin/blob/main/SKILL.md" target="_blank" class="hover:text-gray-900 dark:hover:text-white transition-colors">Documentation</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/sys-admin/blob/main/CONTRIBUTING.md" target="_blank" class="hover:text-gray-900 dark:hover:text-white transition-colors">Contributing</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/sys-admin/blob/main/LICENSE" target="_blank" class="hover:text-gray-900 dark:hover:text-white transition-colors">License</a></li>
         </ul>
       </div>
     </div>
-    <div class="border-t border-gray-800 py-4 text-center text-gray-600 text-xs">
+    <div class="border-t border-gray-200 dark:border-gray-800 py-4 text-center text-gray-400 dark:text-gray-600 text-xs">
       © 2026 SysAdmin Skills · MIT License
     </div>
   </footer>
@@ -254,13 +251,9 @@
     function applyTheme() {
       if (isDark) {
         htmlEl.classList.add('dark');
-        document.body.style.background = '';
-        document.body.style.color = '';
         if (themeIcon) themeIcon.textContent = '☀️';
       } else {
         htmlEl.classList.remove('dark');
-        document.body.style.background = '#f9fafb';
-        document.body.style.color = '#111827';
         if (themeIcon) themeIcon.textContent = '🌙';
       }
     }
@@ -275,42 +268,42 @@
 
     // ─── Terminal demo ───────────────────────────────────────────────────────────
     const TERMINAL_LINES = [
-      { text: '# Auditing acmeshop.dev (e-commerce)',         color: '#6b7280' },
-      { text: '> /website-ui-deep-qa https://acmeshop.dev',   color: '#22c55e', slow: true },
+      { text: '# Auditing acmeshop.dev (e-commerce)',          color: '#6b7280' },
+      { text: '> /website-ui-deep-qa https://acmeshop.dev',    color: '#22c55e', slow: true },
       { text: '' },
-      { text: 'Claude: Running website-ui-deep-qa skill...',  color: '#a78bfa' },
-      { text: '  Launching Playwright on 5 viewports',        color: '#6b7280' },
+      { text: 'Claude: Running website-ui-deep-qa skill...',   color: '#a78bfa' },
+      { text: '  Launching Playwright on 5 viewports',         color: '#6b7280' },
       { text: '' },
-      { text: '  [1/46]  screenshots         ✓',              color: '#9ca3af' },
-      { text: '  [2/46]  layout              ✓  2 issues',    color: '#f87171' },
-      { text: '  [3/46]  content-clipping    ✓',              color: '#9ca3af' },
-      { text: '  [4/46]  scroll-axes         ✓  1 issue',     color: '#fbbf24' },
-      { text: '  [5/46]  responsive          ✓',              color: '#9ca3af' },
-      { text: '  [6/46]  interactions        ✓',              color: '#9ca3af' },
-      { text: '  [7/46]  forms               ✓  1 issue',     color: '#fbbf24' },
-      { text: '  [8/46]  accessibility       ✓  8 violations',color: '#f87171' },
-      { text: '  [9/46]  security (DOM)      ✓  CRITICAL',    color: '#ef4444' },
-      { text: '  [10/46] network             ✓',              color: '#9ca3af' },
-      { text: '  [11/46] performance         ✓  LCP 4.2s ⚠', color: '#fbbf24' },
-      { text: '  [12/46] seo                ✓  3 issues',     color: '#fbbf24' },
-      { text: '  ... 34 more checks ...',                      color: '#6b7280' },
+      { text: '  [1/46]  screenshots         ✓',               color: '#9ca3af' },
+      { text: '  [2/46]  layout              ✓  2 issues',     color: '#f87171' },
+      { text: '  [3/46]  content-clipping    ✓',               color: '#9ca3af' },
+      { text: '  [4/46]  scroll-axes         ✓  1 issue',      color: '#fbbf24' },
+      { text: '  [5/46]  responsive          ✓',               color: '#9ca3af' },
+      { text: '  [6/46]  interactions        ✓',               color: '#9ca3af' },
+      { text: '  [7/46]  forms               ✓  1 issue',      color: '#fbbf24' },
+      { text: '  [8/46]  accessibility       ✓  8 violations', color: '#f87171' },
+      { text: '  [9/46]  security (DOM)      ✓  CRITICAL',     color: '#ef4444' },
+      { text: '  [10/46] network             ✓',               color: '#9ca3af' },
+      { text: '  [11/46] performance         ✓  LCP 4.2s ⚠',  color: '#fbbf24' },
+      { text: '  [12/46] seo                ✓  3 issues',      color: '#fbbf24' },
+      { text: '  ... 34 more checks ...',                       color: '#6b7280' },
       { text: '' },
-      { text: 'Claude: Generating fix plan...',               color: '#a78bfa' },
+      { text: 'Claude: Generating fix plan...',                 color: '#a78bfa' },
       { text: '' },
-      { text: '─────────────────────────────────────',        color: '#374151' },
-      { text: '  HIGH   (3)  auth CSRF, layout overflow, a11y', color: '#ef4444' },
-      { text: '  MEDIUM (7)  perf LCP, lazy images, SEO',     color: '#fbbf24' },
-      { text: '  LOW    (4)  print, og:desc, placeholder',    color: '#6b7280' },
-      { text: '─────────────────────────────────────',        color: '#374151' },
+      { text: '─────────────────────────────────────',         color: '#374151' },
+      { text: '  HIGH   (3)  auth CSRF, layout overflow, a11y',color: '#ef4444' },
+      { text: '  MEDIUM (7)  perf LCP, lazy images, SEO',      color: '#fbbf24' },
+      { text: '  LOW    (4)  print, og:desc, placeholder',     color: '#6b7280' },
+      { text: '─────────────────────────────────────',         color: '#374151' },
       { text: '' },
-      { text: '→ qa-artifacts/reports/fix-plan.md written',   color: '#22c55e' },
+      { text: '→ qa-artifacts/reports/fix-plan.md written',    color: '#22c55e' },
     ];
 
     /**
      * Types text character-by-character into an element.
      * @param {HTMLElement} el
      * @param {string} text
-     * @param {boolean} slow - true for command-prompt speed (45ms/char)
+     * @param {boolean} slow
      */
     async function typeText(el, text, slow = false) {
       for (const char of text) {
@@ -337,6 +330,7 @@
       } else {
         await typeText(p, text, slow);
       }
+      container.scrollTop = container.scrollHeight;
     }
 
     /** Runs the full terminal demo sequence. */

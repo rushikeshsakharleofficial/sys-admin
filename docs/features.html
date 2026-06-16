@@ -1,139 +1,144 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Features — SysAdmin Skills</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     body { font-family: 'Inter', sans-serif; }
-    .gradient-text { background: linear-gradient(135deg, #22c55e 0%, #3b82f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .card-hover { transition: transform 0.2s, box-shadow 0.2s; }
-    .card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(34,197,94,0.1); }
+    .card-hover:hover { transform: translateY(-3px); }
   </style>
 </head>
-<body class="bg-gray-950 text-gray-100">
+<body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
 
   <!-- Nav -->
-  <nav class="sticky top-0 z-50 bg-gray-950/90 backdrop-blur border-b border-gray-800">
+  <nav class="sticky top-0 z-50 bg-white/90 dark:bg-gray-950/90 backdrop-blur border-b border-gray-200 dark:border-gray-800 transition-colors">
     <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-2">
-        <span class="text-green-500 text-xl font-bold">⚡</span>
-        <span class="font-bold text-white">SysAdmin Skills</span>
+        <span class="text-green-600 dark:text-green-500 text-xl font-bold">⚡</span>
+        <span class="font-bold text-gray-900 dark:text-white">SysAdmin Skills</span>
       </a>
       <div class="hidden md:flex items-center gap-8 text-sm">
-        <a href="features.html" class="text-white font-medium border-b border-green-500 pb-0.5">Features</a>
-        <a href="categories.html" class="text-gray-400 hover:text-white transition-colors">46 Categories</a>
-        <a href="install.html" class="text-gray-400 hover:text-white transition-colors">Install</a>
-        <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="text-gray-400 hover:text-white transition-colors">GitHub</a>
+        <a href="features.html" class="text-gray-900 dark:text-white font-medium border-b border-green-500 pb-0.5">Features</a>
+        <a href="categories.html" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">46 Categories</a>
+        <a href="install.html" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Install</a>
+        <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">GitHub</a>
       </div>
-      <a href="install.html" class="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Get Started</a>
+      <div class="flex items-center gap-3">
+        <button id="theme-toggle" class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors" title="Toggle theme">
+          <span id="theme-icon">☀️</span>
+        </button>
+        <a href="install.html" class="bg-green-600 dark:bg-green-500 hover:bg-green-700 dark:hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Get Started</a>
+      </div>
     </div>
   </nav>
 
   <!-- Header -->
   <section class="max-w-7xl mx-auto px-6 pt-20 pb-12 text-center">
-    <h1 class="text-4xl font-extrabold text-white mb-4">Everything Your QA Needs</h1>
-    <p class="text-gray-400 text-lg max-w-2xl mx-auto">From pixel-level layout checks to auth flow security — one skill covers the full stack.</p>
+    <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">Everything Your QA Needs</h1>
+    <p class="text-gray-500 dark:text-gray-400 text-lg max-w-2xl mx-auto">From pixel-level layout checks to auth flow security — one skill covers the full stack.</p>
   </section>
 
   <!-- Feature Cards -->
   <section class="max-w-7xl mx-auto px-6 pb-24">
     <div class="grid md:grid-cols-3 gap-6">
 
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-7">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-7 shadow-sm dark:shadow-none">
         <div class="text-3xl mb-4">📐</div>
-        <h3 class="font-bold text-white text-lg mb-2">Layout &amp; Responsive</h3>
-        <p class="text-gray-400 text-sm leading-relaxed mb-4">Detects overflow, clipping, broken layouts, and scroll axis issues across 5 viewports from mobile 390px to desktop 1440px. Catches problems before real users do.</p>
-        <ul class="text-xs text-gray-500 space-y-1">
+        <h3 class="font-bold text-gray-900 dark:text-white text-lg mb-2">Layout &amp; Responsive</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4">Detects overflow, clipping, broken layouts, and scroll axis issues across 5 viewports from mobile 390px to desktop 1440px. Catches problems before real users do.</p>
+        <ul class="text-xs text-gray-400 dark:text-gray-500 space-y-1 font-mono">
           <li>→ layout.ts, content-clipping.ts, scroll-axes.ts</li>
           <li>→ zoom-scroll.ts, responsive-behavior.ts</li>
           <li>→ typography.ts, sidebar.ts</li>
         </ul>
       </div>
 
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-7">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-7 shadow-sm dark:shadow-none">
         <div class="text-3xl mb-4">♿</div>
-        <h3 class="font-bold text-white text-lg mb-2">Accessibility &amp; ARIA</h3>
-        <p class="text-gray-400 text-sm leading-relaxed mb-4">Full WCAG 2.1 violation scan, keyboard focus order, reduced motion support, screen reader landmarks, and cookie consent auditing.</p>
-        <ul class="text-xs text-gray-500 space-y-1">
+        <h3 class="font-bold text-gray-900 dark:text-white text-lg mb-2">Accessibility &amp; ARIA</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4">Full WCAG 2.1 violation scan, keyboard focus order, reduced motion support, screen reader landmarks, and cookie consent auditing.</p>
+        <ul class="text-xs text-gray-400 dark:text-gray-500 space-y-1 font-mono">
           <li>→ accessibility.ts, reduced-motion.ts</li>
           <li>→ theme-comparison.ts, cookie-consent.ts</li>
           <li>→ html-validation.ts</li>
         </ul>
       </div>
 
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-7">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-7 shadow-sm dark:shadow-none">
         <div class="text-3xl mb-4">🔒</div>
-        <h3 class="font-bold text-white text-lg mb-2">Security</h3>
-        <p class="text-gray-400 text-sm leading-relaxed mb-4">DOM XSS patterns, missing security headers (CSP, HSTS, X-Frame), mixed content, CSRF surface, auth permission checks, and flow bypass detection.</p>
-        <ul class="text-xs text-gray-500 space-y-1">
+        <h3 class="font-bold text-gray-900 dark:text-white text-lg mb-2">Security</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4">DOM XSS patterns, missing security headers (CSP, HSTS, X-Frame), mixed content, CSRF surface, auth permission checks, and flow bypass detection.</p>
+        <ul class="text-xs text-gray-400 dark:text-gray-500 space-y-1 font-mono">
           <li>→ security.ts, csrf.ts</li>
           <li>→ auth.ts, auth-permissions.ts</li>
           <li>→ flow-bypass.ts, user-lifecycle.ts</li>
         </ul>
       </div>
 
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-7">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-7 shadow-sm dark:shadow-none">
         <div class="text-3xl mb-4">⚡</div>
-        <h3 class="font-bold text-white text-lg mb-2">Performance</h3>
-        <p class="text-gray-400 text-sm leading-relaxed mb-4">Core Web Vitals snapshot, lazy image audits, broken image detection, network health monitoring, and console error scanning. Flag what actually slows users down.</p>
-        <ul class="text-xs text-gray-500 space-y-1">
+        <h3 class="font-bold text-gray-900 dark:text-white text-lg mb-2">Performance</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4">Core Web Vitals snapshot, lazy image audits, broken image detection, network health monitoring, and console error scanning. Flag what actually slows users down.</p>
+        <ul class="text-xs text-gray-400 dark:text-gray-500 space-y-1 font-mono">
           <li>→ performance.ts, network.ts</li>
           <li>→ broken-images.ts, lazy-images.ts</li>
           <li>→ console.ts, storage.ts</li>
         </ul>
       </div>
 
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-7">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-7 shadow-sm dark:shadow-none">
         <div class="text-3xl mb-4">🔍</div>
-        <h3 class="font-bold text-white text-lg mb-2">SEO &amp; Discoverability</h3>
-        <p class="text-gray-400 text-sm leading-relaxed mb-4">Meta tags, sitemap, robots.txt, structured data, Open Graph, canonical URLs, and link integrity validation. Everything search engines care about.</p>
-        <ul class="text-xs text-gray-500 space-y-1">
+        <h3 class="font-bold text-gray-900 dark:text-white text-lg mb-2">SEO &amp; Discoverability</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4">Meta tags, sitemap, robots.txt, structured data, Open Graph, canonical URLs, and link integrity validation. Everything search engines care about.</p>
+        <ul class="text-xs text-gray-400 dark:text-gray-500 space-y-1 font-mono">
           <li>→ seo.ts, sitemap.ts</li>
           <li>→ link-checker.ts</li>
           <li>→ placeholder-content.ts</li>
         </ul>
       </div>
 
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-7">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-7 shadow-sm dark:shadow-none">
         <div class="text-3xl mb-4">📝</div>
-        <h3 class="font-bold text-white text-lg mb-2">Forms &amp; User Flows</h3>
-        <p class="text-gray-400 text-sm leading-relaxed mb-4">Form alignment, validation trigger capture, overlays, modals, toasts, user lifecycle flows, back/forward nav, and edge state auditing.</p>
-        <ul class="text-xs text-gray-500 space-y-1">
+        <h3 class="font-bold text-gray-900 dark:text-white text-lg mb-2">Forms &amp; User Flows</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4">Form alignment, validation trigger capture, overlays, modals, toasts, user lifecycle flows, back/forward nav, and edge state auditing.</p>
+        <ul class="text-xs text-gray-400 dark:text-gray-500 space-y-1 font-mono">
           <li>→ forms.ts, form-alignment.ts</li>
           <li>→ overlays.ts, toasts.ts</li>
           <li>→ back-forward.ts, edge-states.ts</li>
         </ul>
       </div>
 
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-7">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-7 shadow-sm dark:shadow-none">
         <div class="text-3xl mb-4">🎠</div>
-        <h3 class="font-bold text-white text-lg mb-2">Rich Components</h3>
-        <p class="text-gray-400 text-sm leading-relaxed mb-4">Tables, carousels, media players, search, dialog scroll, button animations, and popup quality checks. Complex UI components tested in depth.</p>
-        <ul class="text-xs text-gray-500 space-y-1">
+        <h3 class="font-bold text-gray-900 dark:text-white text-lg mb-2">Rich Components</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4">Tables, carousels, media players, search, dialog scroll, button animations, and popup quality checks. Complex UI components tested in depth.</p>
+        <ul class="text-xs text-gray-400 dark:text-gray-500 space-y-1 font-mono">
           <li>→ tables.ts, carousel.ts, search.ts</li>
           <li>→ media-player.ts, dialog-scroll.ts</li>
           <li>→ button-animations.ts, popup-quality.ts</li>
         </ul>
       </div>
 
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-7">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-7 shadow-sm dark:shadow-none">
         <div class="text-3xl mb-4">📱</div>
-        <h3 class="font-bold text-white text-lg mb-2">PWA &amp; Print</h3>
-        <p class="text-gray-400 text-sm leading-relaxed mb-4">Progressive Web App manifest and service worker checks. Print media stylesheet auditing for apps that need to produce printable output.</p>
-        <ul class="text-xs text-gray-500 space-y-1">
+        <h3 class="font-bold text-gray-900 dark:text-white text-lg mb-2">PWA &amp; Print</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4">Progressive Web App manifest and service worker checks. Print media stylesheet auditing for apps that need to produce printable output.</p>
+        <ul class="text-xs text-gray-400 dark:text-gray-500 space-y-1 font-mono">
           <li>→ pwa.ts</li>
           <li>→ print-media.ts</li>
         </ul>
       </div>
 
-      <div class="card-hover bg-gray-900 border border-gray-800 rounded-xl p-7">
+      <div class="card-hover bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-7 shadow-sm dark:shadow-none">
         <div class="text-3xl mb-4">📊</div>
-        <h3 class="font-bold text-white text-lg mb-2">AI Fix Plans</h3>
-        <p class="text-gray-400 text-sm leading-relaxed mb-4">Every run produces a prioritized <code class="text-green-400 font-mono text-xs">fix-plan.md</code> — issues ranked HIGH/MEDIUM/LOW with file references, root causes, and suggested remediations.</p>
-        <ul class="text-xs text-gray-500 space-y-1">
+        <h3 class="font-bold text-gray-900 dark:text-white text-lg mb-2">AI Fix Plans</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4">Every run produces a prioritized <code class="text-green-600 dark:text-green-400 font-mono text-xs">fix-plan.md</code> — issues ranked HIGH/MEDIUM/LOW with file references, root causes, and suggested remediations.</p>
+        <ul class="text-xs text-gray-400 dark:text-gray-500 space-y-1 font-mono">
           <li>→ report.ts, fix-plan.ts</li>
           <li>→ All artifacts in qa-artifacts/</li>
         </ul>
@@ -143,32 +148,52 @@
   </section>
 
   <!-- CTA -->
-  <section class="border-t border-gray-800 bg-gray-900/40">
+  <section class="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 transition-colors">
     <div class="max-w-7xl mx-auto px-6 py-14 flex flex-col md:flex-row items-center justify-between gap-6">
       <div>
-        <h3 class="text-xl font-bold text-white mb-1">See all 46 check categories</h3>
-        <p class="text-gray-400 text-sm">Full reference with helper files and artifact paths.</p>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">See all 46 check categories</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm">Full reference with helper files and artifact paths.</p>
       </div>
       <div class="flex gap-3">
-        <a href="categories.html" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">View Categories →</a>
-        <a href="install.html" class="border border-gray-700 hover:border-gray-500 text-gray-300 hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors">Install</a>
+        <a href="categories.html" class="bg-green-600 dark:bg-green-500 hover:bg-green-700 dark:hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">View Categories →</a>
+        <a href="install.html" class="border border-gray-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 text-gray-700 dark:text-gray-300 font-semibold px-6 py-3 rounded-lg transition-colors">Install</a>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="border-t border-gray-800">
-    <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+  <footer class="border-t border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500 dark:text-gray-500">
       <span>© 2026 SysAdmin Skills · MIT License</span>
       <div class="flex gap-6">
-        <a href="index.html" class="hover:text-white transition-colors">Home</a>
-        <a href="features.html" class="hover:text-white transition-colors">Features</a>
-        <a href="categories.html" class="hover:text-white transition-colors">Categories</a>
-        <a href="install.html" class="hover:text-white transition-colors">Install</a>
-        <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="hover:text-white transition-colors">GitHub</a>
+        <a href="index.html" class="hover:text-gray-900 dark:hover:text-white transition-colors">Home</a>
+        <a href="features.html" class="hover:text-gray-900 dark:hover:text-white transition-colors">Features</a>
+        <a href="categories.html" class="hover:text-gray-900 dark:hover:text-white transition-colors">Categories</a>
+        <a href="install.html" class="hover:text-gray-900 dark:hover:text-white transition-colors">Install</a>
+        <a href="https://github.com/rushikeshsakharleofficial/sys-admin" target="_blank" class="hover:text-gray-900 dark:hover:text-white transition-colors">GitHub</a>
       </div>
     </div>
   </footer>
 
+  <script type="module">
+    const THEME_KEY = 'sysadmin-theme';
+    const htmlEl = document.documentElement;
+    const themeIcon = document.getElementById('theme-icon');
+    const themeBtn = document.getElementById('theme-toggle');
+    let isDark = localStorage.getItem(THEME_KEY) !== 'light';
+
+    function applyTheme() {
+      htmlEl.classList.toggle('dark', isDark);
+      if (themeIcon) themeIcon.textContent = isDark ? '☀️' : '🌙';
+    }
+
+    themeBtn?.addEventListener('click', () => {
+      isDark = !isDark;
+      localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+      applyTheme();
+    });
+
+    applyTheme();
+  </script>
 </body>
 </html>

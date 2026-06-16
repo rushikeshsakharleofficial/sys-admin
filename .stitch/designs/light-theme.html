@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SysAdmin Skills - Website UI Deep QA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/css">
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#2e353f",
+                        "on-tertiary-container": "#393939",
+                        "on-error-container": "#ffdad6",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#232a34",
+                        "secondary-fixed": "#d8e2ff",
+                        "secondary-container": "#0566d9",
+                        "primary": "#4edea3",
+                        "inverse-primary": "#006c49",
+                        "on-primary-fixed": "#002113",
+                        "surface": "#0d141d",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-background": "#dce3f0",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-primary": "#003824",
+                        "on-secondary-container": "#e6ecff",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#0d141d",
+                        "inverse-on-surface": "#2a313b",
+                        "background": "#0d141d",
+                        "on-tertiary-fixed": "#1c1b1b",
+                        "surface-container-lowest": "#080f17",
+                        "on-surface-variant": "#bbcabf",
+                        "outline": "#86948a",
+                        "on-secondary": "#002e6a",
+                        "on-secondary-fixed": "#001a42",
+                        "primary-fixed-dim": "#4edea3",
+                        "primary-container": "#10b981",
+                        "tertiary": "#c8c6c5",
+                        "surface-container-highest": "#2e353f",
+                        "tertiary-container": "#a4a2a2",
+                        "primary-fixed": "#6ffbbe",
+                        "surface-container": "#192029",
+                        "on-error": "#690005",
+                        "inverse-surface": "#dce3f0",
+                        "on-primary-fixed-variant": "#005236",
+                        "secondary": "#adc6ff",
+                        "outline-variant": "#3c4a42",
+                        "surface-bright": "#333a44",
+                        "on-secondary-fixed-variant": "#004395",
+                        "on-primary-container": "#00422b",
+                        "tertiary-fixed": "#e5e2e1",
+                        "surface-tint": "#4edea3",
+                        "on-tertiary": "#313030",
+                        "surface-container-low": "#151c25",
+                        "on-surface": "#dce3f0",
+                        "on-tertiary-fixed-variant": "#474646"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "16px",
+                        "container-max": "1440px",
+                        "margin": "24px"
+                    },
+                    "fontFamily": {
+                        "code-md": ["JetBrains Mono"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "code-md": ["14px", { "lineHeight": "20px", "fontWeight": "450" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased selection:bg-primary/30 selection:text-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30">
+<div class="flex justify-between items-center h-16 px-gutter max-w-container-max mx-auto">
+<div class="flex items-center gap-8">
+<a class="font-headline-lg text-headline-lg font-bold text-on-surface dark:text-on-background tracking-tight flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">terminal</span>
+                    SysAdmin Skills
+                </a>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 text-body-md font-body-md" href="#">Features</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 text-body-md font-body-md" href="#">Categories</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 text-body-md font-body-md" href="#">Install</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 text-body-md font-body-md flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[18px]">code</span>
+                        GitHub
+                    </a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary hover:bg-primary-fixed text-on-primary font-body-md text-body-md font-semibold py-2 px-6 rounded transition-colors duration-200 flex items-center gap-2">
+                    Get Started
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-20 px-gutter max-w-container-max mx-auto flex flex-col gap-32">
+<!-- Hero Section -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center min-h-[716px]">
+<div class="flex flex-col gap-8 z-10">
+<div class="inline-flex items-center gap-2 bg-surface-container-high border border-outline-variant/50 rounded-full px-4 py-1.5 w-fit">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">v2.4.0 Live</span>
+</div>
+<h1 class="font-display-lg text-display-lg md:text-[64px] md:leading-[72px] text-on-surface">
+                    46-Category UI QA for <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Any Website</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant text-lg max-w-xl">
+                    Automated layout, accessibility, security, and performance checks — powered by Playwright and Claude Code. A mission-control toolkit for deep structural analysis.
+                </p>
+<div class="flex flex-wrap items-center gap-4 pt-4">
+<button class="bg-primary hover:bg-primary-fixed text-on-primary font-body-md text-body-md font-semibold py-3 px-8 rounded transition-colors duration-200 flex items-center gap-2">
+<span class="material-symbols-outlined">download</span>
+                        Install Skill
+                    </button>
+<button class="bg-transparent border border-secondary text-secondary hover:bg-secondary/10 font-body-md text-body-md font-semibold py-3 px-8 rounded transition-colors duration-200">
+                        View Docs
+                    </button>
+</div>
+</div>
+<div class="relative w-full aspect-video lg:aspect-square max-h-[600px] rounded-xl overflow-hidden border border-outline-variant/30 bg-[#000000] shadow-2xl shadow-primary/5 flex flex-col">
+<!-- Terminal Header -->
+<div class="bg-surface-container-highest px-4 py-3 border-b border-outline-variant/30 flex items-center gap-2">
+<div class="flex gap-1.5">
+<div class="w-3 h-3 rounded-full bg-error"></div>
+<div class="w-3 h-3 rounded-full bg-[#f59e0b]"></div>
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+</div>
+<span class="font-code-md text-label-sm text-on-surface-variant ml-4">root@sysadmin-node:~</span>
+</div>
+<!-- Terminal Body with Shader Background -->
+<div class="relative flex-grow p-6 overflow-hidden">
+<!-- STITCH_SHADER_START:ANIMATION_1 class="absolute inset-0 w-full h-full opacity-40 mix-blend-screen" -->
+<div class="absolute inset-0 w-full h-full opacity-40 mix-blend-screen" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_1" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_1');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+void main() {
+    vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+    float scanline = sin(uv.y * 800.0 + u_time * 5.0) * 0.02;
+    float noise = fract(sin(dot(uv.xy + u_time * 0.01, vec2(12.9898, 78.233))) * 43758.5453);
+    
+    vec3 color = vec3(0.05, 0.07, 0.06); // Dark background
+    float grid = (step(0.98, fract(uv.x * 20.0)) + step(0.98, fract(uv.y * 20.0 * (u_resolution.x/u_resolution.y)))) * 0.05;
+    
+    color += grid;
+    color += vec3(0.0, 0.4, 0.2) * scanline;
+    color += noise * 0.01;
+    
+    gl_FragColor = vec4(color, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_1 -->
+<div class="relative z-10 font-code-md text-code-md">
+<p class="text-on-surface-variant mb-2">
+<span class="text-primary">➜</span> <span class="text-secondary">~</span> claude skills:run website-ui-deep-qa https://example.com
+                        </p>
+<p class="text-tertiary-container mt-4 animate-pulse">Initializing Playwright headless browser...</p>
+<p class="text-tertiary-container opacity-80">Loading target URL...</p>
+<p class="text-tertiary-container opacity-60">Executing 46 deep structural checks...</p>
+<div class="mt-4 border-l-2 border-primary pl-4">
+<p class="text-primary-fixed">[PASS] Accessibility: ARIA roles validated.</p>
+<p class="text-primary-fixed">[PASS] Security: CSP headers present.</p>
+<p class="text-error">[FAIL] Layout: CLS threshold exceeded (0.24 &gt; 0.1).</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Row -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 border-y border-outline-variant/20 bg-surface-container-lowest/50 backdrop-blur-sm">
+<div class="flex flex-col items-center justify-center p-6 text-center group">
+<div class="text-primary mb-2">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">checklist</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-1">46</h3>
+<p class="font-body-md text-body-md text-on-surface-variant uppercase tracking-wider text-sm">Check Categories</p>
+</div>
+<div class="flex flex-col items-center justify-center p-6 text-center border-y md:border-y-0 md:border-x border-outline-variant/20 group">
+<div class="text-secondary mb-2">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">precision_manufacturing</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-1">Playwright</h3>
+<p class="font-body-md text-body-md text-on-surface-variant uppercase tracking-wider text-sm">Powered Engine</p>
+</div>
+<div class="flex flex-col items-center justify-center p-6 text-center group">
+<div class="text-primary-fixed mb-2">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">auto_fix_high</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-1">AI</h3>
+<p class="font-body-md text-body-md text-on-surface-variant uppercase tracking-wider text-sm">Fix Plans</p>
+</div>
+</section>
+<!-- Feature Grid -->
+<section class="flex flex-col gap-12">
+<div class="flex flex-col gap-4 max-w-2xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Deep Technical Analysis</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Comprehensive automated audits designed for engineers who demand pixel-perfect, compliant, and highly performant interfaces.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="group relative bg-surface-container border border-outline-variant/30 rounded-xl p-8 overflow-hidden hover:border-primary/50 transition-colors duration-300">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-primary mb-6 text-[28px]">devices</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-3">Layout &amp; Responsive</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Detect visual regressions across fluid breakpoints. Ensure components snap perfectly to the grid.</p>
+</div>
+<!-- Card 2 -->
+<div class="group relative bg-surface-container border border-outline-variant/30 rounded-xl p-8 overflow-hidden hover:border-secondary/50 transition-colors duration-300">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-secondary mb-6 text-[28px]">accessibility_new</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-3">Accessibility &amp; ARIA</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Strict WCAG compliance verification. Validate semantic HTML and ARIA role mappings.</p>
+</div>
+<!-- Card 3 -->
+<div class="group relative bg-surface-container border border-outline-variant/30 rounded-xl p-8 overflow-hidden hover:border-error/50 transition-colors duration-300">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-error to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-error mb-6 text-[28px]">security</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-3">Security Headers</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Audit Content Security Policies (CSP) and protect against XSS attack vectors automatically.</p>
+</div>
+<!-- Card 4 -->
+<div class="group relative bg-surface-container border border-outline-variant/30 rounded-xl p-8 overflow-hidden hover:border-primary/50 transition-colors duration-300">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-primary mb-6 text-[28px]">speed</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-3">Performance Vitals</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Measure Core Web Vitals (LCP, FID, CLS) and pinpoint resource loading bottlenecks.</p>
+</div>
+<!-- Card 5 -->
+<div class="group relative bg-surface-container border border-outline-variant/30 rounded-xl p-8 overflow-hidden hover:border-secondary/50 transition-colors duration-300">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-secondary mb-6 text-[28px]">search</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-3">SEO Audit</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Verify meta tags, OpenGraph data, canonical links, and overall search engine crawlability.</p>
+</div>
+<!-- Card 6 -->
+<div class="group relative bg-surface-container border border-outline-variant/30 rounded-xl p-8 overflow-hidden hover:border-primary/50 transition-colors duration-300">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-primary mb-6 text-[28px]">fact_check</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-3">Form Validation</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Test input constraints, error state rendering, and prevent insecure data submission.</p>
+</div>
+</div>
+</section>
+<!-- How It Works -->
+<section class="flex flex-col gap-16 py-12">
+<h2 class="font-headline-lg text-headline-lg text-on-surface text-center">How It Works</h2>
+<div class="relative grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Connector Line (Desktop) -->
+<div class="hidden md:block absolute top-12 left-[16%] right-[16%] h-[1px] bg-outline-variant/50 z-0"></div>
+<!-- Step 1 -->
+<div class="relative z-10 flex flex-col items-center text-center gap-6">
+<div class="w-24 h-24 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center relative bg-surface">
+<span class="font-code-md text-display-lg text-primary">1</span>
+</div>
+<div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-2">Point at a URL</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Initialize the skill and target any web environment—local or production.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative z-10 flex flex-col items-center text-center gap-6">
+<div class="w-24 h-24 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center relative bg-surface">
+<span class="font-code-md text-display-lg text-secondary">2</span>
+</div>
+<div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-2">Run 46 Checks</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">The engine autonomously navigates and structurally analyzes the UI.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative z-10 flex flex-col items-center text-center gap-6">
+<div class="w-24 h-24 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center relative bg-surface">
+<span class="font-code-md text-display-lg text-primary-fixed">3</span>
+</div>
+<div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-2">Get Fix Plan</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Receive a prioritized, actionable list of necessary code adjustments.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Install Banner -->
+<section class="bg-surface-container-high border border-outline-variant/30 rounded-2xl p-12 text-center flex flex-col items-center gap-8 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-50"></div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface relative z-10">Ready to QA your site?</h2>
+<div class="relative z-10 bg-[#000000] border border-outline-variant/50 rounded-lg p-6 w-full max-w-2xl flex items-center justify-between group">
+<code class="font-code-md text-code-md text-primary tracking-wide">npm install -g @sysadmin-skills/website-ui-deep-qa</code>
+<button class="text-on-surface-variant hover:text-primary transition-colors" title="Copy to clipboard">
+<span class="material-symbols-outlined">content_copy</span>
+</button>
+</div>
+<a class="relative z-10 text-secondary hover:text-secondary-fixed font-body-md text-body-md font-medium underline decoration-secondary/30 underline-offset-4 hover:decoration-secondary transition-all" href="#">
+                Read the Docs
+            </a>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant/20 py-12 w-full transition-all duration-300">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-gutter max-w-container-max mx-auto">
+<div class="flex flex-col gap-4">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">terminal</span>
+                    SysAdmin Skills
+                </span>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs">Engineered for high-performance systems administration.</p>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Navigation</span>
+<nav class="flex flex-col gap-3">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Skills</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Resources</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Community</a>
+</nav>
+</div>
+<div class="flex flex-col gap-4 justify-end md:items-end">
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-auto">
+                    © 2024 SysAdmin Skills. Engineered for high-performance systems.
+                </p>
+</div>
+</div>
+</footer>
+</body></html>
